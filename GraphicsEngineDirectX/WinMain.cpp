@@ -12,9 +12,11 @@ LRESULT CALLBACK WndProc(HWND _hwnd, UINT _msg, WPARAM _wparam, LPARAM _lparam)
 	return DefWindowProc(_hwnd, _msg, _wparam, _lparam);
 }
 
-int CALLBACK WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdline, int _ncmdshow)
+int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdline, int _ncmdshow)
 {
 	const LPCWSTR p_CLASSNAME = L"EngineWindow";
+	UINT width = 1000;
+	UINT height = 1000;
 
 	// -->Register Window Class<--
 	//Create Window Class
@@ -22,11 +24,11 @@ int CALLBACK WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcm
 
 	//Init Window Class
 	wc.cbSize = sizeof(wc);
-	wc.style = CS_OWNDC;
+	wc.style = CS_OWNDC | CS_VREDRAW | CS_HREDRAW;
 	wc.lpfnWndProc = WndProc;
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
-	wc.hInstance = _hinstance;
+	wc.hInstance = _hinstance; //App Instance
 	wc.hIcon = nullptr;
 	wc.hCursor = nullptr;
 	wc.hbrBackground = nullptr;
@@ -35,25 +37,36 @@ int CALLBACK WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcm
 	wc.hIconSm = nullptr;
 
 	//Register Window
-	RegisterClassEx(&wc);
+	if (!RegisterClassEx(&wc)) { return 10; }
+
+	//Window Adjustment
+	UINT screenWidth = GetSystemMetrics(SM_CXSCREEN);
+	UINT screenHeight = GetSystemMetrics(SM_CYSCREEN);
+
+	RECT wr = { (screenWidth - width) / 2, (screenHeight - height) / 2, (screenWidth + width) / 2, (screenHeight + height) / 2 };
+	DWORD style = WS_OVERLAPPEDWINDOW;
+
+	AdjustWindowRect(&wr, style, false);
 
 	// -->Create Window<--
-	HWND hWnd = CreateWindowEx(
-		0,
+	HWND hWnd = CreateWindow(
 		p_CLASSNAME, //ClassName
 		L"Your MAMA", //WindowName
-		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, //Style
-		1000, //PosX
-		200, //PosY
-		1000, //Width
-		200, //Height
-		nullptr,
-		nullptr,
+		style, //Style
+		wr.left, //PosX
+		wr.top, //PosY
+		wr.right - wr.left, //Width
+		wr.bottom - wr.top, //Height
+		nullptr, //Parent Window
+		nullptr, // Menu Instance
 		_hinstance,
-		nullptr);
+		nullptr); // optional Param
+
+	if (hWnd == nullptr) { return 11; }
 
 	// -->Show Window<--
-	ShowWindow(hWnd, SW_SHOW);
+	ShowWindow(hWnd, _ncmdshow);
+	SetFocus(hWnd);
 
 	// -->Message Pump<--
 	MSG message;
