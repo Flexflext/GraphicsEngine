@@ -1,2 +1,0 @@
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GraphicsEngineDirectX\Debug\GraphicsEngineDirectX.exe
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GraphicsEngineDirectX\Debug\GraphicsEngineDirectX.pdb

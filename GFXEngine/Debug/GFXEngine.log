@@ -1,0 +1,10 @@
+﻿  D3D.cpp
+  main.cpp
+  Mesh.cpp
+  Window.cpp
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine\Window.cpp(31,37): warning C4838: conversion from 'UINT' to 'LONG' requires a narrowing conversion
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine\Window.cpp(31,67): warning C4838: conversion from 'UINT' to 'LONG' requires a narrowing conversion
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine\Window.cpp(31,95): warning C4838: conversion from 'UINT' to 'LONG' requires a narrowing conversion
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine\Window.cpp(31,125): warning C4838: conversion from 'UINT' to 'LONG' requires a narrowing conversion
+  Generating Code...
+  GFXEngine.vcxproj -> C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine\Debug\GFXEngine.exe
