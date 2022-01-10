@@ -3,6 +3,7 @@
 #include "D3D.h"
 #include "Utils.h"
 #include "Mesh.h"
+#include "Camera.h"
 
 int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdline, int _ncmdshow)
 {
@@ -20,8 +21,9 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	error = d3d.Init(window.GetWindowHandle(), width, height, isFullScreen);
 	CheckError(error);
 
-	d3d.GetDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	d3d.GetDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	d3d.GetDevice()->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	d3d.GetDevice()->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	//Create Mesh/Object
 	Mesh mesh = {};
@@ -29,6 +31,9 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	CheckError(error);
 
 	//Create Cam
+	Camera camera = {};
+	error = camera.Init(width, height);
+	CheckError(error);
 
 	//Set Up Time
 
@@ -43,14 +48,16 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 		mesh.Update(0.0f);
 
 		//Draw Objs
-		d3d.BeginScene(D3DCOLOR_XRGB(255, 255, 255));
+		d3d.BeginScene(D3DCOLOR_XRGB(0, 0, 0));
 
+		camera.Render(d3d.GetDevice());
 		mesh.Render(d3d.GetDevice());
 
 		d3d.EndScene();
 	}
 
 	//Tidy Up
+	camera.DeInit();
 	mesh.DeInit();
 	d3d.DeInit();
 	window.DeInit();

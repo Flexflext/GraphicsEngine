@@ -18,5 +18,8 @@ private:
 	INT vertexCount = 0; // Amount of Vertecies
 	INT vertexStride = 0; // Size of one Vertex
 	INT indexCount = 0; // Amount of Indecies
+
+
+	D3DMATRIX worldMatrix = {};
 };
 

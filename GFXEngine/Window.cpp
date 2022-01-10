@@ -82,11 +82,12 @@ LRESULT CALLBACK WndProc(HWND _hwnd, UINT _msg, WPARAM _wparam, LPARAM _lparam)
 		case WM_CLOSE:
 		case WM_DESTROY:
 			PostQuitMessage(0);
+			return DefWindowProc(_hwnd, _msg, _wparam, _lparam);
 			break;
 
-		case WM_KEYDOWN:
+		/*case WM_KEYDOWN:
 			if (_wparam == VK_ESCAPE) DestroyWindow(_hwnd);
-			break;
+			break;*/
 
 		default:
 			return DefWindowProc(_hwnd, _msg, _wparam, _lparam);

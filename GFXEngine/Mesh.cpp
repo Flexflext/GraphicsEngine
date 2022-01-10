@@ -1,6 +1,9 @@
 #include "Mesh.h"
 #include "Utils.h"
 #include "Vertex.h"
+#include <DirectXMath.h>
+
+using namespace DirectX;
 
 INT Mesh::Init(IDirect3DDevice9* _p_D3DDevice)
 {
@@ -10,15 +13,70 @@ INT Mesh::Init(IDirect3DDevice9* _p_D3DDevice)
 	error = InitIndexBuffer(_p_D3DDevice);
 	CheckError(error);
 
+	//Initialize World Transformation-Matrix
+	XMMATRIX identity = XMMatrixIdentity();
+	XMFLOAT4X4 world = {};
+	XMStoreFloat4x4(&world, identity);
+
+	worldMatrix = *reinterpret_cast<D3DMATRIX*>(&world);
+
+
 	return 0;
 }
 
 void Mesh::Update(FLOAT _dt)
 {
+	static FLOAT posX= 0.0f;
+	static FLOAT posY= 0.0f;
+	static FLOAT posZ= 0.0f;
+	static FLOAT rotZ = 0.0f;
+
+	rotZ += XM_PI / 180.0f;
+
+	FLOAT move = 0.05f;
+
+	if ((GetAsyncKeyState(VK_LEFT) & 0x8000) || (GetAsyncKeyState('A') & 0x8000))
+	{
+		posX -= move;
+	}
+
+	if ((GetAsyncKeyState(VK_RIGHT) & 0x8000) || (GetAsyncKeyState('D') & 0x8000))
+	{
+		posX += move;
+	}
+
+	if ((GetAsyncKeyState(VK_UP) & 0x8000) || (GetAsyncKeyState('W') & 0x8000))
+	{
+		posY += move;
+	}
+
+	if ((GetAsyncKeyState(VK_DOWN) & 0x8000) || (GetAsyncKeyState('S') & 0x8000))
+	{
+		posY -= move;
+	}
+
+	if ((GetAsyncKeyState(VK_SUBTRACT) & 0x8000) || (GetAsyncKeyState('Q') & 0x8000))
+	{
+		posZ -= move;
+	}
+
+	if ((GetAsyncKeyState(VK_ADD) & 0x8000) || (GetAsyncKeyState('E') & 0x8000))
+	{
+		posZ += move;
+	}
+
+	XMMATRIX translation = XMMatrixTranslation(posX, posY, posZ);
+	XMMATRIX rotation = XMMatrixRotationRollPitchYaw(0.0f, 0.0f, rotZ);
+	XMMATRIX localScale = XMMatrixScaling(1.0f, 1.0f, 1.0f);
+
+	XMStoreFloat4x4(reinterpret_cast<XMFLOAT4X4*>(&worldMatrix), localScale * rotation * translation);
 }
 
 void Mesh::Render(IDirect3DDevice9* _p_D3DDevice)
 {
+	//Set World Transformmation-Matrix
+	_p_D3DDevice->SetTransform(D3DTS_WORLD, &worldMatrix);
+
 	// Set Flexible Vertex Format
 	_p_D3DDevice->SetFVF(FVF);
 
@@ -43,7 +101,7 @@ void Mesh::DeInit()
 
 INT Mesh::InitVertexBuffer(IDirect3DDevice9* _p_D3DDevice)
 {
-	vertexCount = 4;
+	vertexCount = 5;
 	vertexStride = sizeof(Vertex);
 
 	HRESULT hr = _p_D3DDevice->CreateVertexBuffer(
@@ -84,10 +142,17 @@ INT Mesh::InitVertexBuffer(IDirect3DDevice9* _p_D3DDevice)
 	_pVertecies[3] = Vertex(0.5f, -0.5f, 0.0f);*/
 
 	// -->Quad with Triangle Fan<-- or with Index Buffer and triangle List
-	_pVertecies[0] = Vertex(-0.5f, 0.5f, 0.0f);
+	/*_pVertecies[0] = Vertex(-0.5f, 0.5f, 0.0f);
 	_pVertecies[1] = Vertex(0.5f, 0.5f, 0.0f);
 	_pVertecies[2] = Vertex(0.5f, -0.5f, 0.0f);
-	_pVertecies[3] = Vertex(-0.5f, -0.5f, 0.0f);
+	_pVertecies[3] = Vertex(-0.5f, -0.5f, 0.0f);*/
+
+	// -->Quad with Triangle Fan<-- or with Index Buffer and triangle List and Color
+	_pVertecies[0] = Vertex(-0.5f, 0.5f, 0.0f, 255, 0, 0);
+	_pVertecies[1] = Vertex(0.5f, 0.5f, 0.0f, 0, 255, 0);
+	_pVertecies[2] = Vertex(0.5f, -0.5f, 0.0f, 0, 0, 255);
+	_pVertecies[3] = Vertex(-0.5f, -0.5f, 0.0f, 255, 0, 255);
+	_pVertecies[4] = Vertex(0.0f, 0.0f, 0.0f, 255, 255, 255);
 
 
 
@@ -101,7 +166,7 @@ INT Mesh::InitVertexBuffer(IDirect3DDevice9* _p_D3DDevice)
 
 INT Mesh::InitIndexBuffer(IDirect3DDevice9* _p_D3DDevice)
 {
-	indexCount = 6;
+	indexCount = 12;
 
 	HRESULT hr = _p_D3DDevice->CreateIndexBuffer(indexCount * sizeof(USHORT), D3DUSAGE_WRITEONLY, D3DFMT_INDEX16, D3DPOOL_MANAGED, &p_indexBuffer, nullptr);
 	CheckFailed(hr, 36);
@@ -110,16 +175,37 @@ INT Mesh::InitIndexBuffer(IDirect3DDevice9* _p_D3DDevice)
 	hr = p_indexBuffer->Lock(0, 0, reinterpret_cast<void**>(&_pIndices), 0);
 	CheckFailed(hr, 38);
 
-	// -->Quad<--
+	//// -->Quad<-- 2 Tris
+	////Primitive 1
+	//_pIndices[0] = 0;
+	//_pIndices[1] = 1;
+	//_pIndices[2] = 2;
+
+	////Primitive 2
+	//_pIndices[3] = 0;
+	//_pIndices[4] = 2;
+	//_pIndices[5] = 3;
+
+	// -->Quad<-- 4 Tris
 	//Primitive 1
 	_pIndices[0] = 0;
 	_pIndices[1] = 1;
-	_pIndices[2] = 2;
+	_pIndices[2] = 4;
 
 	//Primitive 2
-	_pIndices[3] = 0;
+	_pIndices[3] = 1;
 	_pIndices[4] = 2;
-	_pIndices[5] = 3;
+	_pIndices[5] = 4;
+
+	//Primitive 3
+	_pIndices[6] = 2;
+	_pIndices[7] = 3;
+	_pIndices[8] = 4;
+
+	//Primitive 4
+	_pIndices[9] = 3;
+	_pIndices[10] = 0;
+	_pIndices[11] = 4;
 
 	hr = p_vertexBuffer->Unlock();
 	CheckFailed(hr, 39);
