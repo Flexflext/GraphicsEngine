@@ -31,9 +31,9 @@ void Mesh::Update(FLOAT _dt)
 	static FLOAT posZ= 0.0f;
 	static FLOAT rotZ = 0.0f;
 
-	rotZ += XM_PI / 180.0f;
+	rotZ += XM_PI / 3.0f * _dt;
 
-	FLOAT move = 0.05f;
+	FLOAT move = 5.0f * _dt;
 
 	if ((GetAsyncKeyState(VK_LEFT) & 0x8000) || (GetAsyncKeyState('A') & 0x8000))
 	{
@@ -101,7 +101,7 @@ void Mesh::DeInit()
 
 INT Mesh::InitVertexBuffer(IDirect3DDevice9* _p_D3DDevice)
 {
-	vertexCount = 5;
+	vertexCount = 4;
 	vertexStride = sizeof(Vertex);
 
 	HRESULT hr = _p_D3DDevice->CreateVertexBuffer(
@@ -148,11 +148,17 @@ INT Mesh::InitVertexBuffer(IDirect3DDevice9* _p_D3DDevice)
 	_pVertecies[3] = Vertex(-0.5f, -0.5f, 0.0f);*/
 
 	// -->Quad with Triangle Fan<-- or with Index Buffer and triangle List and Color
-	_pVertecies[0] = Vertex(-0.5f, 0.5f, 0.0f, 255, 0, 0);
+	/*_pVertecies[0] = Vertex(-0.5f, 0.5f, 0.0f, 255, 0, 0);
 	_pVertecies[1] = Vertex(0.5f, 0.5f, 0.0f, 0, 255, 0);
 	_pVertecies[2] = Vertex(0.5f, -0.5f, 0.0f, 0, 0, 255);
 	_pVertecies[3] = Vertex(-0.5f, -0.5f, 0.0f, 255, 0, 255);
-	_pVertecies[4] = Vertex(0.0f, 0.0f, 0.0f, 255, 255, 255);
+	_pVertecies[4] = Vertex(0.0f, 0.0f, 0.0f, 255, 255, 255);*/
+
+	// -->Quad with Triangle Fan<-- or with Index Buffer and triangle List with UV
+	_pVertecies[0] = Vertex(-0.5f, 0.5f, 0.0f, 0.0f, 0.0f);
+	_pVertecies[1] = Vertex(0.5f, 0.5f, 0.0f, 1.0f, 0.0f);
+	_pVertecies[2] = Vertex(0.5f, -0.5f, 0.0f, 1.0f, 1.0f);
+	_pVertecies[3] = Vertex(-0.5f, -0.5f, 0.0f, 0.0f, 1.0f);
 
 
 
@@ -166,7 +172,7 @@ INT Mesh::InitVertexBuffer(IDirect3DDevice9* _p_D3DDevice)
 
 INT Mesh::InitIndexBuffer(IDirect3DDevice9* _p_D3DDevice)
 {
-	indexCount = 12;
+	indexCount = 6;
 
 	HRESULT hr = _p_D3DDevice->CreateIndexBuffer(indexCount * sizeof(USHORT), D3DUSAGE_WRITEONLY, D3DFMT_INDEX16, D3DPOOL_MANAGED, &p_indexBuffer, nullptr);
 	CheckFailed(hr, 36);
@@ -175,37 +181,37 @@ INT Mesh::InitIndexBuffer(IDirect3DDevice9* _p_D3DDevice)
 	hr = p_indexBuffer->Lock(0, 0, reinterpret_cast<void**>(&_pIndices), 0);
 	CheckFailed(hr, 38);
 
-	//// -->Quad<-- 2 Tris
-	////Primitive 1
-	//_pIndices[0] = 0;
-	//_pIndices[1] = 1;
-	//_pIndices[2] = 2;
-
-	////Primitive 2
-	//_pIndices[3] = 0;
-	//_pIndices[4] = 2;
-	//_pIndices[5] = 3;
-
-	// -->Quad<-- 4 Tris
+	// -->Quad<-- 2 Tris
 	//Primitive 1
 	_pIndices[0] = 0;
 	_pIndices[1] = 1;
-	_pIndices[2] = 4;
+	_pIndices[2] = 2;
 
 	//Primitive 2
-	_pIndices[3] = 1;
+	_pIndices[3] = 0;
 	_pIndices[4] = 2;
-	_pIndices[5] = 4;
+	_pIndices[5] = 3;
 
-	//Primitive 3
-	_pIndices[6] = 2;
-	_pIndices[7] = 3;
-	_pIndices[8] = 4;
+	//// -->Quad<-- 4 Tris
+	////Primitive 1
+	//_pIndices[0] = 0;
+	//_pIndices[1] = 1;
+	//_pIndices[2] = 4;
 
-	//Primitive 4
-	_pIndices[9] = 3;
-	_pIndices[10] = 0;
-	_pIndices[11] = 4;
+	////Primitive 2
+	//_pIndices[3] = 1;
+	//_pIndices[4] = 2;
+	//_pIndices[5] = 4;
+
+	////Primitive 3
+	//_pIndices[6] = 2;
+	//_pIndices[7] = 3;
+	//_pIndices[8] = 4;
+
+	////Primitive 4
+	//_pIndices[9] = 3;
+	//_pIndices[10] = 0;
+	//_pIndices[11] = 4;
 
 	hr = p_vertexBuffer->Unlock();
 	CheckFailed(hr, 39);

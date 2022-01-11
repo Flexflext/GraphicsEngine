@@ -4,6 +4,8 @@
 #include "Utils.h"
 #include "Mesh.h"
 #include "Camera.h"
+#include "Time.h"
+#include "Material.h"
 
 int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdline, int _ncmdshow)
 {
@@ -36,16 +38,24 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	CheckError(error);
 
 	//Set Up Time
+	Time time = {};
+	error = time.Init();
+	CheckError(error);
 
 	//Create Material
+	Material material = {};
+	error = material.Init(d3d.GetDevice(), TEXT("HUHU.jpg"));
+	CheckError(error);
 
 	//Create Light
 
 	//Run App
 	while (window.Update())
 	{
+		time.Update();
+
 		//Update Objs
-		mesh.Update(0.0f);
+		mesh.Update(time.GetDeltaTime());
 
 		//Draw Objs
 		d3d.BeginScene(D3DCOLOR_XRGB(0, 0, 0));
@@ -57,6 +67,7 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	}
 
 	//Tidy Up
+	material.DeInit();
 	camera.DeInit();
 	mesh.DeInit();
 	d3d.DeInit();

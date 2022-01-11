@@ -1,4 +1,9 @@
-﻿  Mesh.cpp
-  Time.cpp
+﻿  main.cpp
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine\main.cpp(47,53): error C2664: 'INT Material::Init(IDirect3DDevice9 *,LPCSTR)': cannot convert argument 2 from 'const wchar_t [5]' to 'LPCSTR'
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine\main.cpp(47,41): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine\Material.h(7,6): message : see declaration of 'Material::Init'
+  Material.cpp
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine\Material.cpp(7,15): error C3861: 'CreateWICTextureFromFile': identifier not found
+  Mesh.cpp
+  WICTextureLoader.cpp
   Generating Code...
-  GFXEngine.vcxproj -> C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine\Debug\GFXEngine.exe

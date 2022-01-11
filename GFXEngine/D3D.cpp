@@ -26,6 +26,7 @@ INT D3D::Init(HWND _hwnd, UINT _width, UINT _height, BOOL _fullscreen)
 	d3dpp.BackBufferHeight = _height;
 	d3dpp.BackBufferFormat = D3DFMT_A8R8G8B8;
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD; // what should happen with the frontbuffer
+	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE; //Deactivate V-Sync
 
 
 	//Create Device
