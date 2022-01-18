@@ -1,4 +1,5 @@
 #pragma once
+#include <d3d9.h>
 
 #define CheckError(error) if (error != 0) return error;
 #define CheckNull(obj, error) if (obj == nullptr) return error;
@@ -13,3 +14,6 @@ void SafeRelease(T*& obj)
 		obj = nullptr;
 	}
 }
+
+
+#define D3DCOLORVALUE_RGB(r,g,b) { r / 255.0f, g/255.0f, b / 255.0f, 1.0f };

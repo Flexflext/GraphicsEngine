@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GFXEngine", "GFXEngine.vcxproj", "{C4DD7036-046E-430D-BA77-769E536CB553}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GFXEngine11", "..\GFXEngine11\GFXEngine11.vcxproj", "{CCC06A45-172B-40BB-AC73-83A31DB365F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{C4DD7036-046E-430D-BA77-769E536CB553}.Release|x64.Build.0 = Release|x64
 		{C4DD7036-046E-430D-BA77-769E536CB553}.Release|x86.ActiveCfg = Release|Win32
 		{C4DD7036-046E-430D-BA77-769E536CB553}.Release|x86.Build.0 = Release|Win32
+		{CCC06A45-172B-40BB-AC73-83A31DB365F4}.Debug|x64.ActiveCfg = Debug|x64
+		{CCC06A45-172B-40BB-AC73-83A31DB365F4}.Debug|x64.Build.0 = Debug|x64
+		{CCC06A45-172B-40BB-AC73-83A31DB365F4}.Debug|x86.ActiveCfg = Debug|Win32
+		{CCC06A45-172B-40BB-AC73-83A31DB365F4}.Debug|x86.Build.0 = Debug|Win32
+		{CCC06A45-172B-40BB-AC73-83A31DB365F4}.Release|x64.ActiveCfg = Release|x64
+		{CCC06A45-172B-40BB-AC73-83A31DB365F4}.Release|x64.Build.0 = Release|x64
+		{CCC06A45-172B-40BB-AC73-83A31DB365F4}.Release|x86.ActiveCfg = Release|Win32
+		{CCC06A45-172B-40BB-AC73-83A31DB365F4}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

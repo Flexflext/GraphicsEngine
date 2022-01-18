@@ -1,6 +1,8 @@
 #pragma once
 #include <d3d9.h>
 
+#pragma comment(lib, "d3d9.lib")
+
 class Material
 {
 public:
@@ -10,5 +12,6 @@ public:
 
 private:
 	IDirect3DTexture9* p_texture;
+	D3DMATERIAL9 material = {};
 };
 

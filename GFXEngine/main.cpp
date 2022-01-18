@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "Time.h"
 #include "Material.h"
+#include "Light.h"
 
 int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdline, int _ncmdshow)
 {
@@ -25,7 +26,9 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 
 	d3d.GetDevice()->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	d3d.GetDevice()->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	d3d.GetDevice()->SetRenderState(D3DRS_LIGHTING, FALSE);
+	d3d.GetDevice()->SetRenderState(D3DRS_LIGHTING, TRUE);
+	d3d.GetDevice()->SetRenderState(D3DRS_COLORVERTEX, FALSE);
+	d3d.GetDevice()->SetRenderState(D3DRS_SPECULARENABLE, TRUE);
 
 	//Create Mesh/Object
 	Mesh mesh = {};
@@ -48,6 +51,22 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	CheckError(error);
 
 	//Create Light
+	D3DLIGHT9 lightData = {};
+	lightData.Type = D3DLIGHT_DIRECTIONAL;
+	//lightData.Direction = { -1.0f, -1.0f, 1.0f};
+	lightData.Position = { 0.0f, 0.0f, -0.5f};
+	lightData.Ambient = { 0.2f, 0.2f, 0.2f, 1.0f };
+	lightData.Diffuse = { 0.8f, 0.8f, 0.8f, 1.0f };
+	lightData.Specular = { 1.0f, 0.0f, 1.0f, 1.0f };
+	lightData.Range = 10.0f;
+	//Attenuation = a0 + a1 * distance + a2 * distance * distance
+	lightData.Attenuation0 = 1.0f; //Constant
+	lightData.Attenuation1 = 0.2f; //Linear
+	lightData.Attenuation2 = 0.1f; //Quadric
+
+	Light light = {};
+	error = light.Init(lightData);
+	CheckError(error);
 
 	//Run App
 	while (window.Update())
@@ -61,12 +80,15 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 		d3d.BeginScene(D3DCOLOR_XRGB(0, 0, 0));
 
 		camera.Render(d3d.GetDevice());
+		material.Render(d3d.GetDevice());
+		light.Render(d3d.GetDevice());
 		mesh.Render(d3d.GetDevice());
 
 		d3d.EndScene();
 	}
 
 	//Tidy Up
+	light.DeInit();
 	material.DeInit();
 	camera.DeInit();
 	mesh.DeInit();

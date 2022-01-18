@@ -36,7 +36,7 @@ INT Window::Init(HINSTANCE _hinstance, UINT _width, UINT _height)
 	// -->Create Window<--
 	p_hWnd = CreateWindow(
 		wc.lpszClassName, //ClassName
-		L"Your MAMA", //WindowName
+		L"Your HUHU", //WindowName
 		style, //Style
 		wr.left, //PosX
 		wr.top, //PosY
@@ -68,7 +68,7 @@ BOOL Window::Update()
 		DispatchMessage(&msg);
 	}
 
-	return msg.wParam != WM_QUIT;
+	return msg.message != WM_QUIT;
 }
 
 void Window::DeInit()
@@ -80,8 +80,7 @@ LRESULT CALLBACK WndProc(HWND _hwnd, UINT _msg, WPARAM _wparam, LPARAM _lparam)
 	switch (_msg)
 	{
 		case WM_CLOSE:
-		case WM_DESTROY:
-			PostQuitMessage(0);
+			PostQuitMessage(69);
 			return DefWindowProc(_hwnd, _msg, _wparam, _lparam);
 			break;
 

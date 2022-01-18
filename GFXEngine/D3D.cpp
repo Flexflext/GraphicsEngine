@@ -27,6 +27,8 @@ INT D3D::Init(HWND _hwnd, UINT _width, UINT _height, BOOL _fullscreen)
 	d3dpp.BackBufferFormat = D3DFMT_A8R8G8B8;
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD; // what should happen with the frontbuffer
 	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE; //Deactivate V-Sync
+	d3dpp.EnableAutoDepthStencil = true; //
+	d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;
 
 
 	//Create Device
@@ -52,7 +54,7 @@ void D3D::BeginScene(D3DCOLOR _backgroundcolor)
 	p_D3DDevice->Clear(
 		0, //Whole Buffer
 		nullptr, //Rerender all
-		D3DCLEAR_TARGET, // What to Clear ->Taget = Backbuffer
+		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, // What to Clear ->Taget = Backbuffer
 		_backgroundcolor,
 		1.0f,
 		0xfffffff); // Clears all Values

@@ -66,7 +66,7 @@ void Mesh::Update(FLOAT _dt)
 	}
 
 	XMMATRIX translation = XMMatrixTranslation(posX, posY, posZ);
-	XMMATRIX rotation = XMMatrixRotationRollPitchYaw(0.0f, 0.0f, rotZ);
+	XMMATRIX rotation = XMMatrixRotationRollPitchYaw(0.0f, 0.0f, 0.0f);
 	XMMATRIX localScale = XMMatrixScaling(1.0f, 1.0f, 1.0f);
 
 	XMStoreFloat4x4(reinterpret_cast<XMFLOAT4X4*>(&worldMatrix), localScale * rotation * translation);
@@ -155,10 +155,16 @@ INT Mesh::InitVertexBuffer(IDirect3DDevice9* _p_D3DDevice)
 	_pVertecies[4] = Vertex(0.0f, 0.0f, 0.0f, 255, 255, 255);*/
 
 	// -->Quad with Triangle Fan<-- or with Index Buffer and triangle List with UV
-	_pVertecies[0] = Vertex(-0.5f, 0.5f, 0.0f, 0.0f, 0.0f);
-	_pVertecies[1] = Vertex(0.5f, 0.5f, 0.0f, 1.0f, 0.0f);
-	_pVertecies[2] = Vertex(0.5f, -0.5f, 0.0f, 1.0f, 1.0f);
-	_pVertecies[3] = Vertex(-0.5f, -0.5f, 0.0f, 0.0f, 1.0f);
+	/*_pVertecies[0] = Vertex(-0.5f, 0.5f, 0.0f, -1.0f, -1.0f);
+	_pVertecies[1] = Vertex(0.5f, 0.5f, 0.0f, 2.0f, -1.0f);
+	_pVertecies[2] = Vertex(0.5f, -0.5f, 0.0f, 2.0f, 2.0f);
+	_pVertecies[3] = Vertex(-0.5f, -0.5f, 0.0f, -1.0f, 2.0f);*/
+
+	// -->Quad with Triangle Fan<-- or with Index Buffer and triangle List with UV and Normal
+	_pVertecies[0] = Vertex(-0.5f, 0.5f, 0.0f, 0.0f , 0.0f, -1.0f, 0.0f, 0.0f);
+	_pVertecies[1] = Vertex(0.5f, 0.5f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f);
+	_pVertecies[2] = Vertex(0.5f, -0.5f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f);
+	_pVertecies[3] = Vertex(-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f);
 
 
 
