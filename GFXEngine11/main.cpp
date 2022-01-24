@@ -30,10 +30,10 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	//d3d.GetDevice()->SetRenderState(D3DRS_COLORVERTEX, FALSE);
 	//d3d.GetDevice()->SetRenderState(D3DRS_SPECULARENABLE, TRUE);
 
-	////Create Mesh/Object
-	//Mesh mesh = {};
-	//error = mesh.Init(d3d.GetDevice());
-	//CheckError(error);
+	//Create Mesh/Object
+	Mesh mesh = {};
+	error = mesh.Init(d3d.GetDevice());
+	CheckError(error);
 
 	////Create Cam
 	//Camera camera = {};
@@ -45,10 +45,10 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	error = time.Init();
 	CheckError(error);
 
-	////Create Material
-	//Material material = {};
-	//error = material.Init(d3d.GetDevice(), TEXT("HUHU.jpg"));
-	//CheckError(error);
+	//Create Material
+	Material material = {};
+	error = material.Init(d3d.GetDevice(), TEXT("HUHU.jpg"));
+	CheckError(error);
 
 	////Create Light
 	//D3DLIGHT9 lightData = {};
@@ -73,25 +73,25 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	{
 		time.Update();
 
-	//	//Update Objs
-	//	mesh.Update(time.GetDeltaTime());
+		//Update Objs
+		mesh.Update(time.GetDeltaTime());
 
 		//Draw Objs
-		d3d.BeginScene(1,1,1);
+		d3d.BeginScene(0,0,0);
 
 	//	camera.Render(d3d.GetDevice());
-	//	material.Render(d3d.GetDevice());
+		material.Render(d3d.GetDeviceContext());
 	//	light.Render(d3d.GetDevice());
-	//	mesh.Render(d3d.GetDevice());
+		mesh.Render(d3d.GetDeviceContext());
 
 		d3d.EndScene();
 	}
 
 	//Tidy Up
 	//light.DeInit();
-	//material.DeInit();
+	material.DeInit();
 	//camera.DeInit();
-	//mesh.DeInit();
+	mesh.DeInit();
 	d3d.DeInit();
 	window.DeInit();
 

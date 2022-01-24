@@ -60,6 +60,10 @@ INT D3D::Init(HWND _hwnd, UINT _width, UINT _height, BOOL _fullscreen)
 
 	SafeRelease<ID3D11Texture2D>(p_BackBufferTexture);
 
+	//Death Stencil View
+
+	//Rasterizer State
+
 	//Set Viewport
 	D3D11_VIEWPORT viewPort = {}; // Describe area projectes onto screen/Window
 	viewPort.TopLeftX = 0.0f;

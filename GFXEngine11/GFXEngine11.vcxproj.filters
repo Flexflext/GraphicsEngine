@@ -75,4 +75,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="ColorVertexShader.hlsl">
+      <Filter>Resource Files</Filter>
+    </FxCompile>
+    <FxCompile Include="ColorPixelShader.hlsl">
+      <Filter>Resource Files</Filter>
+    </FxCompile>
+  </ItemGroup>
 </Project>

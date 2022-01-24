@@ -1,0 +1,2 @@
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine\Debug\ColorPixelShader.cso
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine\Debug\ColorVertexShader.cso
