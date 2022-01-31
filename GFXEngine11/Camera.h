@@ -8,7 +8,7 @@ class Camera
 {
 public:
 	INT Init(UINT _screenwidth, UINT _screenheight);
-	void Update(FLOAT _dt);
+	void Update();
 	void DeInit();
 
 	XMFLOAT4X4* GetViewMatrix() { return &viewMatrix; }

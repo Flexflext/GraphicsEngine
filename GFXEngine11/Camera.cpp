@@ -27,7 +27,7 @@ INT Camera::Init(UINT _screenwidth, UINT _screenheight)
 	return 0;
 }
 
-void Camera::Update(FLOAT _dt)
+void Camera::Update()
 {
 	
 

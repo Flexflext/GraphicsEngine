@@ -8,6 +8,8 @@
 #include "Material.h"
 #include "Light.h"
 
+//typedef INT(D3D::* func)(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, FLOAT* _p_dt);
+
 int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdline, int _ncmdshow)
 {
 	UINT width = 1024;
@@ -23,10 +25,16 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	D3D d3d = {};
 	error = d3d.Init(window.GetWindowHandle(), width, height, isFullScreen);
 	CheckError(error);
+	window.d3d = d3d;
+
+	//Set Up Time
+	Time time = {};
+	error = time.Init();
+	CheckError(error);
 
 	//Create Mesh/Object
 	Mesh mesh = {};
-	error = mesh.Init(d3d.GetDevice());
+	error = mesh.Init(d3d.GetDevice(), d3d.GetDeviceContext(), time.GetDeltaTime());
 	CheckError(error);
 
 	//Create Cam
@@ -34,24 +42,19 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	error = camera.Init(width, height);
 	CheckError(error);
 
-	//Set Up Time
-	Time time = {};
-	error = time.Init();
-	CheckError(error);
-
 	//Create Material
 	Material material = {};
-	error = material.Init(d3d.GetDevice(), TEXT("HUHU.jpg"));
+	error = material.Init(d3d.GetDevice(), d3d.GetDeviceContext(), TEXT("HUHU.jpg"), mesh.GetWorldMatrix(), camera.GetViewMatrix(), camera.GetProjectionMatrix());
 	CheckError(error);
 
 	//Create Light
 	Light::LightData lightData = {};
 	lightData.LightDirection = { -1.0f, -1.0f, 1.0f};
 	lightData.LightDiffuseColor = { 0.8f, 0.8f, 0.8f, 1.0f };
-	lightData.LightIntensity = 10.0f;
+	lightData.LightIntensity = 1.0f;
 
 	Light light = {};
-	error = light.Init(d3d.GetDevice(), lightData);
+	error = light.Init(d3d.GetDevice(), d3d.GetDeviceContext(), lightData);
 	CheckError(error);
 
 	//Run App
@@ -60,15 +63,15 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 		time.Update();
 
 		//Update Objs
-		mesh.Update(time.GetDeltaTime());
+		mesh.Update();
 
 		//Draw Objs
-		d3d.BeginScene(0,0,0);
+		d3d.BeginScene(1,1,1);
 
-		camera.Update(time.GetDeltaTime());
-		material.Render(d3d.GetDeviceContext(), mesh.GetWorldMatrix(), camera.GetViewMatrix(), camera.GetProjectionMatrix());
-		light.Render(d3d.GetDeviceContext());
-		mesh.Render(d3d.GetDeviceContext());
+		camera.Update();
+		material.Render();
+		light.Render();
+		mesh.Render();
 
 		d3d.EndScene();
 	}

@@ -1,5 +1,6 @@
 #include "Window.h"
 #include "Utils.h"
+#include "D3D.h"
 
 INT Window::Init(HINSTANCE _hinstance, UINT _width, UINT _height)
 {
@@ -59,13 +60,22 @@ INT Window::Init(HINSTANCE _hinstance, UINT _width, UINT _height)
 BOOL Window::Update()
 {
 	// -->Message Pump<--
-
-	static MSG msg = {};
-
 	if (PeekMessage(&msg, nullptr, 0, UINT_MAX, PM_REMOVE))
 	{
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
+	}
+
+	if (msg.message == WM_EXITSIZEMOVE)
+	{
+		RECT rect = {};
+		GetWindowRect(p_hWnd, &rect);
+		WINDOWPLACEMENT placement = {};
+		placement.length = sizeof(WINDOWPLACEMENT);
+		GetWindowPlacement(p_hWnd, &placement);
+
+		//d3d.Init(p_hWnd, rect.right - rect.left, rect.bottom - rect.top, placement.showCmd == SW_MAXIMIZE);
+		
 	}
 
 	return msg.message != WM_QUIT;
@@ -87,6 +97,10 @@ LRESULT CALLBACK WndProc(HWND _hwnd, UINT _msg, WPARAM _wparam, LPARAM _lparam)
 		/*case WM_KEYDOWN:
 			if (_wparam == VK_ESCAPE) DestroyWindow(_hwnd);
 			break;*/
+		case WM_EXITSIZEMOVE:
+			PostMessage(_hwnd, WM_EXITSIZEMOVE, _wparam, _lparam);
+			return DefWindowProc(_hwnd, _msg, _wparam, _lparam);
+			break;
 
 		default:
 			return DefWindowProc(_hwnd, _msg, _wparam, _lparam);

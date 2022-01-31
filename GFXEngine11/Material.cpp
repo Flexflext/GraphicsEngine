@@ -3,8 +3,14 @@
 #include "Utils.h"
 #include <d3dcompiler.h>
 
-INT Material::Init(ID3D11Device* _p_d3ddevice, LPCTSTR _texturename)
+INT Material::Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, LPCTSTR _texturename, XMFLOAT4X4* _p_worldmatrix, XMFLOAT4X4* _p_viewmatrix, XMFLOAT4X4* _p_projectionmatrix)
 {
+	p_d3dDeviceContext = _p_d3ddevicecontext;
+	p_worldMatrix = _p_worldmatrix;
+	p_viewMatrix = _p_viewmatrix;
+	p_projectionMatrix = _p_projectionmatrix;
+
+
 	INT error = CreateVertexShader(_p_d3ddevice);
 	CheckError(error);
 
@@ -20,24 +26,22 @@ INT Material::Init(ID3D11Device* _p_d3ddevice, LPCTSTR _texturename)
 	return 0;
 }
 
-void Material::Render(ID3D11DeviceContext* _p_d3ddevicecontext, XMFLOAT4X4* _p_worldmatrix, XMFLOAT4X4* _p_viewmatrix, XMFLOAT4X4* _p_projectionmatrix)
+void Material::Render()
 {
-	
-
 	////Set Tex and Sampler State
-	_p_d3ddevicecontext->PSSetShaderResources(0, 1, &p_Texture);
-	_p_d3ddevicecontext->PSSetSamplers(0, 1, &p_SamplerState);
+	p_d3dDeviceContext->PSSetShaderResources(0, 1, &p_Texture);
+	p_d3dDeviceContext->PSSetSamplers(0, 1, &p_SamplerState);
 
 	////Set Material
 	//_p_d3ddevice->SetMaterial(&material);
 
 	//Set Shader Pipeline
-	_p_d3ddevicecontext->VSSetShader(p_VertexShader, nullptr, 0);
-	_p_d3ddevicecontext->PSSetShader(p_PixelShader, nullptr, 0);
-	_p_d3ddevicecontext->IASetInputLayout(p_InputLayout);
+	p_d3dDeviceContext->VSSetShader(p_vertexShader, nullptr, 0);
+	p_d3dDeviceContext->PSSetShader(p_pixelShader, nullptr, 0);
+	p_d3dDeviceContext->IASetInputLayout(p_inputLayout);
 
 	//Set Matrices
-	SetMatrices(_p_d3ddevicecontext, _p_worldmatrix, _p_viewmatrix, _p_projectionmatrix);
+	SetMatrices(p_d3dDeviceContext, p_worldMatrix, p_viewMatrix, p_projectionMatrix);
 }
 
 void Material::DeInit()
@@ -45,10 +49,12 @@ void Material::DeInit()
 	//SafeRelease<IDirect3DTexture9>(p_texture);
 	SafeRelease<ID3D11ShaderResourceView>(p_Texture);
 	SafeRelease<ID3D11SamplerState>(p_SamplerState);
-	SafeRelease<ID3D11Buffer>(p_MatrixBuffer);
-	SafeRelease<ID3D11InputLayout>(p_InputLayout);
-	SafeRelease<ID3D11PixelShader>(p_PixelShader);
-	SafeRelease<ID3D11VertexShader>(p_VertexShader);
+	SafeRelease<ID3D11Buffer>(p_matrixBuffer);
+	SafeRelease<ID3D11InputLayout>(p_inputLayout);
+	SafeRelease<ID3D11PixelShader>(p_pixelShader);
+	SafeRelease<ID3D11VertexShader>(p_vertexShader);
+	SafeRelease<ID3D11DeviceContext>(p_d3dDeviceContext);
+
 }
 
 INT Material::CreateVertexShader(ID3D11Device* _p_d3ddevice)
@@ -78,7 +84,7 @@ INT Material::CreateVertexShader(ID3D11Device* _p_d3ddevice)
 	CheckFailed(hr, 60);
 
 	//Create Shader Code
-	hr = _p_d3ddevice->CreateVertexShader(p_CompiledShaderCode->GetBufferPointer(), p_CompiledShaderCode->GetBufferSize(), nullptr, &p_VertexShader);
+	hr = _p_d3ddevice->CreateVertexShader(p_CompiledShaderCode->GetBufferPointer(), p_CompiledShaderCode->GetBufferSize(), nullptr, &p_vertexShader);
 	CheckFailed(hr, 62);
 
 	INT error = CreateInputLayout(_p_d3ddevice, p_CompiledShaderCode);
@@ -98,7 +104,7 @@ INT Material::CreatePixelShader(ID3D11Device* _p_d3ddevice)
 	HRESULT hr = D3DReadFileToBlob(TEXT("LightingPixelShader.cso"), &p_CompiledShaderCode);
 	CheckFailed(hr, 64);
 
-	hr = _p_d3ddevice->CreatePixelShader(p_CompiledShaderCode->GetBufferPointer(), p_CompiledShaderCode->GetBufferSize(), nullptr, &p_PixelShader);
+	hr = _p_d3ddevice->CreatePixelShader(p_CompiledShaderCode->GetBufferPointer(), p_CompiledShaderCode->GetBufferSize(), nullptr, &p_pixelShader);
 	CheckFailed(hr, 66);
 
 	SafeRelease<ID3DBlob>(p_CompiledShaderCode);
@@ -150,7 +156,7 @@ INT Material::CreateInputLayout(ID3D11Device* _p_d3ddevice, ID3DBlob* _p_vertexs
 		4,
 		_p_vertexshaderdata->GetBufferPointer(),
 		_p_vertexshaderdata->GetBufferSize(),
-		&p_InputLayout);
+		&p_inputLayout);
 
 
 	CheckFailed(hr, 68);
@@ -167,7 +173,7 @@ INT Material::CreateMatrixBuffer(ID3D11Device* _p_d3ddevice)
 	desc.Usage = D3D11_USAGE_DYNAMIC;
 	desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
-	HRESULT hr = _p_d3ddevice->CreateBuffer(&desc, nullptr, &p_MatrixBuffer);
+	HRESULT hr = _p_d3ddevice->CreateBuffer(&desc, nullptr, &p_matrixBuffer);
 	CheckFailed(hr, 61);
 
 	return 0;
@@ -182,7 +188,7 @@ void Material::SetMatrices(ID3D11DeviceContext* _p_d3ddevicecontext, XMFLOAT4X4*
 	XMMATRIX wvpMatrix = XMMatrixTranspose(worldMatrix * viewMatrix * projectionMatrix); //transpose for column mayor - row mayor problem
 
 	D3D11_MAPPED_SUBRESOURCE data = {};
-	HRESULT hr = _p_d3ddevicecontext->Map(p_MatrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &data);
+	HRESULT hr = _p_d3ddevicecontext->Map(p_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &data);
 	if (FAILED(hr))
 	{
 		return;
@@ -192,9 +198,9 @@ void Material::SetMatrices(ID3D11DeviceContext* _p_d3ddevicecontext, XMFLOAT4X4*
 	XMStoreFloat4x4(&(p_TempMatrixBuffer->worldviewProjectionMatrix), wvpMatrix);
 	XMStoreFloat4x4(&(p_TempMatrixBuffer->worldMatrix), XMMatrixTranspose(worldMatrix));
 
-	_p_d3ddevicecontext->Unmap(p_MatrixBuffer, 0);
+	_p_d3ddevicecontext->Unmap(p_matrixBuffer, 0);
 
-	_p_d3ddevicecontext->VSSetConstantBuffers(0, 1, &p_MatrixBuffer);
+	_p_d3ddevicecontext->VSSetConstantBuffers(0, 1, &p_matrixBuffer);
 }
 
 INT Material::CreateTextureAndSampler(ID3D11Device* _p_d3ddevice, LPCTSTR _texturename)

@@ -16,7 +16,7 @@ public:
 	void Update();
 	void DeInit();
 	
-	FLOAT GetDeltaTime() { return deltaTime; }
+	FLOAT* GetDeltaTime() { return &deltaTime; }
 
 private:
 	time_point lastTimeStamp = {};

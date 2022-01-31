@@ -21,13 +21,15 @@ public:
 	};
 
 
-	INT Init(ID3D11Device* _p_d3ddevice, LightData &_light, INT _id = 0);
-	void Render(ID3D11DeviceContext* _p_d3ddevicecontext);
+	INT Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, LightData &_light, INT _id = 0);
+	void Render();
 	void DeInit();
 
 private:
 	INT id = 0;
 	LightData light = {};
 	ID3D11Buffer* p_lightBuffer = nullptr;
+
+	ID3D11DeviceContext* p_d3dDeviceContext = nullptr;
 };
 

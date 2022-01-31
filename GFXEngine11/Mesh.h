@@ -7,9 +7,9 @@ using namespace DirectX;
 class Mesh
 {
 public:
-	INT Init(ID3D11Device* _p_d3ddevice);
-	void Update(FLOAT _dt);
-	void Render(ID3D11DeviceContext* _p_d3ddevicecontext);
+	INT Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, FLOAT* _p_dt);
+	void Update();
+	void Render();
 	void DeInit();
 
 	XMFLOAT4X4* GetWorldMatrix() { return &worldMatrix; }
@@ -25,7 +25,9 @@ private:
 	UINT vertexStride = 0; // Size of one Vertex
 	UINT indexCount = 0; // Amount of Indecies
 
-
 	XMFLOAT4X4 worldMatrix = {};
+
+	ID3D11DeviceContext* p_d3dDeviceContext = nullptr;
+	FLOAT* p_deltaTime = nullptr;
 };
 

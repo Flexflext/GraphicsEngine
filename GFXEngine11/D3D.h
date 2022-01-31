@@ -7,7 +7,7 @@ class D3D
 {
 public:
 	INT Init(HWND _hwnd, UINT _width, UINT _height, BOOL _fullscreen);
-	void BeginScene(FLOAT _red, FLOAT _green, FLOAT _blue);
+	void BeginScene(FLOAT _red = 0.0f, FLOAT _green = 0.0f, FLOAT _blue = 0.0f);
 	void EndScene();
 	void DeInit();
 

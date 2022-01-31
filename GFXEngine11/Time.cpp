@@ -1,9 +1,11 @@
 #include "Time.h"
+#include "Utils.h"
 #include <string>
 
 INT Time::Init()
 {
 	lastTimeStamp = NOW;
+	
 	return 0;
 }
 

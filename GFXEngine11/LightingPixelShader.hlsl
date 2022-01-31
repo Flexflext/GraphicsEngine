@@ -30,5 +30,5 @@ float4 main(PixelInput INPUT) : SV_TARGET
 	diffuseColor = lightDiffuseColor * diffuse * lightIntensity;
 	
 	//texture * (ambient + diffuse) + specular + emission
-	return textureColor * diffuseColor;
+    return textureColor * diffuseColor + textureColor * 0.1f;
 }
