@@ -11,7 +11,7 @@ public:
 	void DeInit();
 
 private:
-	IDirect3DTexture9* p_texture;
+	IDirect3DTexture9* p_Texture;
 	D3DMATERIAL9 material = {};
 };
 

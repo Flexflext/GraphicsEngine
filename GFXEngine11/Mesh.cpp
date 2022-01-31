@@ -24,9 +24,9 @@ void Mesh::Update(FLOAT _dt)
 	static FLOAT posX= 0.0f;
 	static FLOAT posY= 0.0f;
 	static FLOAT posZ= 0.0f;
-	static FLOAT rotZ = 0.0f;
+	static FLOAT rotY = 0.0f;
 
-	rotZ += XM_PI / 3.0f * _dt;
+	rotY += XM_PI / 3.0f * _dt;
 
 	FLOAT move = 5.0f * _dt;
 
@@ -61,7 +61,7 @@ void Mesh::Update(FLOAT _dt)
 	}
 
 	XMMATRIX translation = XMMatrixTranslation(posX, posY, posZ);
-	XMMATRIX rotation = XMMatrixRotationRollPitchYaw(0.0f, 0.0f, 0.0f);
+	XMMATRIX rotation = XMMatrixRotationRollPitchYaw(0.0f, rotY, 0.0f);
 	XMMATRIX localScale = XMMatrixScaling(1.0f, 1.0f, 1.0f);
 
 	XMStoreFloat4x4(&worldMatrix, localScale * rotation * translation);
@@ -96,17 +96,17 @@ INT Mesh::InitVertexBuffer(ID3D11Device* _p_d3ddevice)
 {
 	Vertex vertecies[] = {
 		//// -->Quad with Triangle Fan<-- or with Index Buffer and triangle List and Color
-		Vertex(-0.5f, 0.5f, 0.0f, 255u, 0u, 0u),
+		/*Vertex(-0.5f, 0.5f, 0.0f, 255u, 0u, 0u),
 		Vertex(0.5f, 0.5f, 0.0f, 0u, 255u, 0u),
 		Vertex(0.5f, -0.5f, 0.0f, 0u, 0u, 255u),
 		Vertex(-0.5f, -0.5f, 0.0f, 255u, 0u, 255u),
-		Vertex(0.0f, 0.0f, 0.0f, 255u, 255u, 255u),
+		Vertex(0.0f, 0.0f, 0.0f, 255u, 255u, 255u),*/
 
 		//// -->Quad with Triangle Fan<-- or with Index Buffer and triangle List with UV and Normal
-		/*Vertex(-0.5f, 0.5f, 0.0f, 0.0f , 0.0f, -1.0f, 0.0f, 0.0f),
+		Vertex(-0.5f, 0.5f, 0.0f, 0.0f , 0.0f, -1.0f, 0.0f, 0.0f),
 		Vertex(0.5f, 0.5f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f),
 		Vertex(0.5f, -0.5f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f),
-		Vertex(-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f),*/
+		Vertex(-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f),
 	};
 
 	vertexCount = std::size(vertecies);

@@ -1,10 +1,13 @@
 //--------------------------------------------------------------------------------------
-// File: WICTextureLoader.h
+// File: WICTextureLoader11.h
 //
 // Function for loading a WIC image and creating a Direct3D runtime texture for it
 // (auto-generating mipmaps if possible)
 //
 // Note: Assumes application has already called CoInitializeEx
+//
+// Warning: CreateWICTexture* functions are not thread-safe if given a d3dContext instance for
+//          auto-gen mipmap support.
 //
 // Note these functions are useful for images created as simple 2D textures. For
 // more complex resources, DDSTextureLoader is an excellent light-weight runtime loader.
@@ -15,15 +18,14 @@
 // Licensed under the MIT License.
 //
 // http://go.microsoft.com/fwlink/?LinkId=248926
+// http://go.microsoft.com/fwlink/?LinkId=248929
 //--------------------------------------------------------------------------------------
 
 #pragma once
 
-#ifndef DIRECT3D_VERSION
-#define DIRECT3D_VERSION 0x900
-#endif
-#include <d3d9.h>
+#include <d3d11_1.h>
 
+#pragma comment(lib,"dxguid.lib")
 #pragma comment(lib,"windowscodecs.lib")
 
 #include <cstddef>
@@ -36,7 +38,9 @@ namespace DirectX
     enum WIC_LOADER_FLAGS : uint32_t
     {
         WIC_LOADER_DEFAULT = 0,
-        WIC_LOADER_MIP_AUTOGEN = 0x8,
+        WIC_LOADER_FORCE_SRGB = 0x1,
+        WIC_LOADER_IGNORE_SRGB = 0x2,
+        WIC_LOADER_SRGB_DEFAULT = 0x4,
         WIC_LOADER_FIT_POW2 = 0x20,
         WIC_LOADER_MAKE_SQUARE = 0x40,
         WIC_LOADER_FORCE_RGBA32 = 0x80,
@@ -56,37 +60,89 @@ namespace DirectX
 
     // Standard version
     HRESULT CreateWICTextureFromMemory(
-        _In_ LPDIRECT3DDEVICE9 d3dDevice,
+        _In_ ID3D11Device* d3dDevice,
         _In_reads_bytes_(wicDataSize) const uint8_t* wicData,
         _In_ size_t wicDataSize,
-        _Outptr_ LPDIRECT3DTEXTURE9* texture,
-        _In_ size_t maxsize = 0,
-        _In_ WIC_LOADER_FLAGS loadFlags = WIC_LOADER_DEFAULT) noexcept;
+        _Outptr_opt_ ID3D11Resource** texture,
+        _Outptr_opt_ ID3D11ShaderResourceView** textureView,
+        _In_ size_t maxsize = 0) noexcept;
 
     HRESULT CreateWICTextureFromFile(
-        _In_ LPDIRECT3DDEVICE9 d3dDevice,
-        _In_z_ const wchar_t* fileName,
-        _Outptr_ LPDIRECT3DTEXTURE9* texture,
-        _In_ size_t maxsize = 0,
-        _In_ WIC_LOADER_FLAGS loadFlags = WIC_LOADER_DEFAULT) noexcept;
+        _In_ ID3D11Device* d3dDevice,
+        _In_z_ const wchar_t* szFileName,
+        _Outptr_opt_ ID3D11Resource** texture,
+        _Outptr_opt_ ID3D11ShaderResourceView** textureView,
+        _In_ size_t maxsize = 0) noexcept;
+
+    // Standard version with optional auto-gen mipmap support
+    HRESULT CreateWICTextureFromMemory(
+        _In_ ID3D11Device* d3dDevice,
+        _In_opt_ ID3D11DeviceContext* d3dContext,
+        _In_reads_bytes_(wicDataSize) const uint8_t* wicData,
+        _In_ size_t wicDataSize,
+        _Outptr_opt_ ID3D11Resource** texture,
+        _Outptr_opt_ ID3D11ShaderResourceView** textureView,
+        _In_ size_t maxsize = 0) noexcept;
+
+    HRESULT CreateWICTextureFromFile(
+        _In_ ID3D11Device* d3dDevice,
+        _In_opt_ ID3D11DeviceContext* d3dContext,
+        _In_z_ const wchar_t* szFileName,
+        _Outptr_opt_ ID3D11Resource** texture,
+        _Outptr_opt_ ID3D11ShaderResourceView** textureView,
+        _In_ size_t maxsize = 0) noexcept;
 
     // Extended version
     HRESULT CreateWICTextureFromMemoryEx(
-        _In_ LPDIRECT3DDEVICE9 d3dDevice,
+        _In_ ID3D11Device* d3dDevice,
         _In_reads_bytes_(wicDataSize) const uint8_t* wicData,
         _In_ size_t wicDataSize,
         _In_ size_t maxsize,
-        _In_ DWORD usage,
-        _In_ D3DPOOL pool,
+        _In_ D3D11_USAGE usage,
+        _In_ unsigned int bindFlags,
+        _In_ unsigned int cpuAccessFlags,
+        _In_ unsigned int miscFlags,
         _In_ WIC_LOADER_FLAGS loadFlags,
-        _Outptr_ LPDIRECT3DTEXTURE9* texture) noexcept;
+        _Outptr_opt_ ID3D11Resource** texture,
+        _Outptr_opt_ ID3D11ShaderResourceView** textureView) noexcept;
 
     HRESULT CreateWICTextureFromFileEx(
-        _In_ LPDIRECT3DDEVICE9 d3dDevice,
-        _In_z_ const wchar_t* fileName,
+        _In_ ID3D11Device* d3dDevice,
+        _In_z_ const wchar_t* szFileName,
         _In_ size_t maxsize,
-        _In_ DWORD usage,
-        _In_ D3DPOOL pool,
+        _In_ D3D11_USAGE usage,
+        _In_ unsigned int bindFlags,
+        _In_ unsigned int cpuAccessFlags,
+        _In_ unsigned int miscFlags,
         _In_ WIC_LOADER_FLAGS loadFlags,
-        _Outptr_ LPDIRECT3DTEXTURE9* texture) noexcept;
+        _Outptr_opt_ ID3D11Resource** texture,
+        _Outptr_opt_ ID3D11ShaderResourceView** textureView) noexcept;
+
+    // Extended version with optional auto-gen mipmap support
+    HRESULT CreateWICTextureFromMemoryEx(
+        _In_ ID3D11Device* d3dDevice,
+        _In_opt_ ID3D11DeviceContext* d3dContext,
+        _In_reads_bytes_(wicDataSize) const uint8_t* wicData,
+        _In_ size_t wicDataSize,
+        _In_ size_t maxsize,
+        _In_ D3D11_USAGE usage,
+        _In_ unsigned int bindFlags,
+        _In_ unsigned int cpuAccessFlags,
+        _In_ unsigned int miscFlags,
+        _In_ WIC_LOADER_FLAGS loadFlags,
+        _Outptr_opt_ ID3D11Resource** texture,
+        _Outptr_opt_ ID3D11ShaderResourceView** textureView) noexcept;
+
+    HRESULT CreateWICTextureFromFileEx(
+        _In_ ID3D11Device* d3dDevice,
+        _In_opt_ ID3D11DeviceContext* d3dContext,
+        _In_z_ const wchar_t* szFileName,
+        _In_ size_t maxsize,
+        _In_ D3D11_USAGE usage,
+        _In_ unsigned int bindFlags,
+        _In_ unsigned int cpuAccessFlags,
+        _In_ unsigned int miscFlags,
+        _In_ WIC_LOADER_FLAGS loadFlags,
+        _Outptr_opt_ ID3D11Resource** texture,
+        _Outptr_opt_ ID3D11ShaderResourceView** textureView) noexcept;
 }

@@ -5,7 +5,7 @@
 
 INT Material::Init(IDirect3DDevice9* _p_d3ddevice, LPCTSTR _texturename)
 {
-	HRESULT hr = CreateWICTextureFromFile(_p_d3ddevice, _texturename, &p_texture, 0 , WIC_LOADER_MIP_AUTOGEN);
+	HRESULT hr = CreateWICTextureFromFile(_p_d3ddevice, _texturename, &p_Texture, 0 , WIC_LOADER_MIP_AUTOGEN);
 	CheckFailed(hr, 60);
 
 	material.Ambient = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -29,7 +29,7 @@ void Material::Render(IDirect3DDevice9* _p_d3ddevice)
 	_p_d3ddevice->SetSamplerState(0, D3DSAMP_MAXANISOTROPY, 16); //default: 1
 
 	//Set Tex
-	_p_d3ddevice->SetTexture(0, p_texture);
+	_p_d3ddevice->SetTexture(0, p_Texture);
 
 	//Set Material
 	_p_d3ddevice->SetMaterial(&material);
@@ -37,5 +37,5 @@ void Material::Render(IDirect3DDevice9* _p_d3ddevice)
 
 void Material::DeInit()
 {
-	SafeRelease<IDirect3DTexture9>(p_texture);
+	SafeRelease<IDirect3DTexture9>(p_Texture);
 }

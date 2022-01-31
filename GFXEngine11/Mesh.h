@@ -11,6 +11,9 @@ public:
 	void Update(FLOAT _dt);
 	void Render(ID3D11DeviceContext* _p_d3ddevicecontext);
 	void DeInit();
+
+	XMFLOAT4X4* GetWorldMatrix() { return &worldMatrix; }
+
 private:
 	INT InitVertexBuffer(ID3D11Device* _p_D3DDevice);
 	INT InitIndexBuffer(ID3D11Device* _p_D3DDevice);

@@ -12,7 +12,7 @@ INT Camera::Init(UINT _screenwidth, UINT _screenheight)
 		XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f) //Up
 	);
 
-	XMStoreFloat4x4(reinterpret_cast<XMFLOAT4X4*>(&viewMatrix), viewMat);
+	XMStoreFloat4x4(&viewMatrix, viewMat);
 
 	//Projection Matrix
 
@@ -22,15 +22,14 @@ INT Camera::Init(UINT _screenwidth, UINT _screenheight)
 		0.3f, 1000.0f // Near and Far Clip Plane
 	);
 
-	XMStoreFloat4x4(reinterpret_cast<XMFLOAT4X4*>(&projectionMatrix), projectMat);
+	XMStoreFloat4x4(&projectionMatrix, projectMat);
 
 	return 0;
 }
 
-void Camera::Render(IDirect3DDevice9* _p_D3DDevice)
+void Camera::Update(FLOAT _dt)
 {
-	_p_D3DDevice->SetTransform(D3DTS_VIEW, &viewMatrix);
-	_p_D3DDevice->SetTransform(D3DTS_PROJECTION, &projectionMatrix);
+	
 
 }
 

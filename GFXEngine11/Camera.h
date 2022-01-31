@@ -1,16 +1,22 @@
 #pragma once
-#include <d3d9.h>
+#include <d3d11.h>
+#include <DirectXMath.h>
+
+using namespace DirectX;
 
 class Camera
 {
 public:
 	INT Init(UINT _screenwidth, UINT _screenheight);
-	void Render(IDirect3DDevice9* _p_D3DDevice);
+	void Update(FLOAT _dt);
 	void DeInit();
 
+	XMFLOAT4X4* GetViewMatrix() { return &viewMatrix; }
+	XMFLOAT4X4* GetProjectionMatrix() { return &projectionMatrix; }
+
 private:
-	D3DMATRIX viewMatrix = {};
-	D3DMATRIX projectionMatrix = {};
+	XMFLOAT4X4 viewMatrix = {};
+	XMFLOAT4X4 projectionMatrix = {};
 
 };
 
