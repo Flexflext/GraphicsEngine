@@ -17,6 +17,8 @@ void Time::Update()
 	totalTime += deltaTime;
 	lastTimeStamp = now;
 
+	//CurrentDeltaTime = deltaTime;
+
 	fps++;
 	fpsTime += deltaTime;
 

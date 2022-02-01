@@ -1,6 +1,7 @@
 #pragma once
 #include <d3d11.h>
 #include <DirectXMath.h>
+#include "Vertex.h"
 
 using namespace DirectX;
 
@@ -18,12 +19,18 @@ private:
 	INT InitVertexBuffer(ID3D11Device* _p_D3DDevice);
 	INT InitIndexBuffer(ID3D11Device* _p_D3DDevice);
 
+	INT RecalculateNormals(ID3D11Device* _p_d3ddevice);
+	
+
 	ID3D11Buffer* p_vertexBuffer = nullptr;
 	ID3D11Buffer* p_indexBuffer = nullptr;
 
 	UINT vertexCount = 0; // Amount of Vertecies
 	UINT vertexStride = 0; // Size of one Vertex
 	UINT indexCount = 0; // Amount of Indecies
+
+	Vertex* vertexData = nullptr;
+	USHORT* indexData = nullptr;
 
 	XMFLOAT4X4 worldMatrix = {};
 

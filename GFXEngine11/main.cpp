@@ -7,6 +7,7 @@
 #include "Time.h"
 #include "Material.h"
 #include "Light.h"
+#include "GameObject.h"
 
 //typedef INT(D3D::* func)(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, FLOAT* _p_dt);
 
@@ -56,6 +57,9 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	Light light = {};
 	error = light.Init(d3d.GetDevice(), d3d.GetDeviceContext(), lightData);
 	CheckError(error);
+
+	GameObject gm = {};
+	gm.Init();
 
 	//Run App
 	while (window.Update())

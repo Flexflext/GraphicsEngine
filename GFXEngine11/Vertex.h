@@ -6,7 +6,7 @@ using namespace DirectX;
 
 struct Vertex
 {
-
+public:
 	// Position
 	XMFLOAT3 position;
 	// Normal
@@ -16,6 +16,10 @@ struct Vertex
 	//Color
 	XMFLOAT4 color;
 	
+	Vertex()
+	{
+
+	}
 
 	Vertex(FLOAT _x, FLOAT _y, FLOAT _z)
 	{

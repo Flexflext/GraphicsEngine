@@ -16,6 +16,9 @@ INT Mesh::Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecont
 	error = InitIndexBuffer(_p_d3ddevice);
 	CheckError(error);
 
+	/*error = RecalculateNormals(_p_d3ddevice);
+	CheckError(error);*/
+
 	//Initialize World Transformation-Matrix
 	XMStoreFloat4x4(&worldMatrix, XMMatrixIdentity());
 
@@ -144,8 +147,14 @@ INT Mesh::InitVertexBuffer(ID3D11Device* _p_d3ddevice)
 		Vertex(0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f), // 7 // 23
 	};
 
+	
+
 	vertexCount = std::size(vertecies);
 	vertexStride = sizeof(Vertex);
+
+	vertexData = static_cast<Vertex*>(malloc(vertexStride * vertexCount));
+	vertexData = vertecies;
+
 
 	D3D11_BUFFER_DESC desc = {};
 
@@ -190,6 +199,10 @@ INT Mesh::InitIndexBuffer(ID3D11Device* _p_d3ddevice)
 
 	indexCount = std::size(indices);
 
+	indexData = static_cast<USHORT*>(malloc(sizeof(USHORT) * indexCount));
+
+	indexData = indices;
+
 	D3D11_BUFFER_DESC desc = {};
 
 	desc.ByteWidth = indexCount * sizeof(USHORT);
@@ -201,6 +214,47 @@ INT Mesh::InitIndexBuffer(ID3D11Device* _p_d3ddevice)
 
 	HRESULT hr = _p_d3ddevice->CreateBuffer(&desc, &initialData, &p_indexBuffer);
 	CheckFailed(hr, 32);
+
+	return 0;
+}
+
+INT Mesh::RecalculateNormals(ID3D11Device* _p_d3ddevice)
+{
+	for (int i = 0; i < indexCount; i+= 3)
+	{
+		Vertex cur = *vertexData;
+
+		Vertex curVertexPos = *(vertexData + *(indexData + i));
+		Vertex curVertexPos1 = *(vertexData + *(indexData + i++));
+		Vertex curVertexPos2 = *(vertexData + *(indexData + i+2));
+
+		XMVECTOR posA = XMVectorSet(curVertexPos.position.x, curVertexPos.position.y, curVertexPos.position.z, 0.0f);
+		XMVECTOR posB = XMVectorSet(curVertexPos1.position.x, curVertexPos1.position.y, curVertexPos1.position.z, 0.0f);
+		XMVECTOR posC = XMVectorSet(curVertexPos2.position.x, curVertexPos2.position.y, curVertexPos2.position.z, 0.0f);
+
+		XMVECTOR Normalized = XMVector3Normalize((posB - posC) * (posC - posA));
+
+		XMFLOAT3 Normal;
+		Normal.x = XMVectorGetX(Normalized);
+		Normal.y = XMVectorGetX(Normalized);
+		Normal.z = XMVectorGetX(Normalized);
+
+		curVertexPos.normal = Normal;
+		curVertexPos1.normal = Normal;
+		curVertexPos2.normal = Normal;
+	}
+
+	D3D11_BUFFER_DESC desc = {};
+
+	desc.ByteWidth = vertexCount * vertexStride;
+	desc.BindFlags = D3D11_BIND_VERTEX_BUFFER; // buffer type
+	desc.Usage = D3D11_USAGE_IMMUTABLE; // who has wich access
+
+	D3D11_SUBRESOURCE_DATA initialData = {};
+	initialData.pSysMem = vertexData;
+
+	HRESULT hr = _p_d3ddevice->CreateBuffer(&desc, &initialData, &p_vertexBuffer);
+	CheckFailed(hr, 31);
 
 	return 0;
 }

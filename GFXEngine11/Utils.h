@@ -15,5 +15,12 @@ void SafeRelease(T*& obj)
 	}
 }
 
+//struct Transform
+//{
+//	XMFLOAT3 Position;
+//	XMFLOAT3 Rotation;
+//	XMFLOAT3 Size;
+//};
+
 
 #define D3DCOLORVALUE_RGB(r,g,b) { r / 255.0f, g/255.0f, b / 255.0f, 1.0f };
