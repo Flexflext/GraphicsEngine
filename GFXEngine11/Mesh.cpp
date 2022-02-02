@@ -146,15 +146,13 @@ INT Mesh::InitVertexBuffer(ID3D11Device* _p_d3ddevice)
 		Vertex(0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f), // 6 // 22
 		Vertex(0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f), // 7 // 23
 	};
-
-	
-
+	Vertex vert[std::size(vertecies)];
 	vertexCount = std::size(vertecies);
 	vertexStride = sizeof(Vertex);
 
-	vertexData = static_cast<Vertex*>(malloc(vertexStride * vertexCount));
-	vertexData = vertecies;
-
+	//vertexData = static_cast<Vertex*>(malloc(vertexStride * vertexCount));
+	std::copy(std::begin(vertecies), std::end(vertecies), std::begin(vert));
+	vertexData = vert;
 
 	D3D11_BUFFER_DESC desc = {};
 
@@ -199,9 +197,13 @@ INT Mesh::InitIndexBuffer(ID3D11Device* _p_d3ddevice)
 
 	indexCount = std::size(indices);
 
-	indexData = static_cast<USHORT*>(malloc(sizeof(USHORT) * indexCount));
+	USHORT index[std::size(indices)];
 
-	indexData = indices;
+	//indexData = static_cast<USHORT*>(malloc(sizeof(USHORT) * indexCount));
+
+	std::copy(std::begin(indices), std::end(indices), std::begin(index));
+
+	indexData = index;
 
 	D3D11_BUFFER_DESC desc = {};
 
@@ -220,13 +222,15 @@ INT Mesh::InitIndexBuffer(ID3D11Device* _p_d3ddevice)
 
 INT Mesh::RecalculateNormals(ID3D11Device* _p_d3ddevice)
 {
-	for (int i = 0; i < indexCount; i+= 3)
+	for (int i = 0; i < indexCount; i += 3)
 	{
-		Vertex cur = *vertexData;
+		USHORT indexA = indexData[i];
+		USHORT indexB = indexData[i + 1];
+		USHORT indexC = indexData[i + 2];
 
-		Vertex curVertexPos = *(vertexData + *(indexData + i));
-		Vertex curVertexPos1 = *(vertexData + *(indexData + i++));
-		Vertex curVertexPos2 = *(vertexData + *(indexData + i+2));
+		Vertex curVertexPos = vertexData[indexA];
+		Vertex curVertexPos1 = vertexData[indexB];
+		Vertex curVertexPos2 = vertexData[indexC];
 
 		XMVECTOR posA = XMVectorSet(curVertexPos.position.x, curVertexPos.position.y, curVertexPos.position.z, 0.0f);
 		XMVECTOR posB = XMVectorSet(curVertexPos1.position.x, curVertexPos1.position.y, curVertexPos1.position.z, 0.0f);
@@ -236,8 +240,8 @@ INT Mesh::RecalculateNormals(ID3D11Device* _p_d3ddevice)
 
 		XMFLOAT3 Normal;
 		Normal.x = XMVectorGetX(Normalized);
-		Normal.y = XMVectorGetX(Normalized);
-		Normal.z = XMVectorGetX(Normalized);
+		Normal.y = XMVectorGetY(Normalized);
+		Normal.z = XMVectorGetZ(Normalized);
 
 		curVertexPos.normal = Normal;
 		curVertexPos1.normal = Normal;

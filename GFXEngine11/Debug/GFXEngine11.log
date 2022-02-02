@@ -1,5 +1,5 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (GFXEngine.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(513,5): warning MSB8028: Das Zwischenverzeichnis (Debug\) enthält freigegebene Dateien aus einem anderen Projekt (GFXEngine.vcxproj). Dies kann zu einem falschen Bereinigungs- und Neuerstellungsverhalten führen.
   Mesh.cpp
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Mesh.cpp(223,20): warning C4018: '<': signed/unsigned mismatch
-LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/FORCE' specification
-  GFXEngine11.vcxproj -> C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine\Debug\GFXEngine11.exe
+C:\Users\Student\Studis\Silas Rotter\AGM5204\GraphicsEngine\GFXEngine11\Mesh.cpp(225,20): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+LINK : warning LNK4075: /INCREMENTAL wird aufgrund der Angabe von /FORCE ignoriert.
+  GFXEngine11.vcxproj -> C:\Users\Student\Studis\Silas Rotter\AGM5204\GraphicsEngine\GFXEngine\Debug\GFXEngine11.exe
