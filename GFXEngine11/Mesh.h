@@ -2,10 +2,11 @@
 #include <d3d11.h>
 #include <DirectXMath.h>
 #include "Vertex.h"
+#include "Component.h"
 
 using namespace DirectX;
 
-class Mesh
+class Mesh //: public Component
 {
 public:
 	INT Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, FLOAT* _p_dt);

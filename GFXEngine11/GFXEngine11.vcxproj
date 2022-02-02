@@ -154,6 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Component.h" />
     <ClInclude Include="D3D.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Light.h" />

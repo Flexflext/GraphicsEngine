@@ -59,6 +59,7 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	CheckError(error);
 
 	GameObject gm = {};
+	//gm.GetComponent(C_Box);
 	gm.Init();
 
 	//Run App
