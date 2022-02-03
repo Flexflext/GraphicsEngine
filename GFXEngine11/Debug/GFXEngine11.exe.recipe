@@ -1,30 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
-  <ProjectOutputs>
-    <ProjectOutput>
-      <FullPath>C:\Users\Student\Studis\Silas Rotter\AGM5204\GraphicsEngine\GFXEngine\Debug\GFXEngine11.exe</FullPath>
-    </ProjectOutput>
-  </ProjectOutputs>
-  <ContentFiles>
-    <ContentFile>
-      <FullPath>C:\Users\Student\Studis\Silas Rotter\AGM5204\GraphicsEngine\GFXEngine11\ColorPixelShader.cso</FullPath>
-    </ContentFile>
-    <ContentFile>
-      <FullPath>C:\Users\Student\Studis\Silas Rotter\AGM5204\GraphicsEngine\GFXEngine11\ColorVertexShader.cso</FullPath>
-    </ContentFile>
-    <ContentFile>
-      <FullPath>C:\Users\Student\Studis\Silas Rotter\AGM5204\GraphicsEngine\GFXEngine11\LightingPixelShader.cso</FullPath>
-    </ContentFile>
-    <ContentFile>
-      <FullPath>C:\Users\Student\Studis\Silas Rotter\AGM5204\GraphicsEngine\GFXEngine11\LightingVertexShader.cso</FullPath>
-    </ContentFile>
-    <ContentFile>
-      <FullPath>C:\Users\Student\Studis\Silas Rotter\AGM5204\GraphicsEngine\GFXEngine11\TexturePixelShader.cso</FullPath>
-    </ContentFile>
-    <ContentFile>
-      <FullPath>C:\Users\Student\Studis\Silas Rotter\AGM5204\GraphicsEngine\GFXEngine11\TextureVertexShader.cso</FullPath>
-    </ContentFile>
-  </ContentFiles>
-  <SatelliteDlls />
-  <NonRecipeFileRefs />
+  <ProjectOutputs>C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine\Debug\GFXEngine11.exe</ProjectOutputs>
+  <ContentFiles>C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\ColorPixelShader.cso;C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\ColorVertexShader.cso;C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\LightingPixelShader.cso;C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\LightingVertexShader.cso;C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\TexturePixelShader.cso;C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\TextureVertexShader.cso</ContentFiles>
+  <SatelliteDlls></SatelliteDlls>
+  <NonRecipeFileRefs></NonRecipeFileRefs>
 </Project>

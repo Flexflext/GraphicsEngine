@@ -1,7 +1,6 @@
 #include "Mesh.h"
 #include "Utils.h"
 #include "Vertex.h"
-#include <xutility>
 
 using namespace DirectX;
 
@@ -16,8 +15,8 @@ INT Mesh::Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecont
 	error = InitIndexBuffer(_p_d3ddevice);
 	CheckError(error);
 
-	/*error = RecalculateNormals(_p_d3ddevice);
-	CheckError(error);*/
+	error = RecalculateNormals(_p_d3ddevice);
+	CheckError(error);
 
 	//Initialize World Transformation-Matrix
 	XMStoreFloat4x4(&worldMatrix, XMMatrixIdentity());
@@ -111,54 +110,63 @@ INT Mesh::InitVertexBuffer(ID3D11Device* _p_d3ddevice)
 
 		//// -->Quad with Triangle Fan<-- or with Index Buffer and triangle List with UV and Normal
 		//Front
-		Vertex(-0.5f, -0.5f, -0.5f, 0.0f , 0.0f, -1.0f, 0.0f, 0.0f), // 0
-		Vertex(-0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f), // 1
-		Vertex(0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f), // 2
-		Vertex(0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f), // 3
+		Vertex(-0.5f, -0.5f, -0.5f, 0.0f, 0.0f), // 0
+		Vertex(-0.5f, 0.5f, -0.5f, 0.0f, 1.0f), // 1
+		Vertex(0.5f, 0.5f, -0.5f, 0.0f, 1.0f), // 2
+		Vertex(0.5f, -0.5f, -0.5f, 0.0f, 0.0f), // 3
 
 		//Back
-		Vertex(-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f), // 4
-		Vertex(-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f), // 5
-		Vertex(0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f), // 6
-		Vertex(0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f), // 7
+		Vertex(-0.5f, -0.5f, 0.5f, 0.0f, 0.0f), // 4
+		Vertex(-0.5f, 0.5f, 0.5f, 0.0f, 1.0f), // 5
+		Vertex(0.5f, 0.5f, 0.5f, 1.0f, 1.0f), // 6
+		Vertex(0.5f, -0.5f, 0.5f, 1.0f, 0.0f), // 7
 
 		//Top
-		Vertex(-0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f), // 1 // 8
-		Vertex(-0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f), // 5 // 9
-		Vertex(0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f), // 6 // 10
-		Vertex(0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f), // 2 // 11
+		Vertex(-0.5f, 0.5f, -0.5f, 0.0f, 0.0f), // 1 // 8
+		Vertex(-0.5f, 0.5f, 0.5f, 0.0f, 1.0f), // 5 // 9
+		Vertex(0.5f, 0.5f, 0.5f, 1.0f, 1.0f), // 6 // 10
+		Vertex(0.5f, 0.5f, -0.5f, 1.0f, 1.0f), // 2 // 11
 
 		//Bottom
-		Vertex(-0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f), // 4 // 12
-		Vertex(-0.5f, -0.5f, -0.5f, 0.0f , -1.0f, 0.0f, 0.0f, 1.0f), // 0 // 13
-		Vertex(0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 1.0f), // 3 // 14
-		Vertex(0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f), // 7 // 15
+		Vertex(-0.5f, -0.5f, 0.5f, 0.0f, 0.0f), // 4 // 12
+		Vertex(-0.5f, -0.5f, -0.5f, 0.0f, 1.0f), // 0 // 13
+		Vertex(0.5f, -0.5f, -0.5f, 1.0f, 1.0f), // 3 // 14
+		Vertex(0.5f, -0.5f, 0.5f, 1.0f, 0.0f), // 7 // 15
 
 		//Left
-		Vertex(-0.5f, -0.5f, 0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f), // 4 // 16
-		Vertex(-0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f), // 5 // 17
-		Vertex(-0.5f, 0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f), // 1 // 18
-		Vertex(-0.5f, -0.5f, -0.5f, -1.0f , 0.0f, 0.0f, 1.0f, 0.0f), // 0 // 19
+		Vertex(-0.5f, -0.5f, 0.5f, 0.0f, 0.0f), // 4 // 16
+		Vertex(-0.5f, 0.5f, 0.5f, 0.0f, 1.0f), // 5 // 17
+		Vertex(-0.5f, 0.5f, -0.5f, 1.0f, 1.0f), // 1 // 18
+		Vertex(-0.5f, -0.5f, -0.5f, 1.0f, 0.0f), // 0 // 19
 
 		//Right
-		Vertex(0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f), // 3 // 20
-		Vertex(0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f), // 2 // 21
-		Vertex(0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f), // 6 // 22
-		Vertex(0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f), // 7 // 23
+		Vertex(0.5f, -0.5f, -0.5f, 0.0f, 0.0f), // 3 // 20
+		Vertex(0.5f, 0.5f, -0.5f, 0.0f, 1.0f), // 2 // 21
+		Vertex(0.5f, 0.5f, 0.5f, 1.0f, 1.0f), // 6 // 22
+		Vertex(0.5f, -0.5f, 0.5f, 1.0f, 0.0f), // 7 // 23
 	};
-	Vertex vert[std::size(vertecies)];
+	//Vertex vert[std::size(vertecies)];
 	vertexCount = std::size(vertecies);
 	vertexStride = sizeof(Vertex);
 
 	//vertexData = static_cast<Vertex*>(malloc(vertexStride * vertexCount));
-	std::copy(std::begin(vertecies), std::end(vertecies), std::begin(vert));
-	vertexData = vert;
+	/*std::copy(std::begin(vertecies), std::end(vertecies), std::begin(vert));
+
+	vertexData = vert;*/
+
+	vertexData.reserve(std::size(vertecies));
+
+	for (int i = 0; i < std::size(vertecies); i++)
+	{
+		vertexData.push_back(vertecies[i]);
+	}
 
 	D3D11_BUFFER_DESC desc = {};
 
 	desc.ByteWidth = vertexCount * vertexStride;
 	desc.BindFlags = D3D11_BIND_VERTEX_BUFFER; // buffer type
 	desc.Usage = D3D11_USAGE_IMMUTABLE; // who has wich access
+	//desc.Usage = D3D11_USAGE_DYNAMIC; // who has wich access
 
 	D3D11_SUBRESOURCE_DATA initialData = {};
 	initialData.pSysMem = vertecies;
@@ -197,13 +205,20 @@ INT Mesh::InitIndexBuffer(ID3D11Device* _p_d3ddevice)
 
 	indexCount = std::size(indices);
 
-	USHORT index[std::size(indices)];
+	//USHORT index[];
 
 	//indexData = static_cast<USHORT*>(malloc(sizeof(USHORT) * indexCount));
 
-	std::copy(std::begin(indices), std::end(indices), std::begin(index));
+	/*std::copy(std::begin(indices), std::end(indices), std::begin(index));
 
-	indexData = index;
+	indexData = index;*/
+
+	indexData.reserve(std::size(indices));
+
+	for (int i = 0; i < std::size(indices); i++)
+	{
+		indexData.push_back(indices[i]);
+	}
 
 	D3D11_BUFFER_DESC desc = {};
 
@@ -222,7 +237,7 @@ INT Mesh::InitIndexBuffer(ID3D11Device* _p_d3ddevice)
 
 INT Mesh::RecalculateNormals(ID3D11Device* _p_d3ddevice)
 {
-	for (int i = 0; i < indexCount; i += 3)
+	for (size_t i = 0; i < indexCount; i += 3)
 	{
 		USHORT indexA = indexData[i];
 		USHORT indexB = indexData[i + 1];
@@ -232,21 +247,20 @@ INT Mesh::RecalculateNormals(ID3D11Device* _p_d3ddevice)
 		Vertex curVertexPos1 = vertexData[indexB];
 		Vertex curVertexPos2 = vertexData[indexC];
 
-		XMVECTOR posA = XMVectorSet(curVertexPos.position.x, curVertexPos.position.y, curVertexPos.position.z, 0.0f);
-		XMVECTOR posB = XMVectorSet(curVertexPos1.position.x, curVertexPos1.position.y, curVertexPos1.position.z, 0.0f);
-		XMVECTOR posC = XMVectorSet(curVertexPos2.position.x, curVertexPos2.position.y, curVertexPos2.position.z, 0.0f);
+		XMFLOAT3 posA = curVertexPos.position;
+		XMFLOAT3 posB = curVertexPos1.position;
+		XMFLOAT3 posC = curVertexPos2.position;
 
-		XMVECTOR Normalized = XMVector3Normalize((posB - posC) * (posC - posA));
+		XMFLOAT3 Normalized = Normalize(CrossProduct(Subtract(posB, posC), Subtract(posC, posA)));
 
-		XMFLOAT3 Normal;
-		Normal.x = XMVectorGetX(Normalized);
-		Normal.y = XMVectorGetY(Normalized);
-		Normal.z = XMVectorGetZ(Normalized);
-
-		curVertexPos.normal = Normal;
-		curVertexPos1.normal = Normal;
-		curVertexPos2.normal = Normal;
+		vertexData[indexA].normal = Normalized;
+		vertexData[indexB].normal = Normalized;
+		vertexData[indexC].normal = Normalized;
 	}
+
+	Vertex* vertecies = new Vertex[vertexData.size()];
+	std::copy(vertexData.begin(), vertexData.end(), vertecies);
+
 
 	D3D11_BUFFER_DESC desc = {};
 
@@ -255,10 +269,12 @@ INT Mesh::RecalculateNormals(ID3D11Device* _p_d3ddevice)
 	desc.Usage = D3D11_USAGE_IMMUTABLE; // who has wich access
 
 	D3D11_SUBRESOURCE_DATA initialData = {};
-	initialData.pSysMem = vertexData;
+	initialData.pSysMem = vertecies;
 
 	HRESULT hr = _p_d3ddevice->CreateBuffer(&desc, &initialData, &p_vertexBuffer);
 	CheckFailed(hr, 31);
 
 	return 0;
 }
+
+

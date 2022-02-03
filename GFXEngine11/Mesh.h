@@ -3,6 +3,7 @@
 #include <DirectXMath.h>
 #include "Vertex.h"
 #include "Component.h"
+#include <vector>
 
 using namespace DirectX;
 
@@ -30,8 +31,8 @@ private:
 	UINT vertexStride = 0; // Size of one Vertex
 	UINT indexCount = 0; // Amount of Indecies
 
-	Vertex* vertexData = nullptr;
-	USHORT* indexData = nullptr;
+	std::vector<Vertex> vertexData;
+	std::vector<USHORT> indexData;
 
 	XMFLOAT4X4 worldMatrix = {};
 
