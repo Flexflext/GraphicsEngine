@@ -1,3 +1,4 @@
+#pragma once
 #include <Windows.h>
 #include "Window.h"
 #include "D3D.h"
@@ -7,7 +8,6 @@
 #include "Time.h"
 #include "Material.h"
 #include "Light.h"
-#include "GameObject.h"
 
 //typedef INT(D3D::* func)(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, FLOAT* _p_dt);
 
@@ -33,8 +33,24 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	error = time.Init();
 	CheckError(error);
 
+	GameObject gm = {};
+
+	Mesh* meh = (Mesh*)gm.AddComponent(EComponentTypes::C_Mesh);
+	meh->SetMesh(nullptr, 0, nullptr, 0);
+	
+	Light::LightData lightData = {};
+	lightData.LightDirection = { -1.0f, -1.0f, 1.0f };
+	lightData.LightDiffuseColor = { 0.8f, 0.8f, 0.8f, 1.0f };
+	lightData.LightIntensity = 1.0f;
+
+	Light* lamp = (Light*)gm.AddComponent(EComponentTypes::C_Light);
+	lamp->SetLight(lightData);
+
+	gm.Init();
+
 	//Create Mesh/Object
-	Mesh mesh = {};
+	Mesh mesh = { gm , EComponentTypes::C_Mesh};
+	mesh.SetMesh(nullptr, 0, nullptr, 0);
 	error = mesh.Init(d3d.GetDevice(), d3d.GetDeviceContext(), time.GetDeltaTime());
 	CheckError(error);
 
@@ -49,18 +65,12 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	CheckError(error);
 
 	//Create Light
-	Light::LightData lightData = {};
-	lightData.LightDirection = { -1.0f, -1.0f, 1.0f};
-	lightData.LightDiffuseColor = { 0.8f, 0.8f, 0.8f, 1.0f };
-	lightData.LightIntensity = 1.0f;
-
-	Light light = {};
-	error = light.Init(d3d.GetDevice(), d3d.GetDeviceContext(), lightData);
+	Light light = { gm , EComponentTypes::C_Light };
+	light.SetLight(lightData);
+	error = light.Init(d3d.GetDevice(), d3d.GetDeviceContext());
 	CheckError(error);
 
-	GameObject gm = {};
-	//gm.GetComponent(C_Box);
-	gm.Init();
+	
 
 	//Run App
 	while (window.Update())

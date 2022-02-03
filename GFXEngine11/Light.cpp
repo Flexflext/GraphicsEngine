@@ -1,10 +1,8 @@
 #include "Light.h"
 #include "Utils.h"
 
-INT Light::Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, LightData& _light, INT _id)
+INT Light::Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext)
 {
-	light = _light;
-	id = _id;
 	p_d3dDeviceContext = _p_d3ddevicecontext;
 
 	D3D11_BUFFER_DESC desc = {};
@@ -30,4 +28,10 @@ void Light::DeInit()
 {
 	SafeRelease<ID3D11Buffer>(p_lightBuffer);
 	SafeRelease<ID3D11DeviceContext>(p_d3dDeviceContext);
+}
+
+void Light::SetLight(LightData& _light, INT _id)
+{
+	light = _light;
+	id = _id;
 }

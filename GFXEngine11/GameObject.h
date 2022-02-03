@@ -1,31 +1,24 @@
 #pragma once
-#include "Transform.h"
 #include <vector>
-#include "Component.h"
-#include <type_traits>
+#include "Transform.h"
+#include "Utils.h"
 
-enum EComponentTypes
-{
-	C_Box,
-	C_Light,
-};
-
+class Component;
 class GameObject
 {
-
-	//static_assert(std::is_base_of<Component, T>::value, "type parameter of this class must derive from Component");
-
 public:
-	Transform transform = {};
+	Transform transform;
 
-	int Init();
+	INT Init();
 	void Update();
 	void DeInit();
-
-	/*template<typename T>
-	T GetComponent(EComponentTypes _type);*/
+	
+	Component* AddComponent(EComponentTypes _type);
+	Component* GetComponent(EComponentTypes _type);
 
 private:
-	std::vector<EComponentTypes> allComponents = {};
+	std::vector<Component*> allComponents;
 };
+
+
 

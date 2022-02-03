@@ -1,29 +1,27 @@
 #pragma once
 #include <d3d11.h>
 #include <DirectXMath.h>
+#include "Component.h"
 
 using namespace DirectX;
 
-class Light
+class Light : public Component
 {
 public:
 	struct  LightData 
 	{
-		//XMFLOAT3 LightDirection;
-		//FLOAT Padding; // because of 16 byte alignment
-		//XMFLOAT4 LightDiffuseColor;
-		//FLOAT LightIntensity;
-		//XMFLOAT3 Padding2; // because of 16 byte alignment
-
+		// because of 16 byte alignment
 		XMFLOAT3 LightDirection;
 		FLOAT LightIntensity;
 		XMFLOAT4 LightDiffuseColor;
 	};
 
+	Light(GameObject _go, EComponentTypes _type) : Component(_go, _type) {}
 
-	INT Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, LightData &_light, INT _id = 0);
+	INT Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext);
 	void Render();
 	void DeInit();
+	void SetLight(LightData& _light, INT _id = 0);
 
 private:
 	INT id = 0;

@@ -1,6 +1,4 @@
 #include "Mesh.h"
-#include "Utils.h"
-#include "Vertex.h"
 
 using namespace DirectX;
 
@@ -9,13 +7,9 @@ INT Mesh::Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecont
 	p_d3dDeviceContext = _p_d3ddevicecontext;
 	p_deltaTime = _p_dt;
 
-	INT error = InitVertexBuffer(_p_d3ddevice);
-	CheckError(error);
+	RecalculateNormals();
 
-	error = InitIndexBuffer(_p_d3ddevice);
-	CheckError(error);
-
-	error = RecalculateNormals(_p_d3ddevice);
+	INT error = InitializeBuffers(_p_d3ddevice);
 	CheckError(error);
 
 	//Initialize World Transformation-Matrix
@@ -74,18 +68,11 @@ void Mesh::Update()
 
 void Mesh::Render()
 {
-	
-
 	//Set Mesh Data
 	static UINT offset = 0;
 	p_d3dDeviceContext->IASetVertexBuffers(0, 1, &p_vertexBuffer, &vertexStride, &offset);
 	p_d3dDeviceContext->IASetIndexBuffer(p_indexBuffer, DXGI_FORMAT_R16_UINT, offset);
 	p_d3dDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	//Draw without Index Buffer
-	//_p_D3DDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 6);
-	//_p_D3DDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, vertexCount - 2);
-	//_p_D3DDevice->DrawPrimitive(D3DPT_TRIANGLEFAN, 0, vertexCount - 2);
 
 	//Draw With Index Buffer
 	p_d3dDeviceContext->DrawIndexed(indexCount, 0, 0);
@@ -100,73 +87,16 @@ void Mesh::DeInit()
 
 INT Mesh::InitVertexBuffer(ID3D11Device* _p_d3ddevice)
 {
-	Vertex vertecies[] = {
-		//// -->Quad with Triangle Fan<-- or with Index Buffer and triangle List and Color
-		/*Vertex(-0.5f, 0.5f, 0.0f, 255u, 0u, 0u),
-		Vertex(0.5f, 0.5f, 0.0f, 0u, 255u, 0u),
-		Vertex(0.5f, -0.5f, 0.0f, 0u, 0u, 255u),
-		Vertex(-0.5f, -0.5f, 0.0f, 255u, 0u, 255u),
-		Vertex(0.0f, 0.0f, 0.0f, 255u, 255u, 255u),*/
+	Vertex* vertecies = new Vertex[vertexData.size()];
+	std::copy(vertexData.begin(), vertexData.end(), vertecies);
 
-		//// -->Quad with Triangle Fan<-- or with Index Buffer and triangle List with UV and Normal
-		//Front
-		Vertex(-0.5f, -0.5f, -0.5f, 0.0f, 0.0f), // 0
-		Vertex(-0.5f, 0.5f, -0.5f, 0.0f, 1.0f), // 1
-		Vertex(0.5f, 0.5f, -0.5f, 0.0f, 1.0f), // 2
-		Vertex(0.5f, -0.5f, -0.5f, 0.0f, 0.0f), // 3
-
-		//Back
-		Vertex(-0.5f, -0.5f, 0.5f, 0.0f, 0.0f), // 4
-		Vertex(-0.5f, 0.5f, 0.5f, 0.0f, 1.0f), // 5
-		Vertex(0.5f, 0.5f, 0.5f, 1.0f, 1.0f), // 6
-		Vertex(0.5f, -0.5f, 0.5f, 1.0f, 0.0f), // 7
-
-		//Top
-		Vertex(-0.5f, 0.5f, -0.5f, 0.0f, 0.0f), // 1 // 8
-		Vertex(-0.5f, 0.5f, 0.5f, 0.0f, 1.0f), // 5 // 9
-		Vertex(0.5f, 0.5f, 0.5f, 1.0f, 1.0f), // 6 // 10
-		Vertex(0.5f, 0.5f, -0.5f, 1.0f, 1.0f), // 2 // 11
-
-		//Bottom
-		Vertex(-0.5f, -0.5f, 0.5f, 0.0f, 0.0f), // 4 // 12
-		Vertex(-0.5f, -0.5f, -0.5f, 0.0f, 1.0f), // 0 // 13
-		Vertex(0.5f, -0.5f, -0.5f, 1.0f, 1.0f), // 3 // 14
-		Vertex(0.5f, -0.5f, 0.5f, 1.0f, 0.0f), // 7 // 15
-
-		//Left
-		Vertex(-0.5f, -0.5f, 0.5f, 0.0f, 0.0f), // 4 // 16
-		Vertex(-0.5f, 0.5f, 0.5f, 0.0f, 1.0f), // 5 // 17
-		Vertex(-0.5f, 0.5f, -0.5f, 1.0f, 1.0f), // 1 // 18
-		Vertex(-0.5f, -0.5f, -0.5f, 1.0f, 0.0f), // 0 // 19
-
-		//Right
-		Vertex(0.5f, -0.5f, -0.5f, 0.0f, 0.0f), // 3 // 20
-		Vertex(0.5f, 0.5f, -0.5f, 0.0f, 1.0f), // 2 // 21
-		Vertex(0.5f, 0.5f, 0.5f, 1.0f, 1.0f), // 6 // 22
-		Vertex(0.5f, -0.5f, 0.5f, 1.0f, 0.0f), // 7 // 23
-	};
-	//Vertex vert[std::size(vertecies)];
-	vertexCount = std::size(vertecies);
+	vertexCount = std::size(vertexData);
 	vertexStride = sizeof(Vertex);
 
-	//vertexData = static_cast<Vertex*>(malloc(vertexStride * vertexCount));
-	/*std::copy(std::begin(vertecies), std::end(vertecies), std::begin(vert));
-
-	vertexData = vert;*/
-
-	vertexData.reserve(std::size(vertecies));
-
-	for (int i = 0; i < std::size(vertecies); i++)
-	{
-		vertexData.push_back(vertecies[i]);
-	}
-
 	D3D11_BUFFER_DESC desc = {};
-
 	desc.ByteWidth = vertexCount * vertexStride;
 	desc.BindFlags = D3D11_BIND_VERTEX_BUFFER; // buffer type
 	desc.Usage = D3D11_USAGE_IMMUTABLE; // who has wich access
-	//desc.Usage = D3D11_USAGE_DYNAMIC; // who has wich access
 
 	D3D11_SUBRESOURCE_DATA initialData = {};
 	initialData.pSysMem = vertecies;
@@ -174,51 +104,120 @@ INT Mesh::InitVertexBuffer(ID3D11Device* _p_d3ddevice)
 	HRESULT hr = _p_d3ddevice->CreateBuffer(&desc, &initialData, &p_vertexBuffer);
 	CheckFailed(hr, 30);
 
-	
+
 	return 0;
+}
+
+void Mesh::InitVertecies(Vertex* _vertecies, INT _size)
+{
+	if (_vertecies !=  nullptr)
+	{
+		vertexData.reserve(_size + 1);
+
+		for (int i = 0; i < _size + 1; i++)
+		{
+			vertexData.push_back(_vertecies[i]);
+		}
+	}
+	else
+	{
+		Vertex vertecies[] = {
+			//Front
+			Vertex(-0.5f, -0.5f, -0.5f, 0.0f, 0.0f), // 0
+			Vertex(-0.5f, 0.5f, -0.5f, 0.0f, 1.0f), // 1
+			Vertex(0.5f, 0.5f, -0.5f, 0.0f, 1.0f), // 2
+			Vertex(0.5f, -0.5f, -0.5f, 0.0f, 0.0f), // 3
+
+			//Back
+			Vertex(-0.5f, -0.5f, 0.5f, 0.0f, 0.0f), // 4
+			Vertex(-0.5f, 0.5f, 0.5f, 0.0f, 1.0f), // 5
+			Vertex(0.5f, 0.5f, 0.5f, 1.0f, 1.0f), // 6
+			Vertex(0.5f, -0.5f, 0.5f, 1.0f, 0.0f), // 7
+
+			//Top
+			Vertex(-0.5f, 0.5f, -0.5f, 0.0f, 0.0f), // 1 // 8
+			Vertex(-0.5f, 0.5f, 0.5f, 0.0f, 1.0f), // 5 // 9
+			Vertex(0.5f, 0.5f, 0.5f, 1.0f, 1.0f), // 6 // 10
+			Vertex(0.5f, 0.5f, -0.5f, 1.0f, 1.0f), // 2 // 11
+
+			//Bottom
+			Vertex(-0.5f, -0.5f, 0.5f, 0.0f, 0.0f), // 4 // 12
+			Vertex(-0.5f, -0.5f, -0.5f, 0.0f, 1.0f), // 0 // 13
+			Vertex(0.5f, -0.5f, -0.5f, 1.0f, 1.0f), // 3 // 14
+			Vertex(0.5f, -0.5f, 0.5f, 1.0f, 0.0f), // 7 // 15
+
+			//Left
+			Vertex(-0.5f, -0.5f, 0.5f, 0.0f, 0.0f), // 4 // 16
+			Vertex(-0.5f, 0.5f, 0.5f, 0.0f, 1.0f), // 5 // 17
+			Vertex(-0.5f, 0.5f, -0.5f, 1.0f, 1.0f), // 1 // 18
+			Vertex(-0.5f, -0.5f, -0.5f, 1.0f, 0.0f), // 0 // 19
+
+			//Right
+			Vertex(0.5f, -0.5f, -0.5f, 0.0f, 0.0f), // 3 // 20
+			Vertex(0.5f, 0.5f, -0.5f, 0.0f, 1.0f), // 2 // 21
+			Vertex(0.5f, 0.5f, 0.5f, 1.0f, 1.0f), // 6 // 22
+			Vertex(0.5f, -0.5f, 0.5f, 1.0f, 0.0f), // 7 // 23
+		};
+
+		vertexData.reserve(std::size(vertecies));
+
+		for (int i = 0; i < std::size(vertecies); i++)
+		{
+			vertexData.push_back(vertecies[i]);
+		}
+	}
+}
+
+void Mesh::InitIndices(USHORT* _indices, INT _size)
+{
+	if (_indices != nullptr)
+	{
+		indexData.reserve(_size + 1);
+
+		for (int i = 0; i < _size + 1; i++)
+		{
+			indexData.push_back(_indices[i]);
+		}
+	}
+	else
+	{
+		USHORT indices[] = {
+			// -->Cube<--
+			//Front
+			0,1,2,
+			0,2,3,
+			//back
+			4,6,5,
+			4,7,6,
+			//left
+			16,17,18,
+			16,18,19,
+			//right
+			20,21,22,
+			20,22,23,
+			//top
+			8,9,10,
+			8,10,11,
+			//bottom
+			12,13,14,
+			12,14,15
+		};
+
+		indexData.reserve(std::size(indices));
+
+		for (int i = 0; i < std::size(indices); i++)
+		{
+			indexData.push_back(indices[i]);
+		}
+	}
 }
 
 INT Mesh::InitIndexBuffer(ID3D11Device* _p_d3ddevice)
 {
-	USHORT indices[] = {
-		// -->Cube<--
-		//Front
-		0,1,2,
-		0,2,3,
-		//back
-		4,6,5,
-		4,7,6,
-		//left
-		16,17,18,
-		16,18,19,
-		//right
-		20,21,22,
-		20,22,23,
-		//top
-		8,9,10,
-		8,10,11,
-		//bottom
-		12,13,14,
-		12,14,15
-	};
+	USHORT* indices = new USHORT[indexData.size()];
+	std::copy(indexData.begin(), indexData.end(), indices);
 
-
-	indexCount = std::size(indices);
-
-	//USHORT index[];
-
-	//indexData = static_cast<USHORT*>(malloc(sizeof(USHORT) * indexCount));
-
-	/*std::copy(std::begin(indices), std::end(indices), std::begin(index));
-
-	indexData = index;*/
-
-	indexData.reserve(std::size(indices));
-
-	for (int i = 0; i < std::size(indices); i++)
-	{
-		indexData.push_back(indices[i]);
-	}
+	indexCount = std::size(indexData);
 
 	D3D11_BUFFER_DESC desc = {};
 
@@ -235,38 +234,35 @@ INT Mesh::InitIndexBuffer(ID3D11Device* _p_d3ddevice)
 	return 0;
 }
 
-INT Mesh::RecalculateNormals(ID3D11Device* _p_d3ddevice)
+void Mesh::SetMesh(Vertex* _vertecies, INT _vertsize, USHORT* _indices, INT _indexsize)
 {
-	for (size_t i = 0; i < indexCount; i += 3)
+	InitVertecies(_vertecies, _vertsize);
+	InitIndices(_indices, _indexsize);
+}
+
+void Mesh::RecalculateNormals()
+{
+	for (size_t i = 0; i < indexData.size(); i += 3)
 	{
 		USHORT indexA = indexData[i];
 		USHORT indexB = indexData[i + 1];
 		USHORT indexC = indexData[i + 2];
 
-		XMFLOAT3 Normalized = Normalize(CrossProduct(Subtract(vertexData[indexB].position, vertexData[indexA].position), Subtract(vertexData[indexC].position, vertexData[indexA].position)));
+		XMFLOAT3 Normalized = NormalizeXMFLOAT3(CrossProductXMFLOAT3(SubtractXMFLOT3(vertexData[indexB].position, vertexData[indexA].position), SubtractXMFLOT3(vertexData[indexC].position, vertexData[indexA].position)));
 
 		vertexData[indexA].normal = Normalized;
 		vertexData[indexB].normal = Normalized;
 		vertexData[indexC].normal = Normalized;
 	}
+}
 
-	Vertex* vertecies = new Vertex[vertexData.size()];
-	std::copy(vertexData.begin(), vertexData.end(), vertecies);
+INT Mesh::InitializeBuffers(ID3D11Device* _p_d3ddevice)
+{
+	INT error = InitVertexBuffer(_p_d3ddevice);
+	CheckError(error);
 
-
-	D3D11_BUFFER_DESC desc = {};
-
-	desc.ByteWidth = vertexCount * vertexStride;
-	desc.BindFlags = D3D11_BIND_VERTEX_BUFFER; // buffer type
-	desc.Usage = D3D11_USAGE_IMMUTABLE; // who has wich access
-
-	D3D11_SUBRESOURCE_DATA initialData = {};
-	initialData.pSysMem = vertecies;
-
-	HRESULT hr = _p_d3ddevice->CreateBuffer(&desc, &initialData, &p_vertexBuffer);
-	CheckFailed(hr, 31);
+	error = InitIndexBuffer(_p_d3ddevice);
+	CheckError(error);
 
 	return 0;
 }
-
-
