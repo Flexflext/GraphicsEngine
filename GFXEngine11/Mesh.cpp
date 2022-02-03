@@ -243,15 +243,7 @@ INT Mesh::RecalculateNormals(ID3D11Device* _p_d3ddevice)
 		USHORT indexB = indexData[i + 1];
 		USHORT indexC = indexData[i + 2];
 
-		Vertex curVertexPos = vertexData[indexA];
-		Vertex curVertexPos1 = vertexData[indexB];
-		Vertex curVertexPos2 = vertexData[indexC];
-
-		XMFLOAT3 posA = curVertexPos.position;
-		XMFLOAT3 posB = curVertexPos1.position;
-		XMFLOAT3 posC = curVertexPos2.position;
-
-		XMFLOAT3 Normalized = Normalize(CrossProduct(Subtract(posB, posC), Subtract(posC, posA)));
+		XMFLOAT3 Normalized = Normalize(CrossProduct(Subtract(vertexData[indexB].position, vertexData[indexA].position), Subtract(vertexData[indexC].position, vertexData[indexA].position)));
 
 		vertexData[indexA].normal = Normalized;
 		vertexData[indexB].normal = Normalized;
