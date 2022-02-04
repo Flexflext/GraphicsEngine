@@ -4,6 +4,7 @@
 
 INT Window::Init(HINSTANCE _hinstance, UINT _width, UINT _height)
 {
+
 	// -->Register Window Class<--
 	//Create Window Class
 	WNDCLASS wc = {};
@@ -108,3 +109,5 @@ LRESULT CALLBACK WndProc(HWND _hwnd, UINT _msg, WPARAM _wparam, LPARAM _lparam)
 
 	return 0;
 }
+
+

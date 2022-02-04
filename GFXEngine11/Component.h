@@ -12,7 +12,7 @@ public:
 			
 	}
 
-	Component(GameObject _go, EComponentTypes _comptype)
+	Component(GameObject* _go, EComponentTypes _comptype)
 	{
 		gameObject = _go;
 	}
@@ -23,7 +23,7 @@ public:
 	virtual void DeInitComponent() {};
 	EComponentTypes CompType;
 
+	GameObject* gameObject;
 protected:
-	GameObject gameObject;
 };
 

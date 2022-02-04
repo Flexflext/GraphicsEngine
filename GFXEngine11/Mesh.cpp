@@ -228,7 +228,7 @@ INT Mesh::AwakeComponent(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3d
 
 void Mesh::StartComponent()
 {
-	worldMatrix = gameObject.transform.WorldMatrix;
+	worldMatrix = gameObject->transform.WorldMatrix;
 	MyMaterial->InitMatrices(worldMatrix);
 }
 

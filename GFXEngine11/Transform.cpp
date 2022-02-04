@@ -10,11 +10,11 @@ INT Transform::Init()
 
 void Transform::Update()
 {
-	XMMATRIX translation = XMMatrixTranslation(Position.x, Position.y, Position.z);
-	XMMATRIX rotation = XMMatrixRotationRollPitchYaw(Rotation.x, Rotation.y, Rotation.z);
-	XMMATRIX localScale = XMMatrixScaling(Scale.x, Scale.y, Scale.z);
+	TranslationMatrix = XMMatrixTranslation(Position.x, Position.y, Position.z);
+	RotationMatrix = XMMatrixRotationRollPitchYaw(Rotation.x, Rotation.y, Rotation.z);
+	LocalScaleMatrix = XMMatrixScaling(Scale.x, Scale.y, Scale.z);
 
-	XMStoreFloat4x4(WorldMatrix, localScale * rotation * translation);
+	XMStoreFloat4x4(WorldMatrix, LocalScaleMatrix * RotationMatrix * TranslationMatrix);
 }
 
 INT Transform::DeInit()
@@ -41,4 +41,25 @@ void Transform::SetScale(FLOAT _x, FLOAT _y, FLOAT _z)
 	Scale.x = _x;
 	Scale.y = _y;
 	Scale.z = _z;
+}
+
+void Transform::AddPosition(FLOAT _x, FLOAT _y, FLOAT _z)
+{
+	Position.x += _x;
+	Position.y += _y;
+	Position.z += _z;
+}
+
+void Transform::AddRotation(FLOAT _x, FLOAT _y, FLOAT _z)
+{
+	Rotation.x += _x;
+	Rotation.y += _y;
+	Rotation.z += _z;
+}
+
+void Transform::AddScale(FLOAT _x, FLOAT _y, FLOAT _z)
+{
+	Scale.x += _x;
+	Scale.y += _y;
+	Scale.z += _z;
 }
