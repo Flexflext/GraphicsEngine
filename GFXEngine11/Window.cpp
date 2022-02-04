@@ -1,6 +1,8 @@
 #include "Window.h"
 #include "Utils.h"
 #include "D3D.h"
+#include "AllCameras.h"
+#include "Camera.h"
 
 INT Window::Init(HINSTANCE _hinstance, UINT _width, UINT _height)
 {
@@ -67,16 +69,21 @@ BOOL Window::Update()
 		DispatchMessage(&msg);
 	}
 
-	if (msg.message == WM_EXITSIZEMOVE)
+	if (msg.wParam == WM_EXITSIZEMOVE)
 	{
-		RECT rect = {};
+		/*RECT rect = {};
 		GetWindowRect(p_hWnd, &rect);
 		WINDOWPLACEMENT placement = {};
 		placement.length = sizeof(WINDOWPLACEMENT);
 		GetWindowPlacement(p_hWnd, &placement);
 
-		//d3d.Init(p_hWnd, rect.right - rect.left, rect.bottom - rect.top, placement.showCmd == SW_MAXIMIZE);
-		
+		WindowHeight = rect.bottom - rect.top;
+		WindowWidth = rect.right - rect.left;
+
+		d3d.DeInit();
+		d3d.Init(p_hWnd, WindowWidth, WindowHeight, false);
+		Camera* cam = AllCameras::GetMainCamera();
+		cam->ReInitProjectionMatrix();*/
 	}
 
 	return msg.message != WM_QUIT;
@@ -99,7 +106,8 @@ LRESULT CALLBACK WndProc(HWND _hwnd, UINT _msg, WPARAM _wparam, LPARAM _lparam)
 			if (_wparam == VK_ESCAPE) DestroyWindow(_hwnd);
 			break;*/
 		case WM_EXITSIZEMOVE:
-			PostMessage(_hwnd, WM_EXITSIZEMOVE, _wparam, _lparam);
+
+			PostMessage(_hwnd, _msg , WM_EXITSIZEMOVE, _lparam);
 			return DefWindowProc(_hwnd, _msg, _wparam, _lparam);
 			break;
 

@@ -130,3 +130,54 @@ void D3D::DeInit()
 
 }
 
+void D3D::OnResize()
+{
+	DXGI_MODE_DESC desc = {};
+	desc.Width = WindowWidth;
+	desc.Height = WindowHeight;
+	desc.Format = DXGI_FORMAT_UNKNOWN;
+	//desc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	//desc.ArraySize = 1; // at least one texture
+	//desc.SampleDesc.Count = 1; // should be always 1
+
+	p_DXGISwapChain->ResizeTarget(&desc);
+
+	//if (p_DXGISwapChain)
+	//{
+	//	p_D3DDeviceContext->OMSetRenderTargets(0, 0, 0);
+
+	//	// Release all outstanding references to the swap chain's buffers.
+	//	p_RenderTargetView->Release();
+
+	//	HRESULT hr;
+	//	// Preserve the existing buffer count and format.
+	//	// Automatically choose the width and height to match the client rect for HWNDs.
+	//	hr = p_DXGISwapChain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, 0);
+	//	CheckFailed(hr, 25);
+	//	// Perform error handling here!
+
+	//	ID3D11Texture2D* p_backBufferTexture = nullptr;
+	//	// Get buffer and create a render-target-view.
+	//	hr = p_DXGISwapChain->GetBuffer(0, IID_PPV_ARGS(&p_backBufferTexture));
+	//	CheckFailed(hr, 27);
+	//	// Perform error handling here!
+
+	//	hr = p_D3DDevice->CreateRenderTargetView(p_backBufferTexture, nullptr, &p_RenderTargetView);
+	//	CheckFailed(hr, 29);
+
+	//	SafeRelease<ID3D11Texture2D>(p_backBufferTexture);
+
+	//	p_D3DDeviceContext->OMSetRenderTargets(1, &p_RenderTargetView, nullptr);
+
+	//	// Set up the viewport.
+	//	D3D11_VIEWPORT viewPort = {}; // Describe area projectes onto screen/Window
+	//	viewPort.TopLeftX = 0.0f;
+	//	viewPort.TopLeftY = 0.0f;
+	//	viewPort.Width = WindowWidth;
+	//	viewPort.Height = WindowHeight;
+	//	viewPort.MinDepth = 0.0f;
+	//	viewPort.MaxDepth = 1.0f;
+	//	p_D3DDeviceContext->RSSetViewports(1, &viewPort);
+	//}
+}
+

@@ -1,29 +1,11 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (GFXEngine.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  Camera.cpp
+  Window.cpp
 C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(29,2): warning C4091: 'static ': ignored on left of 'AllCameras' when no variable is declared
-  Component.cpp
-  GameObject.cpp
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Mesh.h(57,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(29,2): warning C4091: 'static ': ignored on left of 'AllCameras' when no variable is declared
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\GameObject.cpp(64,40): warning C4316: 'Camera': object allocated on the heap may not be aligned 16
-  Light.cpp
-  Material.cpp
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(29,2): warning C4091: 'static ': ignored on left of 'AllCameras' when no variable is declared
-  Mesh.cpp
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Mesh.h(57,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Mesh.cpp(113,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Mesh.cpp(157,21): warning C4018: '<': signed/unsigned mismatch
-  Transform.cpp
-  main.cpp
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Mesh.h(57,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(29,2): warning C4091: 'static ': ignored on left of 'AllCameras' when no variable is declared
-  Generating Code...
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Mesh.cpp(227): warning C4715: 'Mesh::AwakeComponent': not all control paths return a value
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Light.cpp(43): warning C4715: 'Light::AwakeComponent': not all control paths return a value
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Window.cpp(35,37): warning C4838: conversion from 'UINT' to 'LONG' requires a narrowing conversion
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Window.cpp(35,67): warning C4838: conversion from 'UINT' to 'LONG' requires a narrowing conversion
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Window.cpp(35,95): warning C4838: conversion from 'UINT' to 'LONG' requires a narrowing conversion
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Window.cpp(35,125): warning C4838: conversion from 'UINT' to 'LONG' requires a narrowing conversion
 LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/FORCE' specification
 Component.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
 Component.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored

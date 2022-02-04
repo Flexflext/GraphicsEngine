@@ -11,6 +11,8 @@ public:
 	void EndScene();
 	void DeInit();
 
+	void OnResize();
+
 	ID3D11Device* GetDevice() { return p_D3DDevice; }
 	ID3D11DeviceContext* GetDeviceContext() { return p_D3DDeviceContext; }
 
