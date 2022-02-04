@@ -17,10 +17,10 @@ public:
 		gameObject = _go;
 	}
 
-	virtual void Awake() {};
-	virtual void Start() {};
-	virtual void Update() {};
-	virtual void DeInit() {};
+	virtual INT AwakeComponent(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, FLOAT* _p_dt) { return 0; };
+	virtual void StartComponent() {};
+	virtual void UpdateComponent() {};
+	virtual void DeInitComponent() {};
 	EComponentTypes CompType;
 
 protected:

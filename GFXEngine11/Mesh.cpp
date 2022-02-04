@@ -12,61 +12,10 @@ INT Mesh::Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecont
 	INT error = InitializeBuffers(_p_d3ddevice);
 	CheckError(error);
 
-	//Initialize World Transformation-Matrix
-	XMStoreFloat4x4(&worldMatrix, XMMatrixIdentity());
-
 	return 0;
 }
 
-void Mesh::Update()
-{
-	static FLOAT posX= 0.0f;
-	static FLOAT posY= 0.0f;
-	static FLOAT posZ= 0.0f;
-	static FLOAT rotY = 0.0f;
-
-	rotY += XM_PI / 3.0f * *p_deltaTime;
-
-	FLOAT move = 5.0f * *p_deltaTime;
-
-	if ((GetAsyncKeyState(VK_LEFT) & 0x8000) || (GetAsyncKeyState('A') & 0x8000))
-	{
-		posX -= move;
-	}
-
-	if ((GetAsyncKeyState(VK_RIGHT) & 0x8000) || (GetAsyncKeyState('D') & 0x8000))
-	{
-		posX += move;
-	}
-
-	if ((GetAsyncKeyState(VK_UP) & 0x8000) || (GetAsyncKeyState('W') & 0x8000))
-	{
-		posY += move;
-	}
-
-	if ((GetAsyncKeyState(VK_DOWN) & 0x8000) || (GetAsyncKeyState('S') & 0x8000))
-	{
-		posY -= move;
-	}
-
-	if ((GetAsyncKeyState(VK_SUBTRACT) & 0x8000) || (GetAsyncKeyState('Q') & 0x8000))
-	{
-		posZ -= move;
-	}
-
-	if ((GetAsyncKeyState(VK_ADD) & 0x8000) || (GetAsyncKeyState('E') & 0x8000))
-	{
-		posZ += move;
-	}
-
-	XMMATRIX translation = XMMatrixTranslation(posX, posY, posZ);
-	XMMATRIX rotation = XMMatrixRotationRollPitchYaw(rotY * 0.5f, rotY, 0.0f);
-	XMMATRIX localScale = XMMatrixScaling(1.0f, 1.0f, 1.0f);
-
-	XMStoreFloat4x4(&worldMatrix, localScale * rotation * translation);
-}
-
-void Mesh::Render()
+void Mesh::RenderMesh()
 {
 	//Set Mesh Data
 	static UINT offset = 0;
@@ -78,7 +27,7 @@ void Mesh::Render()
 	p_d3dDeviceContext->DrawIndexed(indexCount, 0, 0);
 }
 
-void Mesh::DeInit()
+void Mesh::DeInitMesh()
 {
 	SafeRelease<ID3D11Buffer>(p_vertexBuffer);
 	SafeRelease<ID3D11Buffer>(p_indexBuffer);
@@ -265,4 +214,32 @@ INT Mesh::InitializeBuffers(ID3D11Device* _p_d3ddevice)
 	CheckError(error);
 
 	return 0;
+}
+
+
+INT Mesh::AwakeComponent(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, FLOAT* _p_dt)
+{
+	INT error = MyMaterial->Init(_p_d3ddevice, _p_d3ddevicecontext);
+	CheckError(error); 
+
+	error = Init(_p_d3ddevice, _p_d3ddevicecontext, _p_dt);
+	CheckError(error); 
+}
+
+void Mesh::StartComponent()
+{
+	worldMatrix = gameObject.transform.WorldMatrix;
+	MyMaterial->InitMatrices(worldMatrix);
+}
+
+void Mesh::UpdateComponent()
+{
+	MyMaterial->Render();
+	RenderMesh();
+}
+
+void Mesh::DeInitComponent()
+{
+	MyMaterial->DeInit();
+	DeInitMesh();
 }

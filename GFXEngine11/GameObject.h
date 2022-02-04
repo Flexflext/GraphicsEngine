@@ -9,7 +9,8 @@ class GameObject
 public:
 	Transform transform;
 
-	INT Init();
+	INT Awake(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, FLOAT* _p_dt);
+	void Start();
 	void Update();
 	void DeInit();
 	

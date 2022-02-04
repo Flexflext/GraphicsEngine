@@ -3,6 +3,7 @@
 #include <DirectXMath.h>
 #include "Vertex.h"
 #include "Component.h"
+#include "Material.h"
 
 using namespace DirectX;
 
@@ -12,17 +13,20 @@ public:
 	Mesh(GameObject _go, EComponentTypes _type) : Component(_go, _type) {}
 
 	INT Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, FLOAT* _p_dt);
-	void Update();
-	void Render();
-	void DeInit();
+	void RenderMesh();
+	void DeInitMesh();
 
-	//void Awake() override;
+	//Component Override
+	INT AwakeComponent(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, FLOAT* _p_dt) override;
+	void StartComponent() override;
+	void UpdateComponent() override;
+	void DeInitComponent() override;
 
 	void SetMesh(Vertex* _vertecies, const INT _vertsize, USHORT* _indices, const INT _indexsize);
 	void RecalculateNormals();
 	INT InitializeBuffers(ID3D11Device* _p_d3ddevice);
 
-	XMFLOAT4X4* GetWorldMatrix() { return &worldMatrix; }
+	Material* MyMaterial = new Material();
 
 private:
 	INT InitIndexBuffer(ID3D11Device* _p_d3ddevice);
@@ -40,7 +44,9 @@ private:
 	std::vector<Vertex> vertexData;
 	std::vector<USHORT> indexData;
 
-	XMFLOAT4X4 worldMatrix = {};
+	
+
+	XMFLOAT4X4* worldMatrix = nullptr;
 
 	ID3D11DeviceContext* p_d3dDeviceContext = nullptr;
 	FLOAT* p_deltaTime = nullptr;

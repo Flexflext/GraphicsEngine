@@ -2,14 +2,12 @@
 #include "WICTextureLoader.h" // https://github.com/microsoft/DirectXTex/tree/main/WICTextureLoader
 #include "Utils.h"
 #include <d3dcompiler.h>
+#include "Camera.h"
+#include "AllCameras.h"
 
-INT Material::Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, LPCTSTR _texturename, XMFLOAT4X4* _p_worldmatrix, XMFLOAT4X4* _p_viewmatrix, XMFLOAT4X4* _p_projectionmatrix)
+INT Material::Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext)
 {
 	p_d3dDeviceContext = _p_d3ddevicecontext;
-	p_worldMatrix = _p_worldmatrix;
-	p_viewMatrix = _p_viewmatrix;
-	p_projectionMatrix = _p_projectionmatrix;
-
 
 	INT error = CreateVertexShader(_p_d3ddevice);
 	CheckError(error);
@@ -20,7 +18,7 @@ INT Material::Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevice
 	error = CreateMatrixBuffer(_p_d3ddevice);
 	CheckError(error);
 
-	error = CreateTextureAndSampler(_p_d3ddevice, _texturename);
+	error = CreateTextureAndSampler(_p_d3ddevice);
 	CheckError(error);
 
 	return 0;
@@ -41,7 +39,7 @@ void Material::Render()
 	p_d3dDeviceContext->IASetInputLayout(p_inputLayout);
 
 	//Set Matrices
-	SetMatrices(p_d3dDeviceContext, p_worldMatrix, p_viewMatrix, p_projectionMatrix);
+	SetMatrices(p_worldMatrix, p_viewMatrix, p_projectionMatrix);
 }
 
 void Material::DeInit()
@@ -55,6 +53,28 @@ void Material::DeInit()
 	SafeRelease<ID3D11VertexShader>(p_vertexShader);
 	SafeRelease<ID3D11DeviceContext>(p_d3dDeviceContext);
 
+}
+
+void Material::SetMaterial(LPCTSTR _texturename, EMaterials _mattype)
+{
+	textureName = _texturename;
+
+	switch (_mattype)
+	{
+	case EMaterials::TextureLighting:
+		vertexShaderName = TEXT("LightingVertexShader.cso");
+		pixelShaderName = TEXT("LightingPixelShader.cso");
+		break;
+	}
+}
+
+void Material::InitMatrices(XMFLOAT4X4* _p_worldmatrix)
+{
+	Camera* cam = AllCameras::GetMainCamera();
+
+	p_worldMatrix = _p_worldmatrix;
+	p_viewMatrix = cam->GetViewMatrix();
+	p_projectionMatrix = cam->GetProjectionMatrix();
 }
 
 INT Material::CreateVertexShader(ID3D11Device* _p_d3ddevice)
@@ -80,7 +100,7 @@ INT Material::CreateVertexShader(ID3D11Device* _p_d3ddevice)
 	//2. Load already compiled Shader
 	//HRESULT hr = D3DReadFileToBlob(TEXT("ColorVertexShader.cso"), &p_CompiledShaderCode);
 	//HRESULT hr = D3DReadFileToBlob(TEXT("TextureVertexShader.cso"), &p_CompiledShaderCode);
-	HRESULT hr = D3DReadFileToBlob(TEXT("LightingVertexShader.cso"), &p_CompiledShaderCode);
+	HRESULT hr = D3DReadFileToBlob(vertexShaderName, &p_CompiledShaderCode);
 	CheckFailed(hr, 60);
 
 	//Create Shader Code
@@ -101,7 +121,7 @@ INT Material::CreatePixelShader(ID3D11Device* _p_d3ddevice)
 
 	//HRESULT hr = D3DReadFileToBlob(TEXT("ColorPixelShader.cso"), &p_CompiledShaderCode);
 	//HRESULT hr = D3DReadFileToBlob(TEXT("TexturePixelShader.cso"), &p_CompiledShaderCode);
-	HRESULT hr = D3DReadFileToBlob(TEXT("LightingPixelShader.cso"), &p_CompiledShaderCode);
+	HRESULT hr = D3DReadFileToBlob(pixelShaderName, &p_CompiledShaderCode);
 	CheckFailed(hr, 64);
 
 	hr = _p_d3ddevice->CreatePixelShader(p_CompiledShaderCode->GetBufferPointer(), p_CompiledShaderCode->GetBufferSize(), nullptr, &p_pixelShader);
@@ -115,21 +135,6 @@ INT Material::CreatePixelShader(ID3D11Device* _p_d3ddevice)
 INT Material::CreateInputLayout(ID3D11Device* _p_d3ddevice, ID3DBlob* _p_vertexshaderdata)
 {
     //https://docs.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-semantics
-
-	//D3D11_INPUT_ELEMENT_DESC elements[] = 
-	//{
-	//	//Position 
-	//	{
-	//		"POSITION", // Semantic Name
-	//		0, // semantic Index
-	//		DXGI_FORMAT_R32G32B32A32_FLOAT, // Format
-	//		0, // input Slot
-	//		0, // aligned byte offset
-	//		D3D11_INPUT_PER_VERTEX_DATA, // input slot Class
-	//		0 // instance data step rate
-	//	}
-	//};
-
 	D3D11_INPUT_ELEMENT_DESC elements[4] = {};
 
 	//Position
@@ -179,7 +184,7 @@ INT Material::CreateMatrixBuffer(ID3D11Device* _p_d3ddevice)
 	return 0;
 }
 
-void Material::SetMatrices(ID3D11DeviceContext* _p_d3ddevicecontext, XMFLOAT4X4* _p_worldmatrix, XMFLOAT4X4* _p_viewmatrix, XMFLOAT4X4* _p_projectionmatrix)
+void Material::SetMatrices(XMFLOAT4X4* _p_worldmatrix, XMFLOAT4X4* _p_viewmatrix, XMFLOAT4X4* _p_projectionmatrix)
 {
 	XMMATRIX worldMatrix = XMLoadFloat4x4(_p_worldmatrix);
 	XMMATRIX viewMatrix = XMLoadFloat4x4(_p_viewmatrix);
@@ -188,7 +193,7 @@ void Material::SetMatrices(ID3D11DeviceContext* _p_d3ddevicecontext, XMFLOAT4X4*
 	XMMATRIX wvpMatrix = XMMatrixTranspose(worldMatrix * viewMatrix * projectionMatrix); //transpose for column mayor - row mayor problem
 
 	D3D11_MAPPED_SUBRESOURCE data = {};
-	HRESULT hr = _p_d3ddevicecontext->Map(p_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &data);
+	HRESULT hr = p_d3dDeviceContext->Map(p_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &data);
 	if (FAILED(hr))
 	{
 		return;
@@ -198,15 +203,15 @@ void Material::SetMatrices(ID3D11DeviceContext* _p_d3ddevicecontext, XMFLOAT4X4*
 	XMStoreFloat4x4(&(p_TempMatrixBuffer->worldviewProjectionMatrix), wvpMatrix);
 	XMStoreFloat4x4(&(p_TempMatrixBuffer->worldMatrix), XMMatrixTranspose(worldMatrix));
 
-	_p_d3ddevicecontext->Unmap(p_matrixBuffer, 0);
+	p_d3dDeviceContext->Unmap(p_matrixBuffer, 0);
 
-	_p_d3ddevicecontext->VSSetConstantBuffers(0, 1, &p_matrixBuffer);
+	p_d3dDeviceContext->VSSetConstantBuffers(0, 1, &p_matrixBuffer);
 }
 
-INT Material::CreateTextureAndSampler(ID3D11Device* _p_d3ddevice, LPCTSTR _texturename)
+INT Material::CreateTextureAndSampler(ID3D11Device* _p_d3ddevice)
 {
 	//Create Texture
-	HRESULT hr = CreateWICTextureFromFile(_p_d3ddevice, _texturename, nullptr ,&p_Texture, 0);
+	HRESULT hr = CreateWICTextureFromFile(_p_d3ddevice, textureName, nullptr ,&p_Texture, 0);
 	CheckFailed(hr, 63);
 
 

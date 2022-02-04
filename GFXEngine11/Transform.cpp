@@ -3,7 +3,7 @@
 INT Transform::Init()
 {
 	//Initialize World Transformation-Matrix
-	XMStoreFloat4x4(&WorldMatrix, XMMatrixIdentity());
+	XMStoreFloat4x4(WorldMatrix, XMMatrixIdentity());
 
 	return 0;
 }
@@ -14,7 +14,7 @@ void Transform::Update()
 	XMMATRIX rotation = XMMatrixRotationRollPitchYaw(Rotation.x, Rotation.y, Rotation.z);
 	XMMATRIX localScale = XMMatrixScaling(Scale.x, Scale.y, Scale.z);
 
-	XMStoreFloat4x4(&WorldMatrix, localScale * rotation * translation);
+	XMStoreFloat4x4(WorldMatrix, localScale * rotation * translation);
 }
 
 INT Transform::DeInit()

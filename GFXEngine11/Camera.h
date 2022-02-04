@@ -1,12 +1,18 @@
 #pragma once
 #include <d3d11.h>
 #include <DirectXMath.h>
+#include "AllCameras.h"
 
 using namespace DirectX;
 
 class Camera
 {
 public:
+	Camera()
+	{
+		AllCameras::AddCamera(this);
+	}
+
 	INT Init(UINT _screenwidth, UINT _screenheight);
 	void Update();
 	void DeInit();

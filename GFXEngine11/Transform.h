@@ -25,6 +25,6 @@ public:
 	void SetRotation(FLOAT _x, FLOAT _y, FLOAT _z);
 	void SetScale(FLOAT _x, FLOAT _y, FLOAT _z);
 
-	XMFLOAT4X4 WorldMatrix = {};
+	XMFLOAT4X4* WorldMatrix = new XMFLOAT4X4();
 };
 

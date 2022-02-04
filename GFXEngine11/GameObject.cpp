@@ -2,29 +2,32 @@
 #include "Mesh.h"
 #include "Light.h"
 
-INT GameObject::Init()
+INT GameObject::Awake(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, FLOAT* _p_dt)
 {
 	INT error = transform.Init();
 	CheckError(error);
 
 	for (Component* c :  allComponents)
 	{
-		c->Awake();
-	}
-
-	for (Component* c : allComponents)
-	{
-		c->Start();
+		error = c->AwakeComponent(_p_d3ddevice, _p_d3ddevicecontext, _p_dt);
 	}
 
 	return 0;
+}
+
+void GameObject::Start()
+{
+	for (Component* c : allComponents)
+	{
+		c->StartComponent();
+	}
 }
 
 void GameObject::Update()
 {
 	for (Component* c : allComponents)
 	{
-		c->Update();
+		c->UpdateComponent();
 	}
 
 	transform.Update();
@@ -34,7 +37,7 @@ void GameObject::DeInit()
 {
 	for (Component* c : allComponents)
 	{
-		c->DeInit();
+		c->DeInitComponent();
 	}
 
 	transform.DeInit();
@@ -69,21 +72,14 @@ Component* GameObject::AddComponent(EComponentTypes _type)
 
 Component* GameObject::GetComponent(EComponentTypes _type)
 {
-	Component* toget = nullptr;
-
-	switch (_type)
+	for (Component* c : allComponents)
 	{
-	case EComponentTypes::C_Mesh:
-		break;
-	case EComponentTypes::C_Light:
-		break;
+		if (c->CompType == _type)
+		{
+			return c;
+		}
 	}
 
-	return toget;
+	return nullptr;
 }
-
-//Component GameObject::GetComponent(EComponentTypes _type)
-//{
-//	return Component();
-//}
 

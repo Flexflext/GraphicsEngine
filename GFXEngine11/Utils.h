@@ -20,7 +20,10 @@ enum class EComponentTypes
 	C_Light,
 };
 
-
+enum class EMaterials
+{
+	TextureLighting,
+};
 
 
 #define D3DCOLORVALUE_RGB(r,g,b) { r / 255.0f, g/255.0f, b / 255.0f, 1.0f };
