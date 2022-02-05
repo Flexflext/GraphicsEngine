@@ -19,5 +19,7 @@ private:
 	
 };
 
+bool Resize = false;
+
 LRESULT CALLBACK WndProc(HWND _hwnd, UINT _msg, WPARAM _wparam, LPARAM _lparam);
 

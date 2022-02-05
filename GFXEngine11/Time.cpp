@@ -29,7 +29,7 @@ void Time::Update()
 	string output = to_string(deltaTime);
 #endif // UNICODE
 	output = TEXT("DeltaTime:") + output + TEXT(" s\n");
-	OutputDebugString(output.c_str());
+	//OutputDebugString(output.c_str());
 
 	//print fps extrapolated
 #if UNICODE
@@ -38,7 +38,7 @@ void Time::Update()
 	output = to_string(1.0f / deltaTime);
 #endif // UNICODE
 	output = TEXT("FPS Extrapolated:") + output + TEXT("\n");
-	OutputDebugString(output.c_str());
+	//OutputDebugString(output.c_str());
 
 	if (fpsTime >= 1.0f)
 	{
@@ -54,7 +54,7 @@ void Time::Update()
 	output = to_string(lastFps);
 #endif // UNICODE
 	output = TEXT("FPS Commulated:") + output + TEXT("\n");
-	OutputDebugString(output.c_str());
+	//OutputDebugString(output.c_str());
 
 	
 

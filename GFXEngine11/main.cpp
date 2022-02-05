@@ -38,11 +38,10 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 
 	GameObject gm = {};
 	allGameObjects.push_back(&gm);
-	gm.AddComponent(EComponentTypes::C_Mesh);
-	Mesh* meh = (Mesh*)gm.GetComponent(EComponentTypes::C_Mesh);
+	Mesh* meh = (Mesh*)gm.AddComponent(EComponentTypes::C_Mesh);
 	meh->SetMesh(nullptr, 0, nullptr, 0);
 	meh->MyMaterial->SetMaterial(TEXT("HUHU.jpg"), EMaterials::TextureLighting);
-	
+
 	Light::LightData lightData = {};
 	lightData.LightDirection = { -1.0f, -1.0f, 1.0f };
 	lightData.LightDiffuseColor = { 0.8f, 0.8f, 0.8f, 1.0f };

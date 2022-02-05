@@ -14,6 +14,7 @@ INT Camera::Init()
 void Camera::Update()
 {
 	ReInitViewMatrix();
+	ReInitProjectionMatrix();
 }
 
 void Camera::DeInit()

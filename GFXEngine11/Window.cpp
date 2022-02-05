@@ -6,7 +6,6 @@
 
 INT Window::Init(HINSTANCE _hinstance, UINT _width, UINT _height)
 {
-
 	// -->Register Window Class<--
 	//Create Window Class
 	WNDCLASS wc = {};
@@ -62,16 +61,27 @@ INT Window::Init(HINSTANCE _hinstance, UINT _width, UINT _height)
 
 BOOL Window::Update()
 {
+	
+
 	// -->Message Pump<--
 	if (PeekMessage(&msg, nullptr, 0, UINT_MAX, PM_REMOVE))
 	{
+		if (msg.message == WM_EXITSIZEMOVE)
+		{
+			OutputDebugString(L"HUHU\n");
+		}
+
+
 		TranslateMessage(&msg);
+
 		DispatchMessage(&msg);
+
+		
 	}
 
-	if (msg.wParam == WM_EXITSIZEMOVE)
+	if (Resize)
 	{
-		/*RECT rect = {};
+		RECT rect = {};
 		GetWindowRect(p_hWnd, &rect);
 		WINDOWPLACEMENT placement = {};
 		placement.length = sizeof(WINDOWPLACEMENT);
@@ -80,10 +90,8 @@ BOOL Window::Update()
 		WindowHeight = rect.bottom - rect.top;
 		WindowWidth = rect.right - rect.left;
 
-		d3d.DeInit();
-		d3d.Init(p_hWnd, WindowWidth, WindowHeight, false);
-		Camera* cam = AllCameras::GetMainCamera();
-		cam->ReInitProjectionMatrix();*/
+		d3d.OnResize();
+		Resize = false;
 	}
 
 	return msg.message != WM_QUIT;
@@ -105,9 +113,8 @@ LRESULT CALLBACK WndProc(HWND _hwnd, UINT _msg, WPARAM _wparam, LPARAM _lparam)
 		/*case WM_KEYDOWN:
 			if (_wparam == VK_ESCAPE) DestroyWindow(_hwnd);
 			break;*/
-		case WM_EXITSIZEMOVE:
-
-			PostMessage(_hwnd, _msg , WM_EXITSIZEMOVE, _lparam);
+		case WM_EXITSIZEMOVE | SIZE_MAXIMIZED:
+			Resize = true;
 			return DefWindowProc(_hwnd, _msg, _wparam, _lparam);
 			break;
 
