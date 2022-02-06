@@ -3,6 +3,8 @@
 #include "D3D.h"
 #include "AllCameras.h"
 #include "Camera.h"
+#include "imgui/imgui_impl_win32.h"
+#include "imgui/imgui_impl_win32.cpp"
 
 INT Window::Init(HINSTANCE _hinstance, UINT _width, UINT _height)
 {
@@ -54,6 +56,8 @@ INT Window::Init(HINSTANCE _hinstance, UINT _width, UINT _height)
 
 	// -->Show Window<--
 	ShowWindow(p_hWnd, SW_SHOW);
+	//Initialize Window UI
+	ImGui_ImplWin32_Init(p_hWnd);
 	SetFocus(p_hWnd);
 
 	return 0;
@@ -66,18 +70,17 @@ BOOL Window::Update()
 	// -->Message Pump<--
 	if (PeekMessage(&msg, nullptr, 0, UINT_MAX, PM_REMOVE))
 	{
-		if (msg.message == WM_EXITSIZEMOVE)
+		if (ImGui_ImplWin32_WndProcHandler(p_hWnd, msg.message, msg.wParam, msg.lParam))
 		{
-			OutputDebugString(L"HUHU\n");
+			return true;
 		}
 
-
 		TranslateMessage(&msg);
-
-		DispatchMessage(&msg);
-
-		
+		DispatchMessage(&msg);		
 	}
+
+	
+	
 
 	if (Resize)
 	{
@@ -99,10 +102,13 @@ BOOL Window::Update()
 
 void Window::DeInit()
 {
+	ImGui_ImplWin32_Shutdown();
 }
 
 LRESULT CALLBACK WndProc(HWND _hwnd, UINT _msg, WPARAM _wparam, LPARAM _lparam)
 {
+	
+
 	switch (_msg)
 	{
 		case WM_CLOSE:

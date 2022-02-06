@@ -2,6 +2,7 @@
 #include "Utils.h"
 #include <xutility>
 #include "Window.h"
+#include "imgui/imgui_impl_dx11.h"
 
 INT D3D::Init(HWND _hwnd, UINT _width, UINT _height, BOOL _fullscreen)
 {	
@@ -100,6 +101,8 @@ INT D3D::Init(HWND _hwnd, UINT _width, UINT _height, BOOL _fullscreen)
 	p_D3DDeviceContext->RSSetViewports(1, &viewPort);
 	p_D3DDeviceContext->RSSetState(p_rasterizerState);
 
+
+	ImGui_ImplDX11_Init(p_D3DDevice, p_D3DDeviceContext);
 	return 0;
 }
 
@@ -126,13 +129,13 @@ void D3D::EndScene()
 
 void D3D::DeInit()
 {
+	ImGui_ImplDX11_Shutdown();
 	SafeRelease<ID3D11DepthStencilView>(p_depthStencilView);
 	SafeRelease<ID3D11Device>(p_D3DDevice);
 	SafeRelease<ID3D11DeviceContext>(p_D3DDeviceContext);
 	SafeRelease<IDXGISwapChain>(p_DXGISwapChain);
 	SafeRelease<ID3D11RenderTargetView>(p_RenderTargetView);
 	SafeRelease<ID3D11RasterizerState>(p_rasterizerState);
-
 }
 
 void D3D::OnResize()

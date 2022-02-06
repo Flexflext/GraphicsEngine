@@ -9,10 +9,13 @@
 #include "Light.h"
 #include "AllCameras.h"
 #include "Utils.h"
+#include "ImguiManager.h"
 
 
 int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdline, int _ncmdshow)
 {
+	ImguiManager imGui = {};
+
 	//Create Window
 	Window window = {};
 	INT error = window.Init(_hinstance, WindowWidth, WindowHeight);
@@ -69,6 +72,7 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	//Run App
 	while (window.Update())
 	{
+		imGui.Update();
 		time.Update();
 		d3d.BeginScene(1,1,1);
 
@@ -100,7 +104,13 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 		{
 			obj->Update();
 		}
+
+
+
+		imGui.EndUpdate();
 		d3d.EndScene();
+
+		
 	}
 
 	//Tidy Up

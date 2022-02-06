@@ -23,8 +23,8 @@ private:
 
 	FLOAT deltaTime = 0.0f;
 	FLOAT totalTime = 0.0f;
-	UINT fps = 0;
-	UINT lastFps = 0;
+	FLOAT fps = 0;
+	FLOAT lastFps = 0;
 	FLOAT fpsTime = 0.0f;
 
 };
