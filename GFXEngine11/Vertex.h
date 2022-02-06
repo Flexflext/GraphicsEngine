@@ -37,6 +37,20 @@ public:
 		color.w = 1;
 	}
 
+	Vertex(XMFLOAT3 _pos)
+	{
+		position = _pos;
+		normal.x = 0;
+		normal.y = 0;
+		normal.z = 0;
+		uv.x = 0;
+		uv.y = 0;
+		color.x = 1;
+		color.y = 1;
+		color.z = 1;
+		color.w = 1;
+	}
+
 	Vertex(FLOAT _x, FLOAT _y, FLOAT _z, UINT _r, UINT _g, UINT _b)
 	{
 		position.x = _x;

@@ -24,6 +24,8 @@ public:
 	Component* AddComponent(EComponentTypes _type);
 	Component* GetComponent(EComponentTypes _type);
 
+	bool IsActive = true;
+
 private:
 	std::vector<Component*> allComponents;
 };

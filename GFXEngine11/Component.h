@@ -24,6 +24,7 @@ public:
 	EComponentTypes CompType;
 
 	GameObject* gameObject;
-protected:
+
+	bool IsActive = true;
 };
 

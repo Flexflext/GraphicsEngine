@@ -44,7 +44,7 @@ private:
 	std::vector<Vertex> vertexData;
 	std::vector<USHORT> indexData;
 
-	
+	bool render;
 
 	XMFLOAT4X4* worldMatrix = nullptr;
 

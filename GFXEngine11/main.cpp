@@ -10,6 +10,9 @@
 #include "AllCameras.h"
 #include "Utils.h"
 #include "ImguiManager.h"
+#include "ObjectImporter.h"
+#include "imgui/imgui.h"
+
 
 
 int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdline, int _ncmdshow)
@@ -37,13 +40,30 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	GameObject cameraObj = {};
 	allGameObjects.push_back(&cameraObj);
 	cameraObj.AddComponent(EComponentTypes::C_Camera);
-	cameraObj.transform.SetRotation(0, 0, 0);
+	cameraObj.AddComponent(EComponentTypes::CS_FreeLookCam);
+	//cameraObj.transform.SetRotation(0, 90, 0);
+
 
 	GameObject gm = {};
 	allGameObjects.push_back(&gm);
 	Mesh* meh = (Mesh*)gm.AddComponent(EComponentTypes::C_Mesh);
-	meh->SetMesh(nullptr, 0, nullptr, 0);
-	meh->MyMaterial->SetMaterial(TEXT("HUHU.jpg"), EMaterials::TextureLighting);
+
+	INT vertSize = 0;
+	INT indiceSize = 0;
+
+	USHORT* p_indices = new USHORT();
+	Vertex* p_vertecies = new Vertex();
+
+	ObjectImporter imp = {};
+	imp.Import3DAsset("Models\\Robot.fbx", p_vertecies, &vertSize, p_indices, &indiceSize, meh);
+
+	
+
+	//meh->SetMesh(p_vertecies, vertSize, p_indices, indiceSize);
+
+
+	//meh->SetMesh(p_vertecies, vertSize, p_indices, indiceSize);
+	meh->MyMaterial->SetMaterial(TEXT("Textures\\Robot.png"), EMaterials::TextureLighting);
 
 	Light::LightData lightData = {};
 	lightData.LightDirection = { -1.0f, -1.0f, 1.0f };
@@ -55,6 +75,14 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 
 	gm.transform.SetPosition(0, 0, 5);
 	gm.transform.SetRotation(0, 0, 0);
+
+	GameObject obj = {};
+	allGameObjects.push_back(&obj);
+	Mesh* mesh = (Mesh*)obj.AddComponent(EComponentTypes::C_Mesh);
+
+	imp.Import3DAsset("Models\\FinalBaseMesh.obj", p_vertecies, &vertSize, p_indices, &indiceSize, mesh);
+
+	mesh->MyMaterial->SetMaterial(TEXT("Textures\\HUHU.jpg"), EMaterials::TextureLighting);
 
 
 	//Initialize GameObjects
@@ -74,30 +102,9 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	{
 		imGui.Update();
 		time.Update();
-		d3d.BeginScene(1,1,1);
+		d3d.BeginScene(1,1,1);		
 
-
-		//gm.transform.AddRotation(-5 * *time.GetDeltaTime(), 0, -5 * *time.GetDeltaTime());
-		if (GetAsyncKeyState(VK_DOWN) & 0x8000)
-		{
-			cameraObj.transform.AddPosition(0, 0, -10 * *time.GetDeltaTime());
-		}
 		
-
-		if (GetAsyncKeyState(VK_UP) & 0x8000)
-		{
-			cameraObj.transform.AddRotation(5 * *time.GetDeltaTime(), 0, 0);
-		}
-
-		if (GetAsyncKeyState(VK_LEFT) & 0x8000)
-		{
-			cameraObj.transform.AddRotation(0, 5 * *time.GetDeltaTime(), 0);
-		}
-
-		if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
-		{
-			cameraObj.transform.AddRotation(0, 0, 5 * *time.GetDeltaTime());
-		}
 		
 
 		for (GameObject* obj : allGameObjects)
@@ -105,6 +112,15 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 			obj->Update();
 		}
 
+
+		/*if (ImGui::Begin("Model Parmaters | After Method"))
+		{
+			for (size_t i = 0; i < vertSize; i++)
+			{
+				ImGui::Text("Pos %.1f %.1f %.1f", p_vertecies[i].position.x, p_vertecies[i].position.y, p_vertecies[i].position.z);
+			}
+		}
+		ImGui::End();*/
 
 
 		imGui.EndUpdate();

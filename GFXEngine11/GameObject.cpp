@@ -2,6 +2,7 @@
 #include "Mesh.h"
 #include "Light.h"
 #include "Camera.h"
+#include "FreeLookCam.h"
 
 INT GameObject::Awake(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, FLOAT* _p_dt)
 {
@@ -23,12 +24,18 @@ void GameObject::Start()
 
 void GameObject::Update()
 {
-	for (Component* c : allComponents)
+	if (IsActive)
 	{
-		c->UpdateComponent();
-	}
+		for (Component* c : allComponents)
+		{
+			if (c->IsActive)
+			{
+				c->UpdateComponent();
+			}
+		}
 
-	transform.Update();
+		transform.Update();
+	}
 }
 
 void GameObject::DeInit()
@@ -64,6 +71,13 @@ Component* GameObject::AddComponent(EComponentTypes _type)
 		Camera* cam = new Camera(this, _type);
 		allComponents.push_back(cam);
 		return cam;
+		break;
+	}
+	case EComponentTypes::CS_FreeLookCam:
+	{
+		FreeLookCam* obj = new FreeLookCam(this, _type);
+		allComponents.push_back(obj);
+		return obj;
 		break;
 	}
 	default:

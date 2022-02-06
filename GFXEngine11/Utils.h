@@ -19,6 +19,7 @@ enum class EComponentTypes
 	C_Mesh,
 	C_Light,
 	C_Camera,
+	CS_FreeLookCam
 };
 
 enum class EMaterials

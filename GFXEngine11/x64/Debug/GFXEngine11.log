@@ -1,0 +1,63 @@
+﻿  FreeLookCam.cpp
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(29,2): warning C4091: 'static ': ignored on left of 'AllCameras' when no variable is declared
+  GameObject.cpp
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Mesh.h(57,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(29,2): warning C4091: 'static ': ignored on left of 'AllCameras' when no variable is declared
+  Generating Code...
+LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/FORCE' specification
+Component.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
+Component.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored
+Component.obj : warning LNK4006: "int isFullScreen" (?isFullScreen@@3HA) already defined in Camera.obj; second definition ignored
+D3D.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
+D3D.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored
+D3D.obj : warning LNK4006: "int isFullScreen" (?isFullScreen@@3HA) already defined in Camera.obj; second definition ignored
+FreeLookCam.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
+FreeLookCam.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored
+FreeLookCam.obj : warning LNK4006: "int isFullScreen" (?isFullScreen@@3HA) already defined in Camera.obj; second definition ignored
+GameObject.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
+GameObject.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored
+GameObject.obj : warning LNK4006: "int isFullScreen" (?isFullScreen@@3HA) already defined in Camera.obj; second definition ignored
+Light.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
+Light.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored
+Light.obj : warning LNK4006: "int isFullScreen" (?isFullScreen@@3HA) already defined in Camera.obj; second definition ignored
+main.obj : warning LNK4006: "struct DirectX::XMFLOAT3 __cdecl CrossProductXMFLOAT3(struct DirectX::XMFLOAT3,struct DirectX::XMFLOAT3)" (?CrossProductXMFLOAT3@@YA?AUXMFLOAT3@DirectX@@U12@0@Z) already defined in GameObject.obj; second definition ignored
+main.obj : warning LNK4006: "struct DirectX::XMFLOAT3 __cdecl NormalizeXMFLOAT3(struct DirectX::XMFLOAT3)" (?NormalizeXMFLOAT3@@YA?AUXMFLOAT3@DirectX@@U12@@Z) already defined in GameObject.obj; second definition ignored
+main.obj : warning LNK4006: "struct DirectX::XMFLOAT3 __cdecl SubtractXMFLOT3(struct DirectX::XMFLOAT3,struct DirectX::XMFLOAT3)" (?SubtractXMFLOT3@@YA?AUXMFLOAT3@DirectX@@U12@0@Z) already defined in GameObject.obj; second definition ignored
+main.obj : warning LNK4006: "bool Resize" (?Resize@@3_NA) already defined in D3D.obj; second definition ignored
+main.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
+main.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored
+main.obj : warning LNK4006: "int isFullScreen" (?isFullScreen@@3HA) already defined in Camera.obj; second definition ignored
+Material.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
+Material.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored
+Material.obj : warning LNK4006: "int isFullScreen" (?isFullScreen@@3HA) already defined in Camera.obj; second definition ignored
+Mesh.obj : warning LNK4006: "struct DirectX::XMFLOAT3 __cdecl CrossProductXMFLOAT3(struct DirectX::XMFLOAT3,struct DirectX::XMFLOAT3)" (?CrossProductXMFLOAT3@@YA?AUXMFLOAT3@DirectX@@U12@0@Z) already defined in GameObject.obj; second definition ignored
+Mesh.obj : warning LNK4006: "struct DirectX::XMFLOAT3 __cdecl NormalizeXMFLOAT3(struct DirectX::XMFLOAT3)" (?NormalizeXMFLOAT3@@YA?AUXMFLOAT3@DirectX@@U12@@Z) already defined in GameObject.obj; second definition ignored
+Mesh.obj : warning LNK4006: "struct DirectX::XMFLOAT3 __cdecl SubtractXMFLOT3(struct DirectX::XMFLOAT3,struct DirectX::XMFLOAT3)" (?SubtractXMFLOT3@@YA?AUXMFLOAT3@DirectX@@U12@0@Z) already defined in GameObject.obj; second definition ignored
+Mesh.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
+Mesh.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored
+Mesh.obj : warning LNK4006: "int isFullScreen" (?isFullScreen@@3HA) already defined in Camera.obj; second definition ignored
+ObjectImporter.obj : warning LNK4006: "struct DirectX::XMFLOAT3 __cdecl CrossProductXMFLOAT3(struct DirectX::XMFLOAT3,struct DirectX::XMFLOAT3)" (?CrossProductXMFLOAT3@@YA?AUXMFLOAT3@DirectX@@U12@0@Z) already defined in GameObject.obj; second definition ignored
+ObjectImporter.obj : warning LNK4006: "struct DirectX::XMFLOAT3 __cdecl NormalizeXMFLOAT3(struct DirectX::XMFLOAT3)" (?NormalizeXMFLOAT3@@YA?AUXMFLOAT3@DirectX@@U12@@Z) already defined in GameObject.obj; second definition ignored
+ObjectImporter.obj : warning LNK4006: "struct DirectX::XMFLOAT3 __cdecl SubtractXMFLOT3(struct DirectX::XMFLOAT3,struct DirectX::XMFLOAT3)" (?SubtractXMFLOT3@@YA?AUXMFLOAT3@DirectX@@U12@0@Z) already defined in GameObject.obj; second definition ignored
+ObjectImporter.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
+ObjectImporter.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored
+ObjectImporter.obj : warning LNK4006: "int isFullScreen" (?isFullScreen@@3HA) already defined in Camera.obj; second definition ignored
+Time.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
+Time.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored
+Time.obj : warning LNK4006: "int isFullScreen" (?isFullScreen@@3HA) already defined in Camera.obj; second definition ignored
+Window.obj : warning LNK4006: "void __cdecl ImGui_ImplWin32_EnableAlphaCompositing(void *)" (?ImGui_ImplWin32_EnableAlphaCompositing@@YAXPEAX@Z) already defined in imgui_impl_win32.obj; second definition ignored
+Window.obj : warning LNK4006: "void __cdecl ImGui_ImplWin32_EnableDpiAwareness(void)" (?ImGui_ImplWin32_EnableDpiAwareness@@YAXXZ) already defined in imgui_impl_win32.obj; second definition ignored
+Window.obj : warning LNK4006: "float __cdecl ImGui_ImplWin32_GetDpiScaleForHwnd(void *)" (?ImGui_ImplWin32_GetDpiScaleForHwnd@@YAMPEAX@Z) already defined in imgui_impl_win32.obj; second definition ignored
+Window.obj : warning LNK4006: "float __cdecl ImGui_ImplWin32_GetDpiScaleForMonitor(void *)" (?ImGui_ImplWin32_GetDpiScaleForMonitor@@YAMPEAX@Z) already defined in imgui_impl_win32.obj; second definition ignored
+Window.obj : warning LNK4006: "bool __cdecl ImGui_ImplWin32_Init(void *)" (?ImGui_ImplWin32_Init@@YA_NPEAX@Z) already defined in imgui_impl_win32.obj; second definition ignored
+Window.obj : warning LNK4006: "void __cdecl ImGui_ImplWin32_NewFrame(void)" (?ImGui_ImplWin32_NewFrame@@YAXXZ) already defined in imgui_impl_win32.obj; second definition ignored
+Window.obj : warning LNK4006: "void __cdecl ImGui_ImplWin32_Shutdown(void)" (?ImGui_ImplWin32_Shutdown@@YAXXZ) already defined in imgui_impl_win32.obj; second definition ignored
+Window.obj : warning LNK4006: "__int64 __cdecl ImGui_ImplWin32_WndProcHandler(struct HWND__ *,unsigned int,unsigned __int64,__int64)" (?ImGui_ImplWin32_WndProcHandler@@YA_JPEAUHWND__@@I_K_J@Z) already defined in imgui_impl_win32.obj; second definition ignored
+Window.obj : warning LNK4006: "bool Resize" (?Resize@@3_NA) already defined in D3D.obj; second definition ignored
+Window.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
+Window.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored
+Window.obj : warning LNK4006: "int isFullScreen" (?isFullScreen@@3HA) already defined in Camera.obj; second definition ignored
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine\x64\Debug\GFXEngine11.exe : warning LNK4088: image being generated due to /FORCE option; image may not run
+  GFXEngine11.vcxproj -> C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine\x64\Debug\GFXEngine11.exe

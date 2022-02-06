@@ -11,7 +11,7 @@ INT Transform::Init()
 void Transform::Update()
 {
 	TranslationMatrix = XMMatrixTranslation(Position.x, Position.y, Position.z);
-	RotationMatrix = XMMatrixRotationRollPitchYaw(Rotation.x, Rotation.y, Rotation.z);
+	RotationMatrix = XMMatrixRotationRollPitchYaw(Rotation.x / 57.29578f, Rotation.y / 57.29578f, Rotation.z / 57.29578f);
 	LocalScaleMatrix = XMMatrixScaling(Scale.x, Scale.y, Scale.z);
 
 	XMStoreFloat4x4(WorldMatrix, LocalScaleMatrix * RotationMatrix * TranslationMatrix);

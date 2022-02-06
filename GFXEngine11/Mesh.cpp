@@ -7,7 +7,7 @@ INT Mesh::Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecont
 	p_d3dDeviceContext = _p_d3ddevicecontext;
 	p_deltaTime = _p_dt;
 
-	RecalculateNormals();
+	//RecalculateNormals();
 
 	INT error = InitializeBuffers(_p_d3ddevice);
 	CheckError(error);
@@ -61,7 +61,7 @@ void Mesh::InitVertecies(Vertex* _vertecies, INT _size)
 {
 	if (_vertecies !=  nullptr)
 	{
-		vertexData.reserve(_size + 1);
+		vertexData.reserve(_size);
 
 		for (int i = 0; i < _size + 1; i++)
 		{
@@ -121,7 +121,7 @@ void Mesh::InitIndices(USHORT* _indices, INT _size)
 {
 	if (_indices != nullptr)
 	{
-		indexData.reserve(_size + 1);
+		indexData.reserve(_size);
 
 		for (int i = 0; i < _size + 1; i++)
 		{
