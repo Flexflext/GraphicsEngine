@@ -6,15 +6,17 @@
 *.lo
 *.o
 *.obj
+!GFXEngine11/Models/*.obj
 
 # Precompiled Headers
 *.gch
 *.pch
+*.ipach
+*.tlog
+*.log
 
 # Compiled Dynamic libraries
 *.so
-*.dylib
-*.dll
 
 # Fortran module files
 *.mod
@@ -24,9 +26,10 @@
 *.lai
 *.la
 *.a
-*.lib
 
 # Executables
 *.exe
 *.out
 *.app
+**/GFXEngine11/x64/Debug
+**/GFXEngine11/Debug

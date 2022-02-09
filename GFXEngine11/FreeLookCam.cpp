@@ -9,7 +9,7 @@ INT FreeLookCam::AwakeComponent(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext*
 
 void FreeLookCam::StartComponent()
 {
-	p_cam = (Camera*)gameObject->GetComponent(EComponentTypes::C_Camera);
+	//p_cam = (Camera*)gameObject->GetComponent(EComponentTypes::C_Camera);
 }
 
 void FreeLookCam::UpdateComponent()

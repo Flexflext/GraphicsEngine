@@ -61,7 +61,7 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	meh->MyMaterial->SetMaterial(TEXT("Textures\\Robot.png"), EMaterials::TextureLighting);
 
 
-	//meh = gm.GetComponent<Mesh>();
+	meh = gm.GetComponent<Mesh>();
 
 	
 

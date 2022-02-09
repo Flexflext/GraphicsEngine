@@ -22,7 +22,7 @@ public:
 	Component* AddComponent(EComponentTypes _type);
 
 	template<typename T>
-	T* GetComponent();
+	static T* GetComponent();
 
 	bool IsActive = true;
 

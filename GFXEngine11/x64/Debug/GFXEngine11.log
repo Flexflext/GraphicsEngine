@@ -1,18 +1,4 @@
-﻿  GameObject.cpp
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Mesh.h(57,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(29,2): warning C4091: 'static ': ignored on left of 'AllCameras' when no variable is declared
-  Light.cpp
-  Window.cpp
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(29,2): warning C4091: 'static ': ignored on left of 'AllCameras' when no variable is declared
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Window.cpp(36,37): warning C4838: conversion from 'UINT' to 'LONG' requires a narrowing conversion
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Window.cpp(36,67): warning C4838: conversion from 'UINT' to 'LONG' requires a narrowing conversion
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Window.cpp(36,95): warning C4838: conversion from 'UINT' to 'LONG' requires a narrowing conversion
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Window.cpp(36,125): warning C4838: conversion from 'UINT' to 'LONG' requires a narrowing conversion
-  Generating Code...
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Light.cpp(43): warning C4715: 'Light::AwakeComponent': not all control paths return a value
-LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/FORCE' specification
+﻿LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/FORCE' specification
 Component.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
 Component.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored
 Component.obj : warning LNK4006: "int isFullScreen" (?isFullScreen@@3HA) already defined in Camera.obj; second definition ignored
@@ -65,5 +51,5 @@ Window.obj : warning LNK4006: "bool Resize" (?Resize@@3_NA) already defined in D
 Window.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
 Window.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored
 Window.obj : warning LNK4006: "int isFullScreen" (?isFullScreen@@3HA) already defined in Camera.obj; second definition ignored
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine\x64\Debug\GFXEngine11.exe : warning LNK4088: image being generated due to /FORCE option; image may not run
-  GFXEngine11.vcxproj -> C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine\x64\Debug\GFXEngine11.exe
+main.obj : error LNK2019: unresolved external symbol "public: static class Mesh * __cdecl GameObject::GetComponent<class Mesh>(void)" (??$GetComponent@VMesh@@@GameObject@@SAPEAVMesh@@XZ) referenced in function WinMain
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine\x64\Debug\GFXEngine11.exe : fatal error LNK1120: 1 unresolved externals
