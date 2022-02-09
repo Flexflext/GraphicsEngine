@@ -11,6 +11,10 @@ public:
 	XMFLOAT3 Rotation;
 	XMFLOAT3 Scale;
 
+	XMFLOAT3 LocalUp = { 0,1,0 };
+	XMFLOAT3 LocalRight = { 1,0,0 };
+	XMFLOAT3 LocalForward = { 0,0,1 };
+
 	INT Init();
 	void Update();
 	INT DeInit();

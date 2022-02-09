@@ -36,7 +36,12 @@ void Camera::ReInitProjectionMatrix()
 void Camera::ReInitViewMatrix()
 {
 	// View Matrix
-	viewMat = XMMatrixInverse(nullptr, XMMatrixMultiply(XMMatrixInverse(nullptr, gameObject->transform.RotationMatrix), gameObject->transform.TranslationMatrix));
+	//viewMat = XMMatrixInverse(nullptr, XMMatrixMultiply(XMMatrixInverse(nullptr, gameObject->transform.RotationMatrix), gameObject->transform.TranslationMatrix));
+
+	viewMat = XMMatrixLookToLH(XMVectorSet(gameObject->transform.Position.x, gameObject->transform.Position.y, gameObject->transform.Position.z, 0),
+		XMVectorSet(gameObject->transform.LocalForward.x, gameObject->transform.LocalForward.y, gameObject->transform.LocalForward.z, 0),
+		XMVectorSet(gameObject->transform.LocalUp.x, gameObject->transform.LocalUp.y, gameObject->transform.LocalUp.z, 0)
+	);
 
 	XMStoreFloat4x4(&viewMatrix, viewMat);
 }
