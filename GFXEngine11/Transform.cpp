@@ -14,6 +14,22 @@ void Transform::Update()
 	RotationMatrix = XMMatrixRotationRollPitchYaw(Rotation.x / 57.29578f, Rotation.y / 57.29578f, Rotation.z / 57.29578f);
 	LocalScaleMatrix = XMMatrixScaling(Scale.x, Scale.y, Scale.z);
 
+	XMVECTOR localUp = XMVector3TransformCoord(XMVectorSet(0, 1, 0, 0), RotationMatrix);
+	XMVECTOR localRight = XMVector3TransformCoord(XMVectorSet(1, 0, 0, 0), RotationMatrix);
+	XMVECTOR localForward = XMVector3TransformCoord(XMVectorSet(0, 0, 1, 0), RotationMatrix);
+
+	LocalUp.x = XMVectorGetX(localUp);
+	LocalUp.y = XMVectorGetY(localUp);
+	LocalUp.z = XMVectorGetZ(localUp);
+
+	LocalRight.x = XMVectorGetX(localRight);
+	LocalRight.y = XMVectorGetY(localRight);
+	LocalRight.z = XMVectorGetZ(localRight);
+
+	LocalForward.x = XMVectorGetX(localForward);
+	LocalForward.y = XMVectorGetY(localForward);
+	LocalForward.z = XMVectorGetZ(localForward);
+
 	XMStoreFloat4x4(WorldMatrix, LocalScaleMatrix * RotationMatrix * TranslationMatrix);
 }
 
