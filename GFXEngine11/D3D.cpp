@@ -108,6 +108,11 @@ INT D3D::Init(HWND _hwnd, UINT _width, UINT _height, BOOL _fullscreen)
 
 void D3D::BeginScene(FLOAT _red, FLOAT _green, FLOAT _blue)
 {
+	if (Resize)
+	{
+		return;
+	}
+
 	//Clear Back Buffer
 	FLOAT backgroundColor[] = { _red, _green, _blue, 1.0f };
 	p_D3DDeviceContext->ClearRenderTargetView(p_RenderTargetView, backgroundColor);
@@ -140,31 +145,30 @@ void D3D::DeInit()
 
 void D3D::OnResize()
 {
-	
-
 	if (p_DXGISwapChain)
 	{
 		p_D3DDeviceContext->OMSetRenderTargets(0, 0, 0);
 
 		//// Release all outstanding references to the swap chain's buffers.
 		p_RenderTargetView->Release();
+		p_D3DDeviceContext->ClearState();
 
 		HRESULT hr;
 		// Preserve the existing buffer count and format.
 		// Automatically choose the width and height to match the client rect for HWNDs.
-		hr = p_DXGISwapChain->ResizeBuffers(0, WindowWidth, WindowHeight, DXGI_FORMAT_UNKNOWN, 0);
+		hr = p_DXGISwapChain->ResizeBuffers(1, WindowWidth, WindowHeight, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
 		//CheckFailed(hr, 25);
 		// Perform error handling here!
 
 		DXGI_MODE_DESC desc = {};
 		desc.Width = WindowWidth;
 		desc.Height = WindowHeight;
-		desc.Format = DXGI_FORMAT_UNKNOWN;
+		desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 		//desc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 		//desc.ArraySize = 1; // at least one texture
 		//desc.SampleDesc.Count = 1; // should be always 1
 
-		p_DXGISwapChain->ResizeTarget(&desc);
+		//p_DXGISwapChain->ResizeTarget(&desc);
 
 		ID3D11Texture2D* p_backBufferTexture = nullptr;
 		//// Get buffer and create a render-target-view.
@@ -184,6 +188,7 @@ void D3D::OnResize()
 
 		SafeRelease<ID3D11Texture2D>(p_backBufferTexture);
 
+		//Resize depth...
 		p_D3DDeviceContext->OMSetRenderTargets(1, &p_RenderTargetView, nullptr);
 
 		// Set up the viewport.

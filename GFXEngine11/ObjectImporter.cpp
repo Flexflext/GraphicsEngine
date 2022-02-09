@@ -2,7 +2,6 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-#include "imgui/imgui.h"
 
 void ObjectImporter::Import3DAsset(const char* _p_name, Vertex* _p_vertecies, INT* _p_vertsize, USHORT* _p_indices, INT* _p_indexsize, Mesh* _testmesh)
 {
@@ -25,10 +24,10 @@ void ObjectImporter::Import3DAsset(const char* _p_name, Vertex* _p_vertecies, IN
 			_p_vertecies[i].normal = { *reinterpret_cast<XMFLOAT3*>(&p_mesh->mNormals[i]) };
 		}
 
-		if (p_mesh->mTextureCoords[4] != nullptr)
+		if (p_mesh->mTextureCoords[0] != nullptr)
 		{
-			_p_vertecies[i].uv.x = p_mesh->mTextureCoords[4][i].x;
-			_p_vertecies[i].uv.y = p_mesh->mTextureCoords[4][i].y;
+			_p_vertecies[i].uv.x = p_mesh->mTextureCoords[0][i].x;
+			_p_vertecies[i].uv.y = p_mesh->mTextureCoords[0][i].y;
 		}
 	}
 
@@ -47,15 +46,6 @@ void ObjectImporter::Import3DAsset(const char* _p_name, Vertex* _p_vertecies, IN
 		_p_indices[j + 1] = face.mIndices[1];
 		_p_indices[j + 2] = face.mIndices[2];
 	}
-
-	/*if (ImGui::Begin("Model Parmaters | In Method"))
-	{
-		for (size_t i = 0; i < *_p_vertsize; i++)
-		{
-			ImGui::Text("Pos %.1fs", _p_vertecies[i].position.x, _p_vertecies[i].position.y, _p_vertecies[i].position.z);
-		}
-	}
-	ImGui::End();*/
 
 	_testmesh->SetMesh(_p_vertecies, *_p_vertsize, _p_indices, *_p_indexsize);
 }

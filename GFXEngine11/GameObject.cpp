@@ -3,6 +3,8 @@
 #include "Light.h"
 #include "Camera.h"
 #include "FreeLookCam.h"
+#include <typeindex>
+#include <typeinfo>
 
 INT GameObject::Awake(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, FLOAT* _p_dt)
 {
@@ -87,12 +89,12 @@ Component* GameObject::AddComponent(EComponentTypes _type)
 
 	
 }
-
-Component* GameObject::GetComponent(EComponentTypes _type)
+template<typename T>
+T* GameObject::GetComponent()
 {
 	for (Component* c : allComponents)
 	{
-		if (c->CompType == _type)
+		if (dynamic_cast<T*>(c) != nullptr)
 		{
 			return c;
 		}

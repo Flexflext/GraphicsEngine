@@ -55,15 +55,17 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	Vertex* p_vertecies = new Vertex();
 
 	ObjectImporter imp = {};
+
 	imp.Import3DAsset("Models\\Robot.fbx", p_vertecies, &vertSize, p_indices, &indiceSize, meh);
+	//meh->SetMesh(p_vertecies, vertSize, p_indices, indiceSize);
+	meh->MyMaterial->SetMaterial(TEXT("Textures\\Robot.png"), EMaterials::TextureLighting);
+
+
+	//meh = gm.GetComponent<Mesh>();
 
 	
 
-	//meh->SetMesh(p_vertecies, vertSize, p_indices, indiceSize);
-
-
-	//meh->SetMesh(p_vertecies, vertSize, p_indices, indiceSize);
-	meh->MyMaterial->SetMaterial(TEXT("Textures\\Robot.png"), EMaterials::TextureLighting);
+	
 
 	Light::LightData lightData = {};
 	lightData.LightDirection = { -1.0f, -1.0f, 1.0f };
@@ -75,6 +77,8 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 
 	gm.transform.SetPosition(0, 0, 5);
 	gm.transform.SetRotation(0, 0, 0);
+
+	
 
 	GameObject obj = {};
 	allGameObjects.push_back(&obj);
@@ -102,9 +106,7 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	{
 		imGui.Update();
 		time.Update();
-		d3d.BeginScene(1,1,1);		
-
-		
+		d3d.BeginScene(1,1,1);
 		
 
 		for (GameObject* obj : allGameObjects)
