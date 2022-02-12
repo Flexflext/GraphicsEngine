@@ -2,6 +2,8 @@
 #include <d3d11.h>
 #include <DirectXMath.h>
 #include "Utils.h"
+#include "MaterialProperties.h"
+
 #pragma comment(lib, "d3dcompiler.lib")
 
 using namespace DirectX;
@@ -13,7 +15,7 @@ public:
 	void SetMaterialType() {};
 	void Render();
 	void DeInit();
-	void SetMaterial(LPCTSTR _texturename, EMaterials _mattype);
+	void SetMaterial(MaterialProperties* _props);
 	void InitMatrices(XMFLOAT4X4* _p_worldmatrix);
 private:
 
@@ -23,7 +25,6 @@ private:
 	INT CreateInputLayout(ID3D11Device* _p_d3ddevice, ID3DBlob* _p_vertexshaderdata);
 	INT CreateMatrixBuffer(ID3D11Device* _p_d3ddevice);
 	void SetMatrices(XMFLOAT4X4* _p_worldmatrix, XMFLOAT4X4* _p_viewmatrix, XMFLOAT4X4* _p_projectionmatrix);
-	INT CreateTextureAndSampler(ID3D11Device* _p_d3ddevice);
 
 	ID3D11VertexShader* p_vertexShader = nullptr;
 	ID3D11PixelShader* p_pixelShader = nullptr;
@@ -37,12 +38,10 @@ private:
 		XMFLOAT4X4 worldMatrix;
 	};
 
-	ID3D11ShaderResourceView* p_Texture = nullptr;
-	ID3D11SamplerState* p_SamplerState = nullptr;
-
-	LPCTSTR textureName;
 	LPCTSTR vertexShaderName;
 	LPCTSTR pixelShaderName;
+
+	MaterialProperties* p_properties;
 
 	//Optimizing
 	ID3D11DeviceContext* p_d3dDeviceContext = nullptr;

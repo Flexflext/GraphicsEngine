@@ -71,7 +71,6 @@ void FreeLookCam::UpdateComponent()
 		input.x -= this->gameObject->transform.LocalRight.x;
 		input.y -= this->gameObject->transform.LocalRight.y;
 		input.z -= this->gameObject->transform.LocalRight.z;
-		//this->gameObject->transform.AddRotation(camRotationSpeed * *p_deltaTime, 0, 0);
 	}
 
 	if (GetAsyncKeyState(VK_DOWN) & 0x8000)
@@ -79,38 +78,32 @@ void FreeLookCam::UpdateComponent()
 		input.x += this->gameObject->transform.LocalRight.x;
 		input.y += this->gameObject->transform.LocalRight.y;
 		input.z += this->gameObject->transform.LocalRight.z;
-
-		//this->gameObject->transform.AddRotation(-camRotationSpeed * *p_deltaTime, 0, 0);
-	}
-
-	if (GetAsyncKeyState(VK_LEFT) & 0x8000)
-	{
-		input.x += this->gameObject->transform.LocalUp.x;
-		input.y += this->gameObject->transform.LocalUp.y;
-		input.z += this->gameObject->transform.LocalUp.z;
-
-		//this->gameObject->transform.AddRotation(0,camRotationSpeed * *p_deltaTime, 0);
 	}
 
 	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
 	{
+		input.x += this->gameObject->transform.LocalUp.x;
+		input.y += this->gameObject->transform.LocalUp.y;
+		input.z += this->gameObject->transform.LocalUp.z;
+	}
+
+	if (GetAsyncKeyState(VK_LEFT) & 0x8000)
+	{
 		input.x -= this->gameObject->transform.LocalUp.x;
 		input.y -= this->gameObject->transform.LocalUp.y;
 		input.z -= this->gameObject->transform.LocalUp.z;
-
-		//this->gameObject->transform.AddRotation(0, -camRotationSpeed * *p_deltaTime, 0);
 	}
 
 	this->gameObject->transform.AddRotation(input.x * camRotationSpeed * *p_deltaTime, input.y * camRotationSpeed * *p_deltaTime, input.z * camRotationSpeed * *p_deltaTime);
 
-	if (ImGui::Begin("Position Parmeters"))
+	if (ImGui::Begin("Cam Position Parmeters"))
 	{
 		ImGui::Text("Position <X>: %.1f", this->gameObject->transform.Position.x);
 		ImGui::Text("Position <Y>: %.1f", this->gameObject->transform.Position.y);
 		ImGui::Text("Position <Z>: %.1f", this->gameObject->transform.Position.z);
 	}
 	ImGui::End();
-	if (ImGui::Begin("Roatation Parmeters"))
+	if (ImGui::Begin("Cam Rotation Parmeters"))
 	{
 		ImGui::Text("Rotation <X>: %.1f", this->gameObject->transform.Rotation.x);
 		ImGui::Text("Rotation <Y>: %.1f", this->gameObject->transform.Rotation.y);

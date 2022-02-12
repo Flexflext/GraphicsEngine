@@ -4,6 +4,7 @@
 #include <d3dcompiler.h>
 #include "Camera.h"
 #include "AllCameras.h"
+#include "TextureLightingProperties.h"
 
 INT Material::Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext)
 {
@@ -18,7 +19,7 @@ INT Material::Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevice
 	error = CreateMatrixBuffer(_p_d3ddevice);
 	CheckError(error);
 
-	error = CreateTextureAndSampler(_p_d3ddevice);
+	error = p_properties->InitProperties(_p_d3ddevicecontext, _p_d3ddevice);
 	CheckError(error);
 
 	return 0;
@@ -26,12 +27,7 @@ INT Material::Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevice
 
 void Material::Render()
 {
-	////Set Tex and Sampler State
-	p_d3dDeviceContext->PSSetShaderResources(0, 1, &p_Texture);
-	p_d3dDeviceContext->PSSetSamplers(0, 1, &p_SamplerState);
-
-	////Set Material
-	//_p_d3ddevice->SetMaterial(&material);
+	p_properties->Update();
 
 	//Set Shader Pipeline
 	p_d3dDeviceContext->VSSetShader(p_vertexShader, nullptr, 0);
@@ -44,22 +40,20 @@ void Material::Render()
 
 void Material::DeInit()
 {
-	//SafeRelease<IDirect3DTexture9>(p_texture);
-	SafeRelease<ID3D11ShaderResourceView>(p_Texture);
-	SafeRelease<ID3D11SamplerState>(p_SamplerState);
 	SafeRelease<ID3D11Buffer>(p_matrixBuffer);
 	SafeRelease<ID3D11InputLayout>(p_inputLayout);
 	SafeRelease<ID3D11PixelShader>(p_pixelShader);
 	SafeRelease<ID3D11VertexShader>(p_vertexShader);
 	SafeRelease<ID3D11DeviceContext>(p_d3dDeviceContext);
 
+	p_properties->DeinitProperties();
 }
 
-void Material::SetMaterial(LPCTSTR _texturename, EMaterials _mattype)
+void Material::SetMaterial(MaterialProperties* _props)
 {
-	textureName = _texturename;
+	p_properties = _props;
 
-	switch (_mattype)
+	switch (p_properties->materialType)
 	{
 	case EMaterials::TextureLighting:
 		vertexShaderName = TEXT("LightingVertexShader.cso");
@@ -206,25 +200,4 @@ void Material::SetMatrices(XMFLOAT4X4* _p_worldmatrix, XMFLOAT4X4* _p_viewmatrix
 	p_d3dDeviceContext->Unmap(p_matrixBuffer, 0);
 
 	p_d3dDeviceContext->VSSetConstantBuffers(0, 1, &p_matrixBuffer);
-}
-
-INT Material::CreateTextureAndSampler(ID3D11Device* _p_d3ddevice)
-{
-	//Create Texture
-	HRESULT hr = CreateWICTextureFromFile(_p_d3ddevice, textureName, nullptr ,&p_Texture, 0);
-	CheckFailed(hr, 63);
-
-
-	//Create Sampler State
-	D3D11_SAMPLER_DESC desc = {};
-
-	desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-	desc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-	desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-	desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-
-	hr = _p_d3ddevice->CreateSamplerState(&desc, &p_SamplerState);
-	CheckFailed(hr, 65);
-
-	return 0;
 }

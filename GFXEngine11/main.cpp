@@ -12,6 +12,7 @@
 #include "ImguiManager.h"
 #include "ObjectImporter.h"
 #include "imgui/imgui.h"
+#include "TextureLightingProperties.h"
 
 
 
@@ -48,20 +49,15 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	allGameObjects.push_back(&gm);
 	Mesh* meh = (Mesh*)gm.AddComponent(EComponentTypes::C_Mesh);
 
-	INT vertSize = 0;
-	INT indiceSize = 0;
-
-	USHORT* p_indices = new USHORT();
-	Vertex* p_vertecies = new Vertex();
-
 	ObjectImporter imp = {};
 
-	imp.Import3DAsset("Models\\Robot.fbx", p_vertecies, &vertSize, p_indices, &indiceSize, meh);
-	//meh->SetMesh(p_vertecies, vertSize, p_indices, indiceSize);
-	meh->MyMaterial->SetMaterial(TEXT("Textures\\Robot.png"), EMaterials::TextureLighting);
+	imp.Import3DAsset("Models\\Robot.fbx", meh);
+
+	TextureLightingProperties props = { TEXT("Textures\\Robot.png") };
+	meh->MyMaterial->SetMaterial(&props);
 
 
-	meh = gm.GetComponent<Mesh>();
+	//meh = gm.GetComponent<Mesh>();
 
 	
 
@@ -84,9 +80,10 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	allGameObjects.push_back(&obj);
 	Mesh* mesh = (Mesh*)obj.AddComponent(EComponentTypes::C_Mesh);
 
-	imp.Import3DAsset("Models\\FinalBaseMesh.obj", p_vertecies, &vertSize, p_indices, &indiceSize, mesh);
+	imp.Import3DAsset("Models\\FinalBaseMesh.obj", mesh);
 
-	mesh->MyMaterial->SetMaterial(TEXT("Textures\\HUHU.jpg"), EMaterials::TextureLighting);
+	TextureLightingProperties prop = { TEXT("Textures\\HUHU.jpg") };
+	mesh->MyMaterial->SetMaterial(&prop);
 
 
 	//Initialize GameObjects

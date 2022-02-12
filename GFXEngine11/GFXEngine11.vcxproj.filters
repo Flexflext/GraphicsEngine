@@ -93,6 +93,12 @@
     <ClInclude Include="FreeLookCam.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MaterialProperties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureLightingProperties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -162,6 +168,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FreeLookCam.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialProperties.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureLightingProperties.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

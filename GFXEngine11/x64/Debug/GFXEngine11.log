@@ -1,4 +1,24 @@
-﻿LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/FORCE' specification
+﻿  GameObject.cpp
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Mesh.h(57,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(29,2): warning C4091: 'static ': ignored on left of 'AllCameras' when no variable is declared
+  Material.cpp
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(29,2): warning C4091: 'static ': ignored on left of 'AllCameras' when no variable is declared
+  Mesh.cpp
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Mesh.h(57,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Mesh.cpp(42,37): warning C4267: '=': conversion from 'size_t' to 'UINT', possible loss of data
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Mesh.cpp(169,35): warning C4267: '=': conversion from 'size_t' to 'UINT', possible loss of data
+  ObjectImporter.cpp
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Mesh.h(57,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\ObjectImporter.cpp(18,29): warning C4018: '<': signed/unsigned mismatch
+  main.cpp
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Mesh.h(57,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(29,2): warning C4091: 'static ': ignored on left of 'AllCameras' when no variable is declared
+  Generating Code...
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Mesh.cpp(227): warning C4715: 'Mesh::AwakeComponent': not all control paths return a value
+LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/FORCE' specification
 Component.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
 Component.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored
 Component.obj : warning LNK4006: "int isFullScreen" (?isFullScreen@@3HA) already defined in Camera.obj; second definition ignored
@@ -24,6 +44,9 @@ main.obj : warning LNK4006: "int isFullScreen" (?isFullScreen@@3HA) already defi
 Material.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
 Material.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored
 Material.obj : warning LNK4006: "int isFullScreen" (?isFullScreen@@3HA) already defined in Camera.obj; second definition ignored
+MaterialProperties.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
+MaterialProperties.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored
+MaterialProperties.obj : warning LNK4006: "int isFullScreen" (?isFullScreen@@3HA) already defined in Camera.obj; second definition ignored
 Mesh.obj : warning LNK4006: "struct DirectX::XMFLOAT3 __cdecl CrossProductXMFLOAT3(struct DirectX::XMFLOAT3,struct DirectX::XMFLOAT3)" (?CrossProductXMFLOAT3@@YA?AUXMFLOAT3@DirectX@@U12@0@Z) already defined in GameObject.obj; second definition ignored
 Mesh.obj : warning LNK4006: "struct DirectX::XMFLOAT3 __cdecl NormalizeXMFLOAT3(struct DirectX::XMFLOAT3)" (?NormalizeXMFLOAT3@@YA?AUXMFLOAT3@DirectX@@U12@@Z) already defined in GameObject.obj; second definition ignored
 Mesh.obj : warning LNK4006: "struct DirectX::XMFLOAT3 __cdecl SubtractXMFLOT3(struct DirectX::XMFLOAT3,struct DirectX::XMFLOAT3)" (?SubtractXMFLOT3@@YA?AUXMFLOAT3@DirectX@@U12@0@Z) already defined in GameObject.obj; second definition ignored
@@ -36,9 +59,20 @@ ObjectImporter.obj : warning LNK4006: "struct DirectX::XMFLOAT3 __cdecl Subtract
 ObjectImporter.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
 ObjectImporter.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored
 ObjectImporter.obj : warning LNK4006: "int isFullScreen" (?isFullScreen@@3HA) already defined in Camera.obj; second definition ignored
+TextureLightingProperties.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
+TextureLightingProperties.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored
+TextureLightingProperties.obj : warning LNK4006: "int isFullScreen" (?isFullScreen@@3HA) already defined in Camera.obj; second definition ignored
 Time.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
 Time.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored
 Time.obj : warning LNK4006: "int isFullScreen" (?isFullScreen@@3HA) already defined in Camera.obj; second definition ignored
+WICTextureLoader.obj : warning LNK4006: "long __cdecl DirectX::CreateWICTextureFromFile(struct ID3D11Device *,struct ID3D11DeviceContext *,wchar_t const *,struct ID3D11Resource * *,struct ID3D11ShaderResourceView * *,unsigned __int64)" (?CreateWICTextureFromFile@DirectX@@YAJPEAUID3D11Device@@PEAUID3D11DeviceContext@@PEB_WPEAPEAUID3D11Resource@@PEAPEAUID3D11ShaderResourceView@@_K@Z) already defined in TextureLightingProperties.obj; second definition ignored
+WICTextureLoader.obj : warning LNK4006: "long __cdecl DirectX::CreateWICTextureFromFile(struct ID3D11Device *,wchar_t const *,struct ID3D11Resource * *,struct ID3D11ShaderResourceView * *,unsigned __int64)" (?CreateWICTextureFromFile@DirectX@@YAJPEAUID3D11Device@@PEB_WPEAPEAUID3D11Resource@@PEAPEAUID3D11ShaderResourceView@@_K@Z) already defined in TextureLightingProperties.obj; second definition ignored
+WICTextureLoader.obj : warning LNK4006: "long __cdecl DirectX::CreateWICTextureFromFileEx(struct ID3D11Device *,struct ID3D11DeviceContext *,wchar_t const *,unsigned __int64,enum D3D11_USAGE,unsigned int,unsigned int,unsigned int,enum DirectX::WIC_LOADER_FLAGS,struct ID3D11Resource * *,struct ID3D11ShaderResourceView * *)" (?CreateWICTextureFromFileEx@DirectX@@YAJPEAUID3D11Device@@PEAUID3D11DeviceContext@@PEB_W_KW4D3D11_USAGE@@IIIW4WIC_LOADER_FLAGS@1@PEAPEAUID3D11Resource@@PEAPEAUID3D11ShaderResourceView@@@Z) already defined in TextureLightingProperties.obj; second definition ignored
+WICTextureLoader.obj : warning LNK4006: "long __cdecl DirectX::CreateWICTextureFromFileEx(struct ID3D11Device *,wchar_t const *,unsigned __int64,enum D3D11_USAGE,unsigned int,unsigned int,unsigned int,enum DirectX::WIC_LOADER_FLAGS,struct ID3D11Resource * *,struct ID3D11ShaderResourceView * *)" (?CreateWICTextureFromFileEx@DirectX@@YAJPEAUID3D11Device@@PEB_W_KW4D3D11_USAGE@@IIIW4WIC_LOADER_FLAGS@1@PEAPEAUID3D11Resource@@PEAPEAUID3D11ShaderResourceView@@@Z) already defined in TextureLightingProperties.obj; second definition ignored
+WICTextureLoader.obj : warning LNK4006: "long __cdecl DirectX::CreateWICTextureFromMemory(struct ID3D11Device *,struct ID3D11DeviceContext *,unsigned char const *,unsigned __int64,struct ID3D11Resource * *,struct ID3D11ShaderResourceView * *,unsigned __int64)" (?CreateWICTextureFromMemory@DirectX@@YAJPEAUID3D11Device@@PEAUID3D11DeviceContext@@PEBE_KPEAPEAUID3D11Resource@@PEAPEAUID3D11ShaderResourceView@@3@Z) already defined in TextureLightingProperties.obj; second definition ignored
+WICTextureLoader.obj : warning LNK4006: "long __cdecl DirectX::CreateWICTextureFromMemory(struct ID3D11Device *,unsigned char const *,unsigned __int64,struct ID3D11Resource * *,struct ID3D11ShaderResourceView * *,unsigned __int64)" (?CreateWICTextureFromMemory@DirectX@@YAJPEAUID3D11Device@@PEBE_KPEAPEAUID3D11Resource@@PEAPEAUID3D11ShaderResourceView@@2@Z) already defined in TextureLightingProperties.obj; second definition ignored
+WICTextureLoader.obj : warning LNK4006: "long __cdecl DirectX::CreateWICTextureFromMemoryEx(struct ID3D11Device *,struct ID3D11DeviceContext *,unsigned char const *,unsigned __int64,unsigned __int64,enum D3D11_USAGE,unsigned int,unsigned int,unsigned int,enum DirectX::WIC_LOADER_FLAGS,struct ID3D11Resource * *,struct ID3D11ShaderResourceView * *)" (?CreateWICTextureFromMemoryEx@DirectX@@YAJPEAUID3D11Device@@PEAUID3D11DeviceContext@@PEBE_K3W4D3D11_USAGE@@IIIW4WIC_LOADER_FLAGS@1@PEAPEAUID3D11Resource@@PEAPEAUID3D11ShaderResourceView@@@Z) already defined in TextureLightingProperties.obj; second definition ignored
+WICTextureLoader.obj : warning LNK4006: "long __cdecl DirectX::CreateWICTextureFromMemoryEx(struct ID3D11Device *,unsigned char const *,unsigned __int64,unsigned __int64,enum D3D11_USAGE,unsigned int,unsigned int,unsigned int,enum DirectX::WIC_LOADER_FLAGS,struct ID3D11Resource * *,struct ID3D11ShaderResourceView * *)" (?CreateWICTextureFromMemoryEx@DirectX@@YAJPEAUID3D11Device@@PEBE_K2W4D3D11_USAGE@@IIIW4WIC_LOADER_FLAGS@1@PEAPEAUID3D11Resource@@PEAPEAUID3D11ShaderResourceView@@@Z) already defined in TextureLightingProperties.obj; second definition ignored
 Window.obj : warning LNK4006: "void __cdecl ImGui_ImplWin32_EnableAlphaCompositing(void *)" (?ImGui_ImplWin32_EnableAlphaCompositing@@YAXPEAX@Z) already defined in imgui_impl_win32.obj; second definition ignored
 Window.obj : warning LNK4006: "void __cdecl ImGui_ImplWin32_EnableDpiAwareness(void)" (?ImGui_ImplWin32_EnableDpiAwareness@@YAXXZ) already defined in imgui_impl_win32.obj; second definition ignored
 Window.obj : warning LNK4006: "float __cdecl ImGui_ImplWin32_GetDpiScaleForHwnd(void *)" (?ImGui_ImplWin32_GetDpiScaleForHwnd@@YAMPEAX@Z) already defined in imgui_impl_win32.obj; second definition ignored
@@ -51,5 +85,5 @@ Window.obj : warning LNK4006: "bool Resize" (?Resize@@3_NA) already defined in D
 Window.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
 Window.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored
 Window.obj : warning LNK4006: "int isFullScreen" (?isFullScreen@@3HA) already defined in Camera.obj; second definition ignored
-main.obj : error LNK2019: unresolved external symbol "public: static class Mesh * __cdecl GameObject::GetComponent<class Mesh>(void)" (??$GetComponent@VMesh@@@GameObject@@SAPEAVMesh@@XZ) referenced in function WinMain
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine\x64\Debug\GFXEngine11.exe : fatal error LNK1120: 1 unresolved externals
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine\x64\Debug\GFXEngine11.exe : warning LNK4088: image being generated due to /FORCE option; image may not run
+  GFXEngine11.vcxproj -> C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine\x64\Debug\GFXEngine11.exe
