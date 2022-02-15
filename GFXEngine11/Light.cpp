@@ -39,7 +39,7 @@ void Light::SetLight(LightData& _light, INT _id)
 INT Light::AwakeComponent(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, FLOAT* _p_dt)
 {
 	INT error = Init(_p_d3ddevice, _p_d3ddevicecontext);
-	CheckError(error);
+	CheckIntError(error);
 }
 
 void Light::StartComponent()

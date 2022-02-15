@@ -7,10 +7,8 @@ INT Mesh::Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecont
 	p_d3dDeviceContext = _p_d3ddevicecontext;
 	p_deltaTime = _p_dt;
 
-	//RecalculateNormals();
-
 	INT error = InitializeBuffers(_p_d3ddevice);
-	CheckError(error);
+	CheckIntError(error);
 
 	return 0;
 }
@@ -185,13 +183,18 @@ INT Mesh::InitIndexBuffer(ID3D11Device* _p_d3ddevice)
 
 void Mesh::SetMesh(Vertex* _vertecies, INT _vertsize, USHORT* _indices, INT _indexsize)
 {
+	vertexData.clear();
+	indexData.clear();
+
 	InitVertecies(_vertecies, _vertsize);
 	InitIndices(_indices, _indexsize);
 }
 
 void Mesh::RecalculateNormals()
 {
-	for (size_t i = 0; i < indexData.size(); i += 3)
+	USHORT size = indexData.size() - 1;
+
+	for (size_t i = 0; i < size; i += 3)
 	{
 		USHORT indexA = indexData[i];
 		USHORT indexB = indexData[i + 1];
@@ -208,10 +211,10 @@ void Mesh::RecalculateNormals()
 INT Mesh::InitializeBuffers(ID3D11Device* _p_d3ddevice)
 {
 	INT error = InitVertexBuffer(_p_d3ddevice);
-	CheckError(error);
+	CheckIntError(error);
 
 	error = InitIndexBuffer(_p_d3ddevice);
-	CheckError(error);
+	CheckIntError(error);
 
 	return 0;
 }
@@ -220,10 +223,10 @@ INT Mesh::InitializeBuffers(ID3D11Device* _p_d3ddevice)
 INT Mesh::AwakeComponent(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, FLOAT* _p_dt)
 {
 	INT error = MyMaterial->Init(_p_d3ddevice, _p_d3ddevicecontext);
-	CheckError(error); 
+	CheckIntError(error); 
 
 	error = Init(_p_d3ddevice, _p_d3ddevicecontext, _p_dt);
-	CheckError(error); 
+	CheckIntError(error); 
 }
 
 void Mesh::StartComponent()

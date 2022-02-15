@@ -1,7 +1,7 @@
 #pragma once
 #include <d3d9.h>
 
-#define CheckError(error) if (error != 0) return error;
+#define CheckIntError(error) if (error != 0) return error;
 #define CheckNull(obj, error) if (obj == nullptr) return error;
 #define CheckFailed(hr, error) if (FAILED(hr)) return error;
 

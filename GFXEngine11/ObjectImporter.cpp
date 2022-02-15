@@ -3,12 +3,19 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-void ObjectImporter::Import3DAsset(const char* _p_name, Mesh* _testmesh)
+void ObjectImporter::Import3DAsset(const char* _p_name, Mesh* _testmesh, USHORT _meshnum)
 {
 	Assimp::Importer imp;
-	const aiScene* p_model = imp.ReadFile(_p_name, aiProcess_Triangulate | aiProcess_JoinIdenticalVertices);
+	const aiScene* p_model = imp.ReadFile(_p_name, aiProcess_Triangulate 
+		| aiProcess_JoinIdenticalVertices 
+		| aiProcess_FixInfacingNormals 
+		| aiProcess_GenUVCoords 
+		| aiProcess_CalcTangentSpace 
+		| aiProcess_GenNormals 
+		| aiProcess_ConvertToLeftHanded
+		);
 
-	const aiMesh* p_mesh = p_model->mMeshes[0];
+	const aiMesh* p_mesh = p_model->mMeshes[_meshnum];
 
 	INT vertsize = p_mesh->mNumVertices;
 	Vertex* p_vertecies = new Vertex[vertsize];
@@ -28,6 +35,12 @@ void ObjectImporter::Import3DAsset(const char* _p_name, Mesh* _testmesh)
 		{
 			p_vertecies[i].uv.x = p_mesh->mTextureCoords[0][i].x;
 			p_vertecies[i].uv.y = p_mesh->mTextureCoords[0][i].y;
+		}
+
+		if (p_mesh->HasTangentsAndBitangents())
+		{
+			p_vertecies[i].tangent = { *reinterpret_cast<XMFLOAT3*>(&p_mesh->mTangents[i]) };
+			p_vertecies[i].bitangent = { *reinterpret_cast<XMFLOAT3*>(&p_mesh->mBitangents[i]) };
 		}
 	}
 

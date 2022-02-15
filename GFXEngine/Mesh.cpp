@@ -8,10 +8,10 @@ using namespace DirectX;
 INT Mesh::Init(IDirect3DDevice9* _p_D3DDevice)
 {
 	INT error = InitVertexBuffer(_p_D3DDevice);
-	CheckError(error);
+	CheckIntError(error);
 
 	error = InitIndexBuffer(_p_D3DDevice);
-	CheckError(error);
+	CheckIntError(error);
 
 	//Initialize World Transformation-Matrix
 	XMMATRIX identity = XMMatrixIdentity();

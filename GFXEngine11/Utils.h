@@ -1,6 +1,6 @@
 #pragma once
 
-#define CheckError(error) if (error != 0) return error;
+#define CheckIntError(error) if (error != 0) return error;
 #define CheckNull(obj, error) if (obj == nullptr) return error;
 #define CheckFailed(hr, error) if (FAILED(hr)) return error;
 
@@ -25,6 +25,7 @@ enum class EComponentTypes
 enum class EMaterials
 {
 	TextureLighting,
+	SpecularLight,
 };
 
 unsigned int WindowWidth = 1024;

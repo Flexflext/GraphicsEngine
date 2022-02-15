@@ -1,4 +1,4 @@
-Texture2D MainTexture;
+Texture2D MainTexture : register(t0);
 sampler MainSampler;
 
 cbuffer LightData // has to be aligned in 16 byte blocks

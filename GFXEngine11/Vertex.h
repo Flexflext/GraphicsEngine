@@ -15,6 +15,10 @@ public:
 	XMFLOAT2 uv;
 	//Color
 	XMFLOAT4 color;
+
+	XMFLOAT3 tangent;
+
+	XMFLOAT3 bitangent;
 	
 	Vertex()
 	{

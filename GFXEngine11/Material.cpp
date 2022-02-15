@@ -11,16 +11,16 @@ INT Material::Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevice
 	p_d3dDeviceContext = _p_d3ddevicecontext;
 
 	INT error = CreateVertexShader(_p_d3ddevice);
-	CheckError(error);
+	CheckIntError(error);
 
 	error = CreatePixelShader(_p_d3ddevice);
-	CheckError(error);
+	CheckIntError(error);
 
 	error = CreateMatrixBuffer(_p_d3ddevice);
-	CheckError(error);
+	CheckIntError(error);
 
 	error = p_properties->InitProperties(_p_d3ddevicecontext, _p_d3ddevice);
-	CheckError(error);
+	CheckIntError(error);
 
 	return 0;
 }
@@ -56,9 +56,17 @@ void Material::SetMaterial(MaterialProperties* _props)
 	switch (p_properties->materialType)
 	{
 	case EMaterials::TextureLighting:
+	{
 		vertexShaderName = TEXT("LightingVertexShader.cso");
 		pixelShaderName = TEXT("LightingPixelShader.cso");
 		break;
+	}
+	case EMaterials::SpecularLight:
+	{
+		vertexShaderName = TEXT("SpecularVertexShader.cso");
+		pixelShaderName = TEXT("SpecularPixelShader.cso");
+		break;
+	}
 	}
 }
 
@@ -102,7 +110,7 @@ INT Material::CreateVertexShader(ID3D11Device* _p_d3ddevice)
 	CheckFailed(hr, 62);
 
 	INT error = CreateInputLayout(_p_d3ddevice, p_CompiledShaderCode);
-	CheckError(error);
+	CheckIntError(error);
 
 	SafeRelease<ID3DBlob>(p_CompiledShaderCode);
 
@@ -129,7 +137,7 @@ INT Material::CreatePixelShader(ID3D11Device* _p_d3ddevice)
 INT Material::CreateInputLayout(ID3D11Device* _p_d3ddevice, ID3DBlob* _p_vertexshaderdata)
 {
     //https://docs.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-semantics
-	D3D11_INPUT_ELEMENT_DESC elements[4] = {};
+	D3D11_INPUT_ELEMENT_DESC elements[6] = {};
 
 	//Position
 	elements[0].SemanticName = "POSITION";
@@ -149,6 +157,16 @@ INT Material::CreateInputLayout(ID3D11Device* _p_d3ddevice, ID3DBlob* _p_vertexs
 	elements[3].SemanticName = "COLOR";
 	elements[3].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	elements[3].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
+
+	////Tangent
+	//elements[4].SemanticName = "TANGENT";
+	//elements[4].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	//elements[4].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
+
+	////Binormal
+	//elements[5].SemanticName = "BINORMAL";
+	//elements[5].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	//elements[5].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
 
 	HRESULT hr = _p_d3ddevice->CreateInputLayout(
 		elements,

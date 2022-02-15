@@ -1,23 +1,9 @@
-﻿  GameObject.cpp
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Mesh.h(57,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(29,2): warning C4091: 'static ': ignored on left of 'AllCameras' when no variable is declared
-  Material.cpp
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(29,2): warning C4091: 'static ': ignored on left of 'AllCameras' when no variable is declared
-  Mesh.cpp
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Mesh.h(57,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Mesh.cpp(42,37): warning C4267: '=': conversion from 'size_t' to 'UINT', possible loss of data
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Mesh.cpp(169,35): warning C4267: '=': conversion from 'size_t' to 'UINT', possible loss of data
-  ObjectImporter.cpp
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Mesh.h(57,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\ObjectImporter.cpp(18,29): warning C4018: '<': signed/unsigned mismatch
+﻿  Scene.cpp
   main.cpp
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Mesh.h(57,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Mesh.h(61,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(29,2): warning C4091: 'static ': ignored on left of 'AllCameras' when no variable is declared
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(18,2): warning C4091: 'static ': ignored on left of 'AllCameras' when no variable is declared
   Generating Code...
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Mesh.cpp(227): warning C4715: 'Mesh::AwakeComponent': not all control paths return a value
 LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/FORCE' specification
 Component.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
 Component.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored
@@ -59,6 +45,9 @@ ObjectImporter.obj : warning LNK4006: "struct DirectX::XMFLOAT3 __cdecl Subtract
 ObjectImporter.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
 ObjectImporter.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored
 ObjectImporter.obj : warning LNK4006: "int isFullScreen" (?isFullScreen@@3HA) already defined in Camera.obj; second definition ignored
+Scene.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
+Scene.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored
+Scene.obj : warning LNK4006: "int isFullScreen" (?isFullScreen@@3HA) already defined in Camera.obj; second definition ignored
 TextureLightingProperties.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
 TextureLightingProperties.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored
 TextureLightingProperties.obj : warning LNK4006: "int isFullScreen" (?isFullScreen@@3HA) already defined in Camera.obj; second definition ignored

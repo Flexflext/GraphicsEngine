@@ -13,6 +13,7 @@
 #include "ObjectImporter.h"
 #include "imgui/imgui.h"
 #include "TextureLightingProperties.h"
+#include "Scene.h"
 
 
 
@@ -23,31 +24,29 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	//Create Window
 	Window window = {};
 	INT error = window.Init(_hinstance, WindowWidth, WindowHeight);
-	CheckError(error);
+	CheckIntError(error);
 
 	//Conection to DirectX
 	D3D d3d = {};
 	error = d3d.Init(window.GetWindowHandle(), WindowWidth, WindowHeight, isFullScreen);
-	CheckError(error);
+	CheckIntError(error);
 	window.d3d = d3d;
 
 	//Set Up Time
 	Time time = {};
 	error = time.Init();
-	CheckError(error);
+	CheckIntError(error);
 
-	std::vector<GameObject*> allGameObjects;
+	Scene scene = { d3d.GetDevice(), d3d.GetDeviceContext(), time.GetDeltaTime() };
 
-	GameObject cameraObj = {};
-	allGameObjects.push_back(&cameraObj);
-	cameraObj.AddComponent(EComponentTypes::C_Camera);
-	cameraObj.AddComponent(EComponentTypes::CS_FreeLookCam);
+	GameObject* cameraObj = scene.Instantiate();
+	cameraObj->AddComponent(EComponentTypes::C_Camera);
+	cameraObj->AddComponent(EComponentTypes::CS_FreeLookCam);
 	//cameraObj.transform.SetRotation(0, 90, 0);
 
 
-	GameObject gm = {};
-	allGameObjects.push_back(&gm);
-	Mesh* meh = (Mesh*)gm.AddComponent(EComponentTypes::C_Mesh);
+	GameObject* gm = scene.Instantiate();
+	Mesh* meh = (Mesh*)gm->AddComponent(EComponentTypes::C_Mesh);
 
 	ObjectImporter imp = {};
 
@@ -55,9 +54,6 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 
 	TextureLightingProperties props = { TEXT("Textures\\Robot.png") };
 	meh->MyMaterial->SetMaterial(&props);
-
-
-	//meh = gm.GetComponent<Mesh>();
 
 	
 
@@ -68,34 +64,27 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	lightData.LightDiffuseColor = { 0.8f, 0.8f, 0.8f, 1.0f };
 	lightData.LightIntensity = 1.0f;
 
-	Light* lamp = (Light*)gm.AddComponent(EComponentTypes::C_Light);
+	Light* lamp = (Light*)gm->AddComponent(EComponentTypes::C_Light);
 	lamp->SetLight(lightData);
 
-	gm.transform.SetPosition(0, 0, 5);
-	gm.transform.SetRotation(0, 0, 0);
+	gm->transform.SetPosition(0, 0, 5);
+	gm->transform.SetRotation(0, 0, 0);
 
 	
 
-	GameObject obj = {};
-	allGameObjects.push_back(&obj);
-	Mesh* mesh = (Mesh*)obj.AddComponent(EComponentTypes::C_Mesh);
+	GameObject* obj = scene.Instantiate();
+	Mesh* mesh = (Mesh*)obj->AddComponent(EComponentTypes::C_Mesh);
 
 	imp.Import3DAsset("Models\\FinalBaseMesh.obj", mesh);
 
-	TextureLightingProperties prop = { TEXT("Textures\\HUHU.jpg") };
+	//NormalMappingLightingProperties prop = { TEXT("Textures\\Robot.png"), TEXT("Textures\\HUHU.jpg") };
+	TextureLightingProperties prop = { TEXT("Textures\\Robot.png") };
 	mesh->MyMaterial->SetMaterial(&prop);
 
 
 	//Initialize GameObjects
-	for (GameObject* obj : allGameObjects)
-	{
-		obj->Awake(d3d.GetDevice(), d3d.GetDeviceContext(), time.GetDeltaTime());
-		CheckError(error);
-	}
-	for (GameObject* obj : allGameObjects)
-	{
-		obj->Start();
-	}
+	scene.Awake();
+	scene.Start();
 
 
 	//Run App
@@ -104,36 +93,24 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 		imGui.Update();
 		time.Update();
 		d3d.BeginScene(1,1,1);
-		
 
-		for (GameObject* obj : allGameObjects)
+
+
+
+		if (GetAsyncKeyState('G') & 0x8000)
 		{
-			obj->Update();
+			scene.Destroy(obj);
 		}
 
 
-		/*if (ImGui::Begin("Model Parmaters | After Method"))
-		{
-			for (size_t i = 0; i < vertSize; i++)
-			{
-				ImGui::Text("Pos %.1f %.1f %.1f", p_vertecies[i].position.x, p_vertecies[i].position.y, p_vertecies[i].position.z);
-			}
-		}
-		ImGui::End();*/
 
-
+		scene.Update();
 		imGui.EndUpdate();
 		d3d.EndScene();
-
-		
 	}
 
 	//Tidy Up
-	for (GameObject* obj : allGameObjects)
-	{
-		obj->DeInit();
-	}
-
+	scene.DeInit();
 	d3d.DeInit();
 	window.DeInit();
 	time.DeInit();
