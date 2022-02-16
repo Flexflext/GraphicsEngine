@@ -8,6 +8,10 @@ ImguiManager::ImguiManager()
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGui::StyleColorsDark();
+
+	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
+	//ImGui::GetIO().ConfigFlags = ImGuiConfigFlags_DockingEnable;
 }
 
 ImguiManager::~ImguiManager()
@@ -21,11 +25,11 @@ void ImguiManager::Update()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-	static bool show_demo_window = true;
+	/*static bool show_demo_window = true;
 	if (show_demo_window)
 	{
 		ImGui::ShowDemoWindow(&show_demo_window);
-	}
+	}*/
 
 	
 

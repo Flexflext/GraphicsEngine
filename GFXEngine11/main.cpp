@@ -95,15 +95,6 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 		d3d.BeginScene(1,1,1);
 
 
-
-
-		if (GetAsyncKeyState('G') & 0x8000)
-		{
-			scene.Destroy(obj);
-		}
-
-
-
 		scene.Update();
 		imGui.EndUpdate();
 		d3d.EndScene();
