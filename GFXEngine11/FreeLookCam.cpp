@@ -95,32 +95,6 @@ void FreeLookCam::UpdateComponent()
 	}
 
 	this->gameObject->transform.AddRotation(input.x * camRotationSpeed * *p_deltaTime, input.y * camRotationSpeed * *p_deltaTime, input.z * camRotationSpeed * *p_deltaTime);
-
-	float positionX = { gameObject->transform.Position.x };
-	float positionY = { gameObject->transform.Position.y };
-	float positionZ = { gameObject->transform.Position.z };
-
-	float rotationX = { gameObject->transform.Rotation.x };
-	float rotationY = { gameObject->transform.Rotation.y };
-	float rotationZ = { gameObject->transform.Rotation.z };
-
-	if (ImGui::Begin("Cam Parmeters"))
-	{
-		ImGui::Text("Position");
-		ImGui::InputFloat("X Pos", &positionX, 1.0f, 10.0f, "%.1f");
-		ImGui::InputFloat("Y Pos", &positionY, 1.0f, 10.0f, "%.1f");
-		ImGui::InputFloat("Z Pos", &positionZ, 1.0f, 10.0f, "%.1f");
-		ImGui::Text("Rotation");
-		ImGui::InputFloat("X Rot", &rotationX, 1.0f, 10.0f, "%.1f");
-		ImGui::InputFloat("Y Rot", &rotationY, 1.0f, 10.0f, "%.1f");
-		ImGui::InputFloat("Z Rot", &rotationZ, 1.0f, 10.0f, "%.1f");
-
-		//ImGui::DragFloat("PosX", &gameObject->transform.Position.x, 1.0f, 0.0f, 500.0f, "%.1f", 1.0f);
-	}
-	ImGui::End();
-
-	this->gameObject->transform.SetRotation(rotationX, rotationY, rotationZ);
-	this->gameObject->transform.SetPosition(positionX, positionY, positionZ);
 }
 
 void FreeLookCam::DeInitComponent()

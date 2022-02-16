@@ -26,29 +26,49 @@ void Scene::Start()
 
 void Scene::Update()
 {
+	
+
 	ImGui::Begin("GameObjects");
-	for (size_t i = 0; i < sceneGameObjects.size(); i++)
+	for (GameObject* obj : sceneGameObjects)
 	{
-		if (ImGui::TreeNode(sceneGameObjects[i]->Name))
+		if (ImGui::TreeNode(obj->Name))
 		{
-			ImGui::Text("Position");
-			ImGui::InputFloat("X Pos", &sceneGameObjects[i]->transform.Position.x, 1.0f, 10.0f, "%.1f");
-			ImGui::InputFloat("Y Pos", &sceneGameObjects[i]->transform.Position.y, 1.0f, 10.0f, "%.1f");
-			ImGui::InputFloat("Z Pos", &sceneGameObjects[i]->transform.Position.z, 1.0f, 10.0f, "%.1f");
-			ImGui::Text("Rotation");
-			ImGui::InputFloat("X Rot", &sceneGameObjects[i]->transform.Rotation.x, 1.0f, 10.0f, "%.1f");
-			ImGui::InputFloat("Y Rot", &sceneGameObjects[i]->transform.Rotation.y, 1.0f, 10.0f, "%.1f");
-			ImGui::InputFloat("Z Rot", &sceneGameObjects[i]->transform.Rotation.z, 1.0f, 10.0f, "%.1f");
+			if (ImGui::TreeNode("Position"))
+			{
+				ImGui::InputFloat("X Pos", &obj->transform.Position.x, 1.0f, 10.0f, "%.1f");
+				ImGui::InputFloat("Y Pos", &obj->transform.Position.y, 1.0f, 10.0f, "%.1f");
+				ImGui::InputFloat("Z Pos", &obj->transform.Position.z, 1.0f, 10.0f, "%.1f");
+				ImGui::TreePop();
+			}
+			if (ImGui::TreeNode("Rotation"))
+			{
+				ImGui::Text("Rotation");
+				ImGui::InputFloat("X Rot", &obj->transform.Rotation.x, 1.0f, 10.0f, "%.1f");
+				ImGui::InputFloat("Y Rot", &obj->transform.Rotation.y, 1.0f, 10.0f, "%.1f");
+				ImGui::InputFloat("Z Rot", &obj->transform.Rotation.z, 1.0f, 10.0f, "%.1f");
+				ImGui::TreePop();
+			}
+			if (ImGui::TreeNode("Scale"))
+			{
+				ImGui::Text("Scale");
+				ImGui::InputFloat("X Scale", &obj->transform.Scale.x, 1.0f, 10.0f, "%.1f");
+				ImGui::InputFloat("Y Scale", &obj->transform.Scale.y, 1.0f, 10.0f, "%.1f");
+				ImGui::InputFloat("Z Scale", &obj->transform.Scale.z, 1.0f, 10.0f, "%.1f");
+				ImGui::TreePop();
+			}
+			if (ImGui::TreeNode("Advanced"))
+			{
+				ImGui::Checkbox("Active", &obj->IsActive);
+				if (ImGui::Button("Destroy"))
+				{
+					this->Destroy(obj);
+				}
+
+				ImGui::TreePop();
+			}
 
 			ImGui::TreePop();
 		}
-		
-		sceneGameObjects[i]->Update();
-	}
-
-
-	for (GameObject* obj : sceneGameObjects)
-	{
 		
 		obj->Update();
 	}
