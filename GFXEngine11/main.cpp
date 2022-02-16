@@ -39,13 +39,13 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 
 	Scene scene = { d3d.GetDevice(), d3d.GetDeviceContext(), time.GetDeltaTime() };
 
-	GameObject* cameraObj = scene.Instantiate();
+	GameObject* cameraObj = scene.Instantiate("Cam");
 	cameraObj->AddComponent(EComponentTypes::C_Camera);
 	cameraObj->AddComponent(EComponentTypes::CS_FreeLookCam);
 	//cameraObj.transform.SetRotation(0, 90, 0);
 
 
-	GameObject* gm = scene.Instantiate();
+	GameObject* gm = scene.Instantiate("Robot");
 	Mesh* meh = (Mesh*)gm->AddComponent(EComponentTypes::C_Mesh);
 
 	ObjectImporter imp = {};
@@ -72,7 +72,7 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 
 	
 
-	GameObject* obj = scene.Instantiate();
+	GameObject* obj = scene.Instantiate("Human");
 	Mesh* mesh = (Mesh*)obj->AddComponent(EComponentTypes::C_Mesh);
 
 	imp.Import3DAsset("Models\\FinalBaseMesh.obj", mesh);

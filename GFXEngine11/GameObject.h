@@ -7,8 +7,10 @@ class Component;
 class GameObject
 {
 public:
-	GameObject()
+	GameObject(const char* _name)
 	{
+		Name = _name;
+
 		transform.Init();
 	}
 
@@ -25,6 +27,8 @@ public:
 	static T* GetComponent();
 
 	bool IsActive = true;
+
+	const char* Name;
 
 private:
 	std::vector<Component*> allComponents;

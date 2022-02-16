@@ -12,7 +12,7 @@ public:
 	void Update();
 	void DeInit();
 
-	GameObject* Instantiate();
+	GameObject* Instantiate(const char* _name);
 	GameObject* InstantiateAtRuntime();
 	void Destroy(GameObject* _obj);
 private:

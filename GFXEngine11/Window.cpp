@@ -34,7 +34,7 @@ INT Window::Init(HINSTANCE _hinstance, UINT _width, UINT _height)
 	UINT screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
 	RECT wr = { (screenWidth - _width) / 2, (screenHeight - _height) / 2, (screenWidth + _width) / 2, (screenHeight + _height) / 2 };
-	DWORD style = WS_SYSMENU;
+	DWORD style = WS_OVERLAPPEDWINDOW;//WS_SYSMENU;
 
 	AdjustWindowRect(&wr, style, false);
 
