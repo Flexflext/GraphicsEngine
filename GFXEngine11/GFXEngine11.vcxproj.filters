@@ -105,6 +105,9 @@
     <ClInclude Include="imgui\imgui_impl_dx11.h">
       <Filter>imgui\Impl</Filter>
     </ClInclude>
+    <ClInclude Include="SpecularLightingProperties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -184,6 +187,9 @@
     </ClCompile>
     <ClCompile Include="imgui\imgui_impl_dx11.cpp">
       <Filter>imgui\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="SpecularLightingProperties.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

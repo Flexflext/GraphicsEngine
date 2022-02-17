@@ -13,6 +13,7 @@
 #include "ObjectImporter.h"
 #include "imgui/imgui.h"
 #include "TextureLightingProperties.h"
+#include "SpecularLightingProperties.h"
 #include "Scene.h"
 
 
@@ -77,8 +78,7 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 
 	imp.Import3DAsset("Models\\FinalBaseMesh.obj", mesh);
 
-	//NormalMappingLightingProperties prop = { TEXT("Textures\\Robot.png"), TEXT("Textures\\HUHU.jpg") };
-	TextureLightingProperties prop = { TEXT("Textures\\Robot.png") };
+	SpecularLightingProperties prop = { TEXT("Textures\\Robot.png"), {1}, {1,1,1,1}, {64} };
 	mesh->MyMaterial->SetMaterial(&prop);
 
 

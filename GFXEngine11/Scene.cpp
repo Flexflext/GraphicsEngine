@@ -26,8 +26,6 @@ void Scene::Start()
 
 void Scene::Update()
 {
-	
-
 	ImGui::Begin("GameObjects");
 	for (GameObject* obj : sceneGameObjects)
 	{
@@ -35,25 +33,23 @@ void Scene::Update()
 		{
 			if (ImGui::TreeNode("Position"))
 			{
-				ImGui::InputFloat("X Pos", &obj->transform.Position.x, 1.0f, 10.0f, "%.1f");
-				ImGui::InputFloat("Y Pos", &obj->transform.Position.y, 1.0f, 10.0f, "%.1f");
-				ImGui::InputFloat("Z Pos", &obj->transform.Position.z, 1.0f, 10.0f, "%.1f");
+				ImGui::InputFloat("X", &obj->transform.Position.x, 1.0f, 10.0f, "%.1f");
+				ImGui::InputFloat("Y", &obj->transform.Position.y, 1.0f, 10.0f, "%.1f");
+				ImGui::InputFloat("Z", &obj->transform.Position.z, 1.0f, 10.0f, "%.1f");
 				ImGui::TreePop();
 			}
 			if (ImGui::TreeNode("Rotation"))
 			{
-				ImGui::Text("Rotation");
-				ImGui::InputFloat("X Rot", &obj->transform.Rotation.x, 1.0f, 10.0f, "%.1f");
-				ImGui::InputFloat("Y Rot", &obj->transform.Rotation.y, 1.0f, 10.0f, "%.1f");
-				ImGui::InputFloat("Z Rot", &obj->transform.Rotation.z, 1.0f, 10.0f, "%.1f");
+				ImGui::InputFloat("X", &obj->transform.Rotation.x, 1.0f, 10.0f, "%.1f");
+				ImGui::InputFloat("Y", &obj->transform.Rotation.y, 1.0f, 10.0f, "%.1f");
+				ImGui::InputFloat("Z", &obj->transform.Rotation.z, 1.0f, 10.0f, "%.1f");
 				ImGui::TreePop();
 			}
 			if (ImGui::TreeNode("Scale"))
 			{
-				ImGui::Text("Scale");
-				ImGui::InputFloat("X Scale", &obj->transform.Scale.x, 1.0f, 10.0f, "%.1f");
-				ImGui::InputFloat("Y Scale", &obj->transform.Scale.y, 1.0f, 10.0f, "%.1f");
-				ImGui::InputFloat("Z Scale", &obj->transform.Scale.z, 1.0f, 10.0f, "%.1f");
+				ImGui::InputFloat("X", &obj->transform.Scale.x, 1.0f, 10.0f, "%.1f");
+				ImGui::InputFloat("Y", &obj->transform.Scale.y, 1.0f, 10.0f, "%.1f");
+				ImGui::InputFloat("Z", &obj->transform.Scale.z, 1.0f, 10.0f, "%.1f");
 				ImGui::TreePop();
 			}
 			if (ImGui::TreeNode("Advanced"))

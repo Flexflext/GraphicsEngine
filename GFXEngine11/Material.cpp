@@ -193,6 +193,8 @@ INT Material::CreateMatrixBuffer(ID3D11Device* _p_d3ddevice)
 	HRESULT hr = _p_d3ddevice->CreateBuffer(&desc, nullptr, &p_matrixBuffer);
 	CheckFailed(hr, 61);
 
+	
+
 	return 0;
 }
 
@@ -214,6 +216,7 @@ void Material::SetMatrices(XMFLOAT4X4* _p_worldmatrix, XMFLOAT4X4* _p_viewmatrix
 	MatrixBuffer* p_TempMatrixBuffer = static_cast<MatrixBuffer*>(data.pData);
 	XMStoreFloat4x4(&(p_TempMatrixBuffer->worldviewProjectionMatrix), wvpMatrix);
 	XMStoreFloat4x4(&(p_TempMatrixBuffer->worldMatrix), XMMatrixTranspose(worldMatrix));
+	p_TempMatrixBuffer->camWorldPos = AllCameras::GetMainCamera()->gameObject->transform.Position;
 
 	p_d3dDeviceContext->Unmap(p_matrixBuffer, 0);
 

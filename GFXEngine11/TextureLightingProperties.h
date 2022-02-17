@@ -11,12 +11,6 @@ public:
 		materialType = EMaterials::TextureLighting;
 	}
 
-	//struct  Data
-	//{
-	//	// because of 16 byte alignment 
-	//	XMFLOAT4 LightDirection;
-	//};
-
 	INT InitProperties(ID3D11DeviceContext* _p_d3ddevicecontext, ID3D11Device* _p_d3ddevice) override;
 	void DeinitProperties() override;
 	void Update() override;

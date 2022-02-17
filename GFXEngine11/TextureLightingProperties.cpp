@@ -34,6 +34,6 @@ void TextureLightingProperties::Update()
 {
 	////Set Tex and Sampler State
 	p_d3dDeviceContext->PSSetShaderResources(0, 1, &p_texture);
-	p_d3dDeviceContext->PSSetShaderResources(1, 1, &p_sectexture);
+	//p_d3dDeviceContext->PSSetShaderResources(1, 1, &p_sectexture);
 	p_d3dDeviceContext->PSSetSamplers(0, 1, &p_samplerState);
 }

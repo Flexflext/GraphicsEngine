@@ -36,6 +36,8 @@ private:
 	{
 		XMFLOAT4X4 worldviewProjectionMatrix;
 		XMFLOAT4X4 worldMatrix;
+		XMFLOAT3 camWorldPos;
+		FLOAT padding;
 	};
 
 	LPCTSTR vertexShaderName;

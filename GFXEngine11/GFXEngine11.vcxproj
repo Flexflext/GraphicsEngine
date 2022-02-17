@@ -178,6 +178,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="ObjectImporter.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="SpecularLightingProperties.h" />
     <ClInclude Include="TextureLightingProperties.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
@@ -208,6 +209,7 @@
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="ObjectImporter.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SpecularLightingProperties.cpp" />
     <ClCompile Include="TextureLightingProperties.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Transform.cpp" />
