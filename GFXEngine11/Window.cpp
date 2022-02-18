@@ -6,6 +6,15 @@
 #include "imgui/imgui_impl_win32.h"
 #include "imgui/imgui_impl_win32.cpp"
 
+Window* Window::Instance = nullptr;
+
+Window* Window::GetInstance()
+{
+	if (Instance == nullptr) Instance = new Window();
+
+	return Instance;
+}
+
 INT Window::Init(HINSTANCE _hinstance, UINT _width, UINT _height)
 {
 	// -->Register Window Class<--
@@ -79,24 +88,6 @@ BOOL Window::Update()
 		DispatchMessage(&msg);		
 	}
 
-	
-	
-
-	if (Resize)
-	{
-		RECT rect = {};
-		GetWindowRect(p_hWnd, &rect);
-		WINDOWPLACEMENT placement = {};
-		placement.length = sizeof(WINDOWPLACEMENT);
-		GetWindowPlacement(p_hWnd, &placement);
-
-		WindowHeight = rect.bottom - rect.top;
-		WindowWidth = rect.right - rect.left;
-
-		d3d.OnResize();
-		Resize = false;
-	}
-
 	return msg.message != WM_QUIT;
 }
 
@@ -115,15 +106,26 @@ LRESULT CALLBACK WndProc(HWND _hwnd, UINT _msg, WPARAM _wparam, LPARAM _lparam)
 			PostQuitMessage(69);
 			return DefWindowProc(_hwnd, _msg, _wparam, _lparam);
 			break;
+		case WM_SIZE:
+		{
+			UINT screenWidth = GetSystemMetrics(SM_CXSCREEN);
+			UINT screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
-		/*case WM_KEYDOWN:
-			if (_wparam == VK_ESCAPE) DestroyWindow(_hwnd);
-			break;*/
-		case WM_EXITSIZEMOVE | SIZE_MAXIMIZED:
-			Resize = true;
+			RECT rect = {};
+			GetWindowRect(Window::GetInstance()->GetWindowHandle(), &rect);
+			WINDOWPLACEMENT placement = {};
+			placement.length = sizeof(WINDOWPLACEMENT);
+			GetWindowPlacement(Window::GetInstance()->GetWindowHandle(), &placement);
+
+			WindowWidth = ((screenWidth + (rect.right - rect.left)) / 2) - ((screenWidth - (rect.right - rect.left)) / 2);
+			WindowHeight = ((screenHeight + (rect.bottom - rect.top)) / 2) - ((screenHeight - (rect.bottom - rect.top)) / 2);
+
+			D3D::GetInstance()->OnResize();
+
+
 			return DefWindowProc(_hwnd, _msg, _wparam, _lparam);
 			break;
-
+		}
 		default:
 			return DefWindowProc(_hwnd, _msg, _wparam, _lparam);
 	}

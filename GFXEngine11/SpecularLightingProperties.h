@@ -1,6 +1,9 @@
 #pragma once
 #include "MaterialProperties.h"
 #include <DirectXMath.h>
+#include "ConstantBuffer.h"
+#include "ConstantBufferTypes.h"
+#include "MyTexture.h"
 
 using namespace DirectX;
 
@@ -9,40 +12,36 @@ class SpecularLightingProperties : public MaterialProperties
 public:
 	SpecularLightingProperties(LPCTSTR _texturename, FLOAT _glossy, XMFLOAT4 _specularcolor, FLOAT _specularpower)
 	{
-		textureName = _texturename;
 		glossy = _glossy;
 		specularPower = _specularpower;
 		specularColor = _specularcolor;
 		materialType = EMaterials::SpecularLight;
+
+		p_albedo = new MyTexture(_texturename, 0, true);
 	}
 
-	struct PropertyData
-	{
-		// because of 16 byte alignment
-		XMFLOAT4 specularColor;
-		FLOAT glossy;
-		FLOAT specularPower;
-		XMFLOAT2 padding;
-	};
+	
 
-	INT InitProperties(ID3D11DeviceContext* _p_d3ddevicecontext, ID3D11Device* _p_d3ddevice) override;
+	INT InitProperties(ID3D11DeviceContext* _p_d3ddevicecontext, ID3D11Device* _p_d3ddevice, XMFLOAT4X4* _worldmatrix) override;
 	void DeinitProperties() override;
 	void Update() override;
 
 private:
-	//PropertiesAddOns
-	ID3D11ShaderResourceView* p_texture = nullptr;
-	ID3D11ShaderResourceView* p_sectexture = nullptr;
-	ID3D11SamplerState* p_samplerState = nullptr;
+	void SetMatrices(XMFLOAT4X4* _worldmatrix);
+	void UpdateMatricesBuffer();
 
 	//Properties
-	LPCTSTR textureName;
+	MyTexture* p_albedo = nullptr;
 	XMFLOAT4 specularColor;
 	FLOAT glossy;
 	FLOAT specularPower;
 
-	PropertyData* p_propData = nullptr;
+	ConstantBuffer<PropertyData>* p_propertyBuffer = nullptr;
 
-	ID3D11Buffer* p_propBuffer = nullptr;
+	XMFLOAT4X4* p_worldMatrix = nullptr;
+	XMFLOAT4X4* p_viewMatrix = nullptr;
+	XMFLOAT4X4* p_projectionMatrix = nullptr;
+
+	ConstantBuffer<MatrixBuffer>* p_matrixBuffer = nullptr;
 };
 

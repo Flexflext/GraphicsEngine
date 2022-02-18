@@ -6,6 +6,11 @@
 class D3D
 {
 public:
+	D3D(D3D& other) = delete;
+	void operator=(const D3D&) = delete;
+
+	static D3D* GetInstance();
+
 	INT Init(HWND _hwnd, UINT _width, UINT _height, BOOL _fullscreen);
 	void BeginScene(FLOAT _red = 0.0f, FLOAT _green = 0.0f, FLOAT _blue = 0.0f);
 	void EndScene();
@@ -23,5 +28,13 @@ private:
 	ID3D11RenderTargetView* p_RenderTargetView = nullptr; // Decribe the Target the render pipeline will render in, e.g. back buffer
 	ID3D11DepthStencilView* p_depthStencilView = nullptr; // hold ref to depth and stencil buffer texture
 	ID3D11RasterizerState* p_rasterizerState = nullptr; // set up rasterizer stage
+
+	static D3D* Instance;
+
+	D3D()
+	{
+
+	}
+
 };
 

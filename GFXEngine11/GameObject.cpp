@@ -89,17 +89,5 @@ Component* GameObject::AddComponent(EComponentTypes _type)
 
 	
 }
-template<typename T>
-T* GameObject::GetComponent()
-{
-	for (Component* c : allComponents)
-	{
-		if (dynamic_cast<T*>(c) != nullptr)
-		{
-			return c;
-		}
-	}
 
-	return nullptr;
-}
 

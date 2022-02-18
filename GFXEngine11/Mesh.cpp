@@ -222,7 +222,7 @@ INT Mesh::InitializeBuffers(ID3D11Device* _p_d3ddevice)
 
 INT Mesh::AwakeComponent(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, FLOAT* _p_dt)
 {
-	INT error = MyMaterial->Init(_p_d3ddevice, _p_d3ddevicecontext);
+	INT error = MyMaterial->Init(_p_d3ddevice, _p_d3ddevicecontext, gameObject->transform.WorldMatrix);
 	CheckIntError(error); 
 
 	error = Init(_p_d3ddevice, _p_d3ddevicecontext, _p_dt);
@@ -232,7 +232,6 @@ INT Mesh::AwakeComponent(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3d
 void Mesh::StartComponent()
 {
 	worldMatrix = gameObject->transform.WorldMatrix;
-	MyMaterial->InitMatrices(worldMatrix);
 }
 
 void Mesh::UpdateComponent()

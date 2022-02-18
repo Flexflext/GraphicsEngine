@@ -4,6 +4,15 @@
 #include "Window.h"
 #include "imgui/imgui_impl_dx11.h"
 
+D3D* D3D::Instance = nullptr;
+
+D3D* D3D::GetInstance()
+{
+	if (Instance == nullptr) Instance = new D3D();
+
+	return Instance;
+}
+
 INT D3D::Init(HWND _hwnd, UINT _width, UINT _height, BOOL _fullscreen)
 {	
 	HRESULT hr;
@@ -108,11 +117,6 @@ INT D3D::Init(HWND _hwnd, UINT _width, UINT _height, BOOL _fullscreen)
 
 void D3D::BeginScene(FLOAT _red, FLOAT _green, FLOAT _blue)
 {
-	if (Resize)
-	{
-		return;
-	}
-
 	//Clear Back Buffer
 	FLOAT backgroundColor[] = { _red, _green, _blue, 1.0f };
 	p_D3DDeviceContext->ClearRenderTargetView(p_RenderTargetView, backgroundColor);
@@ -123,11 +127,6 @@ void D3D::BeginScene(FLOAT _red, FLOAT _green, FLOAT _blue)
 
 void D3D::EndScene()
 {
-	if (Resize)
-	{
-		return;
-	}
-
 	//Swap Front and Back Buffer
 	p_DXGISwapChain->Present(0, 0);
 }
@@ -147,61 +146,42 @@ void D3D::OnResize()
 {
 	if (p_DXGISwapChain)
 	{
+		// -> Code aus der Dokumentation -> Funktioniert nur beim Backbuffer nicht (Objekte lassen durch sich durchscheinen)
+
 		p_D3DDeviceContext->OMSetRenderTargets(0, 0, 0);
 
-		//// Release all outstanding references to the swap chain's buffers.
+		// Release all outstanding references to the swap chain's buffers.
 		p_RenderTargetView->Release();
-		p_D3DDeviceContext->ClearState();
 
 		HRESULT hr;
 		// Preserve the existing buffer count and format.
 		// Automatically choose the width and height to match the client rect for HWNDs.
-		hr = p_DXGISwapChain->ResizeBuffers(1, WindowWidth, WindowHeight, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
-		//CheckFailed(hr, 25);
+		hr = p_DXGISwapChain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, 0);
+
 		// Perform error handling here!
 
-		DXGI_MODE_DESC desc = {};
-		desc.Width = WindowWidth;
-		desc.Height = WindowHeight;
-		desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-		//desc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-		//desc.ArraySize = 1; // at least one texture
-		//desc.SampleDesc.Count = 1; // should be always 1
+		// Get buffer and create a render-target-view.
+		ID3D11Texture2D* pBuffer;
+		hr = p_DXGISwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D),
+			(void**)&pBuffer);
+		// Perform error handling here!
 
-		//p_DXGISwapChain->ResizeTarget(&desc);
+		hr = p_D3DDevice->CreateRenderTargetView(pBuffer, NULL,
+			&p_RenderTargetView);
+		// Perform error handling here!
+		pBuffer->Release();
 
-		ID3D11Texture2D* p_backBufferTexture = nullptr;
-		//// Get buffer and create a render-target-view.
-		hr = p_DXGISwapChain->GetBuffer(0, IID_PPV_ARGS(&p_backBufferTexture));
-		////CheckFailed(hr, 27);
-		//// Perform error handling here!
-
-		if (p_RenderTargetView != nullptr)
-		{
-			if (p_backBufferTexture)
-			{
-				hr = p_D3DDevice->CreateRenderTargetView(p_backBufferTexture, nullptr, &p_RenderTargetView);
-			}	
-			//CheckFailed(hr, 29);
-		}
-		
-
-		SafeRelease<ID3D11Texture2D>(p_backBufferTexture);
-
-		//Resize depth...
-		p_D3DDeviceContext->OMSetRenderTargets(1, &p_RenderTargetView, nullptr);
+		p_D3DDeviceContext->OMSetRenderTargets(1, &p_RenderTargetView, NULL);
 
 		// Set up the viewport.
-		D3D11_VIEWPORT viewPort = {}; // Describe area projectes onto screen/Window
-		viewPort.TopLeftX = 0.0f;
-		viewPort.TopLeftY = 0.0f;
-		viewPort.Width = WindowWidth;
-		viewPort.Height = WindowHeight;
-		viewPort.MinDepth = 0.0f;
-		viewPort.MaxDepth = 1.0f;
-		p_D3DDeviceContext->RSSetViewports(1, &viewPort);
-
-		Resize = false;
+		D3D11_VIEWPORT vp;
+		vp.Width = WindowWidth;
+		vp.Height = WindowHeight;
+		vp.MinDepth = 0.0f;
+		vp.MaxDepth = 1.0f;
+		vp.TopLeftX = 0;
+		vp.TopLeftY = 0;
+		p_D3DDeviceContext->RSSetViewports(1, &vp);
 	}
 }
 

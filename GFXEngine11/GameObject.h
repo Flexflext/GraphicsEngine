@@ -24,7 +24,7 @@ public:
 	Component* AddComponent(EComponentTypes _type);
 
 	template<typename T>
-	static T* GetComponent();
+	T* GetComponent();
 
 	bool IsActive = true;
 
@@ -33,5 +33,19 @@ public:
 private:
 	std::vector<Component*> allComponents;
 };
+
+template<typename T>
+T* GameObject::GetComponent()
+{
+	for (Component* c : allComponents)
+	{
+		if (dynamic_cast<T*>(c) != nullptr)
+		{
+			return c;
+		}
+	}
+
+	return nullptr;
+}
 
 

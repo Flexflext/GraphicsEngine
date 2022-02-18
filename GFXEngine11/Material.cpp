@@ -6,7 +6,7 @@
 #include "AllCameras.h"
 #include "TextureLightingProperties.h"
 
-INT Material::Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext)
+INT Material::Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, XMFLOAT4X4* _p_worldmatrix)
 {
 	p_d3dDeviceContext = _p_d3ddevicecontext;
 
@@ -16,10 +16,7 @@ INT Material::Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevice
 	error = CreatePixelShader(_p_d3ddevice);
 	CheckIntError(error);
 
-	error = CreateMatrixBuffer(_p_d3ddevice);
-	CheckIntError(error);
-
-	error = p_properties->InitProperties(_p_d3ddevicecontext, _p_d3ddevice);
+	error = p_properties->InitProperties(_p_d3ddevicecontext, _p_d3ddevice, _p_worldmatrix);
 	CheckIntError(error);
 
 	return 0;
@@ -33,14 +30,10 @@ void Material::Render()
 	p_d3dDeviceContext->VSSetShader(p_vertexShader, nullptr, 0);
 	p_d3dDeviceContext->PSSetShader(p_pixelShader, nullptr, 0);
 	p_d3dDeviceContext->IASetInputLayout(p_inputLayout);
-
-	//Set Matrices
-	SetMatrices(p_worldMatrix, p_viewMatrix, p_projectionMatrix);
 }
 
 void Material::DeInit()
 {
-	SafeRelease<ID3D11Buffer>(p_matrixBuffer);
 	SafeRelease<ID3D11InputLayout>(p_inputLayout);
 	SafeRelease<ID3D11PixelShader>(p_pixelShader);
 	SafeRelease<ID3D11VertexShader>(p_vertexShader);
@@ -67,16 +60,13 @@ void Material::SetMaterial(MaterialProperties* _props)
 		pixelShaderName = TEXT("SpecularPixelShader.cso");
 		break;
 	}
+	case EMaterials::NormalShader:
+	{
+		vertexShaderName = TEXT("NormalVertexShader.cso");
+		pixelShaderName = TEXT("NormalPixelShader.cso");
+		break;
 	}
-}
-
-void Material::InitMatrices(XMFLOAT4X4* _p_worldmatrix)
-{
-	Camera* cam = AllCameras::GetMainCamera();
-
-	p_worldMatrix = _p_worldmatrix;
-	p_viewMatrix = cam->GetViewMatrix();
-	p_projectionMatrix = cam->GetProjectionMatrix();
+	}
 }
 
 INT Material::CreateVertexShader(ID3D11Device* _p_d3ddevice)
@@ -158,19 +148,19 @@ INT Material::CreateInputLayout(ID3D11Device* _p_d3ddevice, ID3DBlob* _p_vertexs
 	elements[3].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	elements[3].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
 
-	////Tangent
-	//elements[4].SemanticName = "TANGENT";
-	//elements[4].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	//elements[4].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
+	//Tangent
+	elements[4].SemanticName = "TANGENT";
+	elements[4].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	elements[4].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
 
-	////Binormal
-	//elements[5].SemanticName = "BINORMAL";
-	//elements[5].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	//elements[5].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
+	//Bitangent
+	elements[5].SemanticName = "BITANGENT";
+	elements[5].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	elements[5].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
 
 	HRESULT hr = _p_d3ddevice->CreateInputLayout(
 		elements,
-		4,
+		6,
 		_p_vertexshaderdata->GetBufferPointer(),
 		_p_vertexshaderdata->GetBufferSize(),
 		&p_inputLayout);
@@ -181,44 +171,3 @@ INT Material::CreateInputLayout(ID3D11Device* _p_d3ddevice, ID3DBlob* _p_vertexs
 	return 0;
 }
 
-INT Material::CreateMatrixBuffer(ID3D11Device* _p_d3ddevice)
-{
-	D3D11_BUFFER_DESC desc = {};
-
-	desc.ByteWidth = sizeof(MatrixBuffer);
-	desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	desc.Usage = D3D11_USAGE_DYNAMIC;
-	desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-
-	HRESULT hr = _p_d3ddevice->CreateBuffer(&desc, nullptr, &p_matrixBuffer);
-	CheckFailed(hr, 61);
-
-	
-
-	return 0;
-}
-
-void Material::SetMatrices(XMFLOAT4X4* _p_worldmatrix, XMFLOAT4X4* _p_viewmatrix, XMFLOAT4X4* _p_projectionmatrix)
-{
-	XMMATRIX worldMatrix = XMLoadFloat4x4(_p_worldmatrix);
-	XMMATRIX viewMatrix = XMLoadFloat4x4(_p_viewmatrix);
-	XMMATRIX projectionMatrix = XMLoadFloat4x4(_p_projectionmatrix);
-
-	XMMATRIX wvpMatrix = XMMatrixTranspose(worldMatrix * viewMatrix * projectionMatrix); //transpose for column mayor - row mayor problem
-
-	D3D11_MAPPED_SUBRESOURCE data = {};
-	HRESULT hr = p_d3dDeviceContext->Map(p_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &data);
-	if (FAILED(hr))
-	{
-		return;
-	}
-
-	MatrixBuffer* p_TempMatrixBuffer = static_cast<MatrixBuffer*>(data.pData);
-	XMStoreFloat4x4(&(p_TempMatrixBuffer->worldviewProjectionMatrix), wvpMatrix);
-	XMStoreFloat4x4(&(p_TempMatrixBuffer->worldMatrix), XMMatrixTranspose(worldMatrix));
-	p_TempMatrixBuffer->camWorldPos = AllCameras::GetMainCamera()->gameObject->transform.Position;
-
-	p_d3dDeviceContext->Unmap(p_matrixBuffer, 0);
-
-	p_d3dDeviceContext->VSSetConstantBuffers(0, 1, &p_matrixBuffer);
-}

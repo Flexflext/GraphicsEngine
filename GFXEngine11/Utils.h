@@ -26,6 +26,7 @@ enum class EMaterials
 {
 	TextureLighting,
 	SpecularLight,
+	NormalShader,
 };
 
 unsigned int WindowWidth = 1024;

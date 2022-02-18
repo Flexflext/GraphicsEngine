@@ -13,14 +13,16 @@ struct VertexInput
     float3 position : POSITION;
     float3 normal : NORMAL;
     float2 uv : TEXCOORD;
+    float3 tangent : TANGENT;
+    float3 bitangent : BITANGENT;
 };
 
 struct VertexOutput
 {
     float4 position : SV_POSITION;
     float3 normal : NORMAL;
-    float2 uv : TEXCOORD;
     float3 viewDirection : TEXCOORD1;
+    float2 uv : TEXCOORD;
 };
 
 VertexOutput main(VertexInput INPUT)

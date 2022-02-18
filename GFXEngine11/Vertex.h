@@ -13,8 +13,6 @@ public:
 	XMFLOAT3 normal;
 	//UV
 	XMFLOAT2 uv;
-	//Color
-	XMFLOAT4 color;
 
 	XMFLOAT3 tangent;
 
@@ -35,10 +33,10 @@ public:
 		normal.z = 0;
 		uv.x = 0;
 		uv.x = 0;
-		color.x = 1;
+		/*color.x = 1;
 		color.y = 1;
 		color.z = 1;
-		color.w = 1;
+		color.w = 1;*/
 	}
 
 	Vertex(XMFLOAT3 _pos)
@@ -49,10 +47,10 @@ public:
 		normal.z = 0;
 		uv.x = 0;
 		uv.y = 0;
-		color.x = 1;
+		/*color.x = 1;
 		color.y = 1;
 		color.z = 1;
-		color.w = 1;
+		color.w = 1;*/
 	}
 
 	Vertex(FLOAT _x, FLOAT _y, FLOAT _z, UINT _r, UINT _g, UINT _b)
@@ -65,10 +63,10 @@ public:
 		normal.z = 0;
 		uv.x = 0;
 		uv.x = 0;
-		color.x = _r / 255.0f;
+		/*color.x = _r / 255.0f;
 		color.y = _g / 255.0f;
 		color.z = _b / 255.0f;
-		color.w = 1;
+		color.w = 1;*/
 	}
 
 	Vertex(FLOAT _x, FLOAT _y, FLOAT _z, FLOAT _u, FLOAT _v)
@@ -81,10 +79,10 @@ public:
 		normal.z = 0;
 		uv.x = _u;
 		uv.x = _v;
-		color.x = 1;
+		/*color.x = 1;
 		color.y = 1;
 		color.z = 1;
-		color.w = 1;
+		color.w = 1;*/
 	}
 
 	Vertex(FLOAT _x, FLOAT _y, FLOAT _z, FLOAT _nx, FLOAT _ny, FLOAT _nz, FLOAT _u, FLOAT _v)
@@ -97,9 +95,9 @@ public:
 		normal.z = _nz;
 		uv.x = _u;
 		uv.x = _v;
-		color.x = 1;
+		/*color.x = 1;
 		color.y = 1;
 		color.z = 1;
-		color.w = 1;
+		color.w = 1;*/
 	}
 };

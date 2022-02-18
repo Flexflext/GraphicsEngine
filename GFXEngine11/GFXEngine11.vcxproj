@@ -160,6 +160,8 @@
     <ClInclude Include="AllCameras.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="ConstantBuffer.h" />
+    <ClInclude Include="ConstantBufferTypes.h" />
     <ClInclude Include="D3D.h" />
     <ClInclude Include="FreeLookCam.h" />
     <ClInclude Include="GameObject.h" />
@@ -176,6 +178,8 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialProperties.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MyTexture.h" />
+    <ClInclude Include="NormalShaderProperties.h" />
     <ClInclude Include="ObjectImporter.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SpecularLightingProperties.h" />
@@ -191,6 +195,7 @@
     <ClCompile Include="AllCameras.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="D3D.cpp" />
     <ClCompile Include="FreeLookCam.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -207,6 +212,8 @@
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MaterialProperties.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MyTexture.cpp" />
+    <ClCompile Include="NormalShaderProperties.cpp" />
     <ClCompile Include="ObjectImporter.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SpecularLightingProperties.cpp" />
@@ -241,17 +248,31 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
+    <FxCompile Include="NormalPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="NormalVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="SpecularPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0_level_9_3</ShaderModel>
     </FxCompile>
     <FxCompile Include="SpecularVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0_level_9_3</ShaderModel>
     </FxCompile>
     <FxCompile Include="TexturePixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>

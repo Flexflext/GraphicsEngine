@@ -1,31 +1,31 @@
 #pragma once
 #include "MaterialProperties.h"
-#include <DirectXMath.h>
+
 
 class TextureLightingProperties : public MaterialProperties
 {
 public:
 	TextureLightingProperties(LPCTSTR _texturename)
 	{
-		textureName = _texturename;
+		p_abledo = new MyTexture(_texturename, 0, true);
 		materialType = EMaterials::TextureLighting;
 	}
 
-	INT InitProperties(ID3D11DeviceContext* _p_d3ddevicecontext, ID3D11Device* _p_d3ddevice) override;
+	INT InitProperties(ID3D11DeviceContext* _p_d3ddevicecontext, ID3D11Device* _p_d3ddevice, XMFLOAT4X4* _worldmatrix) override;
 	void DeinitProperties() override;
 	void Update() override;
 
 private:
-	//PropertiesAddOns
-	ID3D11ShaderResourceView* p_texture = nullptr;
-	ID3D11ShaderResourceView* p_sectexture = nullptr;
-	ID3D11SamplerState* p_samplerState = nullptr;
 
-	//Properties
-	LPCTSTR textureName;
+	void SetMatrices(XMFLOAT4X4* _worldmatrix);
+	void UpdateMatricesBuffer();
 
-	//Data data = {};
-	ID3D11Buffer* p_buffer = nullptr;
-	
+	MyTexture* p_abledo = nullptr;
+
+	XMFLOAT4X4* p_worldMatrix = nullptr;
+	XMFLOAT4X4* p_viewMatrix = nullptr;
+	XMFLOAT4X4* p_projectionMatrix = nullptr;
+
+	ConstantBuffer<MatrixBuffer>* p_matrixBuffer = nullptr;
 };
 

@@ -8,12 +8,13 @@ using namespace DirectX;
 class Light : public Component
 {
 public:
-	struct  LightData 
+	struct LightData 
 	{
 		// because of 16 byte alignment
 		XMFLOAT3 LightDirection;
 		FLOAT LightIntensity;
 		XMFLOAT4 LightDiffuseColor;
+		XMFLOAT4 AmbientLight;
 	};
 
 	Light(GameObject* _go, EComponentTypes _type) : Component(_go, _type) {}
