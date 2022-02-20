@@ -1,11 +1,9 @@
-﻿  D3D.cpp
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\D3D.cpp(59,2): warning C4267: 'argument': conversion from 'size_t' to 'UINT', possible loss of data
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\D3D.cpp(103,19): warning C4244: '=': conversion from 'UINT' to 'FLOAT', possible loss of data
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\D3D.cpp(104,20): warning C4244: '=': conversion from 'UINT' to 'FLOAT', possible loss of data
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\D3D.cpp(125,99): warning C4305: 'argument': truncation from 'unsigned int' to 'UINT8'
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\D3D.cpp(125,89): warning C4309: 'argument': truncation of constant value
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\D3D.cpp(178,14): warning C4244: '=': conversion from 'unsigned int' to 'FLOAT', possible loss of data
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\D3D.cpp(179,15): warning C4244: '=': conversion from 'unsigned int' to 'FLOAT', possible loss of data
+﻿  Scene.cpp
+  main.cpp
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Mesh.h(62,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(18,2): warning C4091: 'static ': ignored on left of 'AllCameras' when no variable is declared
+  Generating Code...
 LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/FORCE' specification
 Component.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
 Component.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored

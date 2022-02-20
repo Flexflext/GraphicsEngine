@@ -3,7 +3,16 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-void ObjectImporter::Import3DAsset(const char* _p_name, Mesh* _testmesh, USHORT _meshnum)
+ObjectImporter* ObjectImporter::Instance = nullptr;
+
+ObjectImporter* ObjectImporter::GetInstance()
+{
+	if (Instance == nullptr) Instance = new ObjectImporter();
+
+	return Instance;
+}
+
+void ObjectImporter::Import3DAsset(const char* _p_name, Mesh* _mesh, USHORT _meshnum, float _size)
 {
 	Assimp::Importer imp;
 	const aiScene* p_model = imp.ReadFile(_p_name, aiProcess_Triangulate 
@@ -24,7 +33,9 @@ void ObjectImporter::Import3DAsset(const char* _p_name, Mesh* _testmesh, USHORT 
 
 	for (unsigned int i = 0; i < vertsize; i++)
 	{
-		p_vertecies[i] = { *reinterpret_cast<XMFLOAT3*>(&p_mesh->mVertices[i])};
+		p_vertecies[i].position.x = p_mesh->mVertices[i].x * _size;
+		p_vertecies[i].position.y = p_mesh->mVertices[i].y * _size;
+		p_vertecies[i].position.z = p_mesh->mVertices[i].z * _size;
 
 		if (p_mesh->HasNormals())
 		{
@@ -58,5 +69,5 @@ void ObjectImporter::Import3DAsset(const char* _p_name, Mesh* _testmesh, USHORT 
 		p_indices[j + 2] = face.mIndices[2];
 	}
 
-	_testmesh->SetMesh(p_vertecies, vertsize, p_indices, indexsize);
+	_mesh->SetMesh(p_vertecies, vertsize, p_indices, indexsize);
 }

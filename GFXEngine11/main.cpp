@@ -22,7 +22,6 @@
 int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdline, int _ncmdshow)
 {
 	ImguiManager imGui = {};
-	ObjectImporter imp = {};
 
 	//Create Window
 	Window* window = Window::GetInstance();
@@ -51,8 +50,7 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	Mesh* meh = (Mesh*)gm->AddComponent(EComponentTypes::C_Mesh);
 
 
-	imp.Import3DAsset("Models\\Robot.fbx", meh);
-
+	meh->LoadMesh("Models\\Robot.fbx", 0, 0.2f);
 	SpecularLightingProperties props = { TEXT("Textures\\Robot.png"), {1}, {1,1,1,1}, {64} };
 	meh->MyMaterial->SetMaterial(&props);
 	
@@ -69,14 +67,12 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	gm->transform.SetPosition(0, 0, 5);
 	gm->transform.SetRotation(0, 0, 0);
 
-	
-
 	GameObject* obj = scene.Instantiate("Human");
 	Mesh* mesh = (Mesh*)obj->AddComponent(EComponentTypes::C_Mesh);
 
 	//mesh = obj->GetComponent<Mesh>();
 
-	imp.Import3DAsset("Models\\FinalBaseMesh.obj", mesh);
+	mesh->LoadMesh("Models\\FinalBaseMesh.obj",0, 0.1f);
 
 	NormalShaderProperties prop = { TEXT("Textures\\Robot.png"), TEXT("Textures\\HUHU.jpg"), {1}, {1,1,1,1}, {64} };
 	mesh->MyMaterial->SetMaterial(&prop);
@@ -93,6 +89,21 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 		imGui.Update();
 		time.Update();
 		d3d->BeginScene(1,1,1);
+
+		
+
+		/*if (GetAsyncKeyState('G') & 0x8000)
+		{
+			GameObject* gmt = scene.Instantiate("Robot1");
+			Mesh* mehh = (Mesh*)gmt->AddComponent(EComponentTypes::C_Mesh);
+			mehh->LoadMesh("Models\\Robot.fbx", 0, 0.4f);
+			NormalShaderProperties propd = { TEXT("Textures\\Robot.png"), TEXT("Textures\\HUHU.jpg"), {1}, {1,1,1,1}, {64} };
+			mehh->MyMaterial->SetMaterial(&propd);
+			scene.InitialzeGameObject(gmt);
+		}*/
+		
+
+
 
 
 		scene.Update();

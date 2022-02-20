@@ -1,6 +1,9 @@
 #include "Mesh.h"
+#include "ObjectImporter.h"
 
 using namespace DirectX;
+
+
 
 INT Mesh::Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, FLOAT* _p_dt)
 {
@@ -179,6 +182,11 @@ INT Mesh::InitIndexBuffer(ID3D11Device* _p_d3ddevice)
 	CheckFailed(hr, 32);
 
 	return 0;
+}
+
+void Mesh::LoadMesh(const char* _p_name, USHORT _nummesh, float _size)
+{
+	ObjectImporter::GetInstance()->Import3DAsset(_p_name, this, _nummesh, _size);
 }
 
 void Mesh::SetMesh(Vertex* _vertecies, INT _vertsize, USHORT* _indices, INT _indexsize)

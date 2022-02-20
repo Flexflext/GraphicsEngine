@@ -26,6 +26,7 @@ public:
 	void UpdateComponent() override;
 	void DeInitComponent() override;
 
+	void LoadMesh(const char* _p_name, USHORT _nummesh = 0, float _size = 1);
 	void SetMesh(Vertex* _vertecies, const INT _vertsize, USHORT* _indices, const INT _indexsize);
 	void RecalculateNormals();
 	INT InitializeBuffers(ID3D11Device* _p_d3ddevice);

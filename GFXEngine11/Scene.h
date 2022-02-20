@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "GameObject.h"
+#include <string>
 
 class Scene
 {
@@ -13,13 +14,15 @@ public:
 	void DeInit();
 
 	GameObject* Instantiate(const char* _name);
-	GameObject* InstantiateAtRuntime();
+	void InitialzeGameObject(GameObject* _toinit);
 	void Destroy(GameObject* _obj);
+
 private:
 	std::vector<GameObject*> sceneGameObjects = {};
 
 	ID3D11Device* p_d3dDevice = nullptr;
 	ID3D11DeviceContext* p_d3dDeviceContext = nullptr;
 	FLOAT* p_deltaTime = nullptr;
+	std::string name;
 };
 

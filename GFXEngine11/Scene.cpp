@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include "imgui/imgui.h"
 
+
 Scene::Scene(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, FLOAT* _p_dt)
 {
 	p_deltaTime = _p_dt;
@@ -27,37 +28,42 @@ void Scene::Start()
 void Scene::Update()
 {
 	ImGui::Begin("GameObjects");
-	for (GameObject* obj : sceneGameObjects)
+	for (size_t i = 0; i < sceneGameObjects.size(); i++)
 	{
-		if (ImGui::TreeNode(obj->Name))
+		name = std::to_string(i).c_str();
+		name += " ";
+		name += sceneGameObjects[i]->Name;
+
+
+		if (ImGui::TreeNode(name.c_str()))
 		{
 			if (ImGui::TreeNode("Position"))
 			{
-				ImGui::InputFloat("X", &obj->transform.Position.x, 1.0f, 10.0f, "%.1f");
-				ImGui::InputFloat("Y", &obj->transform.Position.y, 1.0f, 10.0f, "%.1f");
-				ImGui::InputFloat("Z", &obj->transform.Position.z, 1.0f, 10.0f, "%.1f");
+				ImGui::InputFloat("X", &sceneGameObjects[i]->transform.Position.x, 1.0f, 10.0f, "%.1f");
+				ImGui::InputFloat("Y", &sceneGameObjects[i]->transform.Position.y, 1.0f, 10.0f, "%.1f");
+				ImGui::InputFloat("Z", &sceneGameObjects[i]->transform.Position.z, 1.0f, 10.0f, "%.1f");
 				ImGui::TreePop();
 			}
 			if (ImGui::TreeNode("Rotation"))
 			{
-				ImGui::InputFloat("X", &obj->transform.Rotation.x, 1.0f, 10.0f, "%.1f");
-				ImGui::InputFloat("Y", &obj->transform.Rotation.y, 1.0f, 10.0f, "%.1f");
-				ImGui::InputFloat("Z", &obj->transform.Rotation.z, 1.0f, 10.0f, "%.1f");
+				ImGui::InputFloat("X", &sceneGameObjects[i]->transform.Rotation.x, 1.0f, 10.0f, "%.1f");
+				ImGui::InputFloat("Y", &sceneGameObjects[i]->transform.Rotation.y, 1.0f, 10.0f, "%.1f");
+				ImGui::InputFloat("Z", &sceneGameObjects[i]->transform.Rotation.z, 1.0f, 10.0f, "%.1f");
 				ImGui::TreePop();
 			}
 			if (ImGui::TreeNode("Scale"))
 			{
-				ImGui::InputFloat("X", &obj->transform.Scale.x, 1.0f, 10.0f, "%.1f");
-				ImGui::InputFloat("Y", &obj->transform.Scale.y, 1.0f, 10.0f, "%.1f");
-				ImGui::InputFloat("Z", &obj->transform.Scale.z, 1.0f, 10.0f, "%.1f");
+				ImGui::InputFloat("X", &sceneGameObjects[i]->transform.Scale.x, 1.0f, 10.0f, "%.1f");
+				ImGui::InputFloat("Y", &sceneGameObjects[i]->transform.Scale.y, 1.0f, 10.0f, "%.1f");
+				ImGui::InputFloat("Z", &sceneGameObjects[i]->transform.Scale.z, 1.0f, 10.0f, "%.1f");
 				ImGui::TreePop();
 			}
 			if (ImGui::TreeNode("Advanced"))
 			{
-				ImGui::Checkbox("Active", &obj->IsActive);
+				ImGui::Checkbox("Active", &sceneGameObjects[i]->IsActive);
 				if (ImGui::Button("Destroy"))
 				{
-					this->Destroy(obj);
+					this->Destroy(sceneGameObjects[i]);
 				}
 
 				ImGui::TreePop();
@@ -66,7 +72,7 @@ void Scene::Update()
 			ImGui::TreePop();
 		}
 		
-		obj->Update();
+		sceneGameObjects[i]->Update();
 	}
 	ImGui::End();
 }
@@ -87,15 +93,12 @@ GameObject* Scene::Instantiate(const char* _name)
 	return obj;
 }
 
-GameObject* Scene::InstantiateAtRuntime()
+void Scene::InitialzeGameObject(GameObject* _toinit)
 {
-	GameObject* obj = Instantiate("OBJ");
-
-	obj->Awake(p_d3dDevice, p_d3dDeviceContext, p_deltaTime);
-	obj->Start();
-
-	return nullptr;
+	_toinit->Awake(p_d3dDevice, p_d3dDeviceContext, p_deltaTime);
+	_toinit->Start();
 }
+
 
 void Scene::Destroy(GameObject* _obj)
 {
