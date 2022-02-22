@@ -66,6 +66,12 @@ void Material::SetMaterial(MaterialProperties* _props)
 		pixelShaderName = TEXT("NormalPixelShader.cso");
 		break;
 	}
+	case EMaterials::ReflectionShader:
+	{
+		vertexShaderName = TEXT("ReflectionVertexShader.cso");
+		pixelShaderName = TEXT("ReflectionPixelShader.cso");
+		break;
+	}
 	}
 }
 

@@ -16,6 +16,7 @@
 #include "SpecularLightingProperties.h"
 #include "Scene.h"
 #include "NormalShaderProperties.h"
+#include "ReflectionShaderProperties.h"
 
 
 
@@ -74,9 +75,8 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 
 	mesh->LoadMesh("Models\\FinalBaseMesh.obj",0, 0.1f);
 
-	NormalShaderProperties prop = { TEXT("Textures\\Robot.png"), TEXT("Textures\\HUHU.jpg"), {1}, {1,1,1,1}, {64} };
+	ReflectionShaderProperties prop = { TEXT("Textures\\Robot.png"), TEXT("Textures\\HUHU.jpg"), TEXT("earthcubemap.dds"), {1}, {1,1,1,1}, {64} };
 	mesh->MyMaterial->SetMaterial(&prop);
-
 
 	//Initialize GameObjects
 	scene.Awake();

@@ -20,7 +20,7 @@ public:
 		p_albedo = new MyTexture(_texturename, 0, true);
 	}
 
-	
+
 
 	INT InitProperties(ID3D11DeviceContext* _p_d3ddevicecontext, ID3D11Device* _p_d3ddevice, XMFLOAT4X4* _worldmatrix) override;
 	void DeinitProperties() override;

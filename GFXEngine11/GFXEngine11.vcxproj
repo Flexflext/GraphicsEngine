@@ -163,6 +163,7 @@
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="ConstantBufferTypes.h" />
     <ClInclude Include="D3D.h" />
+    <ClInclude Include="DynamicCubemap.h" />
     <ClInclude Include="FreeLookCam.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="ImguiManager.h" />
@@ -178,9 +179,11 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialProperties.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MyCubemap.h" />
     <ClInclude Include="MyTexture.h" />
     <ClInclude Include="NormalShaderProperties.h" />
     <ClInclude Include="ObjectImporter.h" />
+    <ClInclude Include="ReflectionShaderProperties.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SpecularLightingProperties.h" />
     <ClInclude Include="TextureLightingProperties.h" />
@@ -197,6 +200,7 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="D3D.cpp" />
+    <ClCompile Include="DynamicCubemap.cpp" />
     <ClCompile Include="FreeLookCam.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="ImguiManager.cpp" />
@@ -212,9 +216,11 @@
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MaterialProperties.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MyCubemap.cpp" />
     <ClCompile Include="MyTexture.cpp" />
     <ClCompile Include="NormalShaderProperties.cpp" />
     <ClCompile Include="ObjectImporter.cpp" />
+    <ClCompile Include="ReflectionShaderProperties.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SpecularLightingProperties.cpp" />
     <ClCompile Include="TextureLightingProperties.cpp" />
@@ -260,6 +266,18 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
+    <FxCompile Include="ReflectionPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="ReflectionVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="SpecularPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
@@ -287,7 +305,17 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\GFXEngine\packages\Microsoft.DXSDK.D3DX.9.29.952.8\build\native\Microsoft.DXSDK.D3DX.targets" Condition="Exists('..\GFXEngine\packages\Microsoft.DXSDK.D3DX.9.29.952.8\build\native\Microsoft.DXSDK.D3DX.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\GFXEngine\packages\Microsoft.DXSDK.D3DX.9.29.952.8\build\native\Microsoft.DXSDK.D3DX.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\GFXEngine\packages\Microsoft.DXSDK.D3DX.9.29.952.8\build\native\Microsoft.DXSDK.D3DX.targets'))" />
+  </Target>
 </Project>
