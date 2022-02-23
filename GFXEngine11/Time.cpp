@@ -5,6 +5,7 @@
 
 INT Time::Init()
 {
+	//Init last TimeStamp
 	lastTimeStamp = NOW;
 
 	return 0;
@@ -12,16 +13,19 @@ INT Time::Init()
 
 void Time::Update()
 {
-	time_point now = NOW;
-	duration diff = now - lastTimeStamp;
+	//Set Time Parameters
+	now = NOW;
+	diff = now - lastTimeStamp;
 	deltaTime = diff.count();
 	totalTime += deltaTime;
 	lastTimeStamp = now;
 	
+	//Add FPS to Counter
 	fps++;
 	fpsTime += deltaTime;
 	//CurrentDeltaTime = deltaTime;
 
+	//Set Flast FPS per Second
 	if (fpsTime >= 1.0f)
 	{
 		lastFps = fps;
@@ -29,53 +33,14 @@ void Time::Update()
 		fpsTime -= 1.0f;
 	}
 
+	//Set Simulation Paramters
 	if (ImGui::Begin("Simulation Parmaters"))
 	{
 		ImGui::Text("TotalTime: %.1fs", totalTime);
 		ImGui::Text("DeltaTime: %.4fs", deltaTime);
-		ImGui::Text("FPS: %.0f", lastFps);
+		ImGui::Text("FPS: %i/s", lastFps);
 	}
 	ImGui::End();
-
-
-//#if _DEBUG
-//#if UNICODE
-//	wstring output = to_wstring(deltaTime);
-//#else // UNICODE
-//	string output = to_string(deltaTime);
-//#endif // UNICODE
-//	output = TEXT("DeltaTime:") + output + TEXT(" s\n");
-//	//OutputDebugString(output.c_str());
-//
-//	//print fps extrapolated
-//#if UNICODE
-//	output = to_wstring(1.0f / deltaTime);
-//#else // UNICODE
-//	output = to_string(1.0f / deltaTime);
-//#endif // UNICODE
-//	output = TEXT("FPS Extrapolated:") + output + TEXT("\n");
-//	//OutputDebugString(output.c_str());
-//
-//	if (fpsTime >= 1.0f)
-//	{
-//		lastFps = fps;
-//		fps = 0;
-//		fpsTime -= 1.0f;
-//	}
-//
-//	//print fps commultated
-//#if UNICODE
-//	output = to_wstring(lastFps);
-//#else // UNICODE
-//	output = to_string(lastFps);
-//#endif // UNICODE
-//	output = TEXT("FPS Commulated:") + output + TEXT("\n");
-//	//OutputDebugString(output.c_str());
-//
-//	
-//
-//
-//#endif // _DEBUG
 }
 
 void Time::DeInit()

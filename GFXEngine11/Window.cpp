@@ -6,6 +6,7 @@
 #include "imgui/imgui_impl_win32.h"
 #include "imgui/imgui_impl_win32.cpp"
 
+//Initialize Static Window Instance
 Window* Window::Instance = nullptr;
 
 Window* Window::GetInstance()
@@ -67,6 +68,7 @@ INT Window::Init(HINSTANCE _hinstance, UINT _width, UINT _height)
 	ShowWindow(p_hWnd, SW_SHOW);
 	//Initialize Window UI
 	ImGui_ImplWin32_Init(p_hWnd);
+	//Set Focus to Window
 	SetFocus(p_hWnd);
 
 	return 0;
@@ -74,11 +76,10 @@ INT Window::Init(HINSTANCE _hinstance, UINT _width, UINT _height)
 
 BOOL Window::Update()
 {
-	
-
 	// -->Message Pump<--
 	if (PeekMessage(&msg, nullptr, 0, UINT_MAX, PM_REMOVE))
 	{
+		//Give Messages to ImGui
 		if (ImGui_ImplWin32_WndProcHandler(p_hWnd, msg.message, msg.wParam, msg.lParam))
 		{
 			return true;
@@ -88,38 +89,38 @@ BOOL Window::Update()
 		DispatchMessage(&msg);		
 	}
 
+	//Check if Client wants to Quit
 	return msg.message != WM_QUIT;
 }
 
 void Window::DeInit()
 {
+	//DeInit Window
 	ImGui_ImplWin32_Shutdown();
 }
 
 LRESULT CALLBACK WndProc(HWND _hwnd, UINT _msg, WPARAM _wparam, LPARAM _lparam)
 {
-	
-
 	switch (_msg)
 	{
+		//Check if to Close the Window
 		case WM_CLOSE:
 			PostQuitMessage(69);
 			return DefWindowProc(_hwnd, _msg, _wparam, _lparam);
 			break;
-		case WM_SIZE:
+		//Check if to Resize the Window
+		case WM_EXITSIZEMOVE:
 		{
+			//Get new Window Width and Height
 			UINT screenWidth = GetSystemMetrics(SM_CXSCREEN);
 			UINT screenHeight = GetSystemMetrics(SM_CYSCREEN);
-
 			RECT rect = {};
 			GetWindowRect(Window::GetInstance()->GetWindowHandle(), &rect);
-			WINDOWPLACEMENT placement = {};
-			placement.length = sizeof(WINDOWPLACEMENT);
-			GetWindowPlacement(Window::GetInstance()->GetWindowHandle(), &placement);
 
 			WindowWidth = ((screenWidth + (rect.right - rect.left)) / 2) - ((screenWidth - (rect.right - rect.left)) / 2);
 			WindowHeight = ((screenHeight + (rect.bottom - rect.top)) / 2) - ((screenHeight - (rect.bottom - rect.top)) / 2);
 
+			//Resize the DirectX Handle 
 			D3D::GetInstance()->OnResize();
 
 

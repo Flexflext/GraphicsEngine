@@ -17,7 +17,7 @@ public:
 		XMFLOAT4 AmbientLight;
 	};
 
-	Light(GameObject* _go, EComponentTypes _type) : Component(_go, _type) {}
+	Light(GameObject* _go) : Component(_go) {}
 
 	INT Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext);
 	void Render();

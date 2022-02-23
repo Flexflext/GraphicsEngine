@@ -19,6 +19,7 @@ enum class EComponentTypes
 	C_Mesh,
 	C_Light,
 	C_Camera,
+	C_ReflectionSphere,
 	CS_FreeLookCam
 };
 

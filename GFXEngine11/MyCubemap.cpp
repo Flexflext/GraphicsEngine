@@ -2,6 +2,8 @@
 #include "WICTextureLoader.h"
 #include <d3d11.h>
 #include <D3DX11.h>
+#include "ReflectionProbeManager.h"
+#include "DynamicCubemap.h"
 
 INT MyCubemap::Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext)
 {
@@ -50,6 +52,8 @@ INT MyCubemap::Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevic
 
 void MyCubemap::Update()
 {
+	p_texture = ReflectionProbeManager::dynmaicCubeMap->GetReSourceView();
+
 	if (pixelShader)
 	{
 		p_d3dDeviceContext->PSSetShaderResources(position, 1, &p_texture);

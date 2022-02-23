@@ -1,3 +1,4 @@
+//Component Base Class
 #pragma once
 #include "Utils.h"
 #include "GameObject.h"
@@ -12,16 +13,31 @@ public:
 			
 	}
 
-	Component(GameObject* _go, EComponentTypes _comptype)
+	Component(GameObject* _go)
 	{
 		gameObject = _go;
 	}
 
-	virtual INT AwakeComponent(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, FLOAT* _p_dt) { return 0; };
-	virtual void StartComponent() {};
-	virtual void UpdateComponent() {};
-	virtual void DeInitComponent() {};
-	EComponentTypes CompType;
+	/// <summary>
+	/// Awake the Component -> Pure Virtual Function (Only Child Class will be Called)
+	/// </summary>
+	/// <param name="_p_d3ddevice"></param>
+	/// <param name="_p_d3ddevicecontext"></param>
+	/// <param name="_p_dt"></param>
+	/// <returns></returns>
+	virtual INT AwakeComponent(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, FLOAT* _p_dt) = 0;
+	/// <summary>
+	/// Start the Component -> Pure Virtual Function (Only Child Class will be Called)
+	/// </summary>
+	virtual void StartComponent() = 0;
+	/// <summary>
+	/// Update the Component -> Pure Virtual Function (Only Child Class will be Called)
+	/// </summary>
+	virtual void UpdateComponent() = 0;
+	/// <summary>
+	/// Deinittialize the Component -> Pure Virtual Function (Only Child Class will be Called)
+	/// </summary>
+	virtual void DeInitComponent() = 0;
 
 	GameObject* gameObject;
 

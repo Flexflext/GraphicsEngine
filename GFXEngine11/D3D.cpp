@@ -30,6 +30,7 @@ INT D3D::Init(HWND _hwnd, UINT _width, UINT _height, BOOL _fullscreen)
 	swapChainDesc.SampleDesc.Count = 1; // this MSAA count has to be set to atleast 1
 
 	//Create Device
+	//All Supported Feature Levels
 	D3D_FEATURE_LEVEL supportedFeatureLevels[] = {
 		D3D_FEATURE_LEVEL_12_1,
 		D3D_FEATURE_LEVEL_12_0,
@@ -39,9 +40,10 @@ INT D3D::Init(HWND _hwnd, UINT _width, UINT _height, BOOL _fullscreen)
 		D3D_FEATURE_LEVEL_10_0,
 	};
 
+	//The Chosen Feature Level
 	D3D_FEATURE_LEVEL choosenFreatureLevel = {};
 
-	
+	//Create the DirectX Device and the SwapChain
 	hr = D3D11CreateDeviceAndSwapChain
 	(
 		nullptr, //use Primary Graphics Card
@@ -57,20 +59,21 @@ INT D3D::Init(HWND _hwnd, UINT _width, UINT _height, BOOL _fullscreen)
 		&choosenFreatureLevel,
 		&p_D3DDeviceContext
 	);
-	CheckFailed(hr, 20);
+	CheckFailed(hr, 20); //Error Handling
 
 	//Create Render Target View
 	ID3D11Texture2D* p_BackBufferTexture = nullptr;
-	//hr = p_DXGISwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&p_BackBufferTexture));
+	//Get the Backbuffer Texture of the SwapChain
 	hr = p_DXGISwapChain->GetBuffer(0, IID_PPV_ARGS(&p_BackBufferTexture));
 	CheckFailed(hr, 22);
 
+	//Create the Render Target View
 	hr = p_D3DDevice->CreateRenderTargetView(p_BackBufferTexture, nullptr, &p_RenderTargetView);
 	CheckFailed(hr, 24);
 
 	SafeRelease<ID3D11Texture2D>(p_BackBufferTexture);
 
-	//Death Stencil View
+	//Depth Stencil View
 	ID3D11Texture2D* p_depthStencilTexture = nullptr;
 	D3D11_TEXTURE2D_DESC depthStencilTextureDesc = {};
 	depthStencilTextureDesc.Width = _width;
@@ -93,6 +96,7 @@ INT D3D::Init(HWND _hwnd, UINT _width, UINT _height, BOOL _fullscreen)
 	rasterizerDesc.FillMode = D3D11_FILL_SOLID;
 	rasterizerDesc.CullMode = D3D11_CULL_BACK;
 
+	//Create the Rasterizer State
 	hr = p_D3DDevice->CreateRasterizerState(&rasterizerDesc, &p_rasterizerState);
 	CheckFailed(hr, 29);
 
@@ -110,7 +114,7 @@ INT D3D::Init(HWND _hwnd, UINT _width, UINT _height, BOOL _fullscreen)
 	p_D3DDeviceContext->RSSetViewports(1, &viewPort);
 	p_D3DDeviceContext->RSSetState(p_rasterizerState);
 
-
+	//Initialize the DirectX Implementation
 	ImGui_ImplDX11_Init(p_D3DDevice, p_D3DDeviceContext);
 	return 0;
 }
@@ -162,12 +166,10 @@ void D3D::OnResize()
 
 		// Get buffer and create a render-target-view.
 		ID3D11Texture2D* pBuffer;
-		hr = p_DXGISwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D),
-			(void**)&pBuffer);
+		hr = p_DXGISwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&pBuffer);
 		// Perform error handling here!
 
-		hr = p_D3DDevice->CreateRenderTargetView(pBuffer, NULL,
-			&p_RenderTargetView);
+		hr = p_D3DDevice->CreateRenderTargetView(pBuffer, NULL, &p_RenderTargetView);
 		// Perform error handling here!
 		pBuffer->Release();
 

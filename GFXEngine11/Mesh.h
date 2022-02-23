@@ -10,7 +10,7 @@ using namespace DirectX;
 class Mesh : public Component
 {
 public:
-	Mesh(GameObject* _go, EComponentTypes _type) : Component(_go, _type)
+	Mesh(GameObject* _go) : Component(_go)
 	{ 
 		SetMesh(nullptr, 0, nullptr, 0); 
 		RecalculateNormals();

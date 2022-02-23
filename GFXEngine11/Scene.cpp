@@ -4,6 +4,7 @@
 
 Scene::Scene(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, FLOAT* _p_dt)
 {
+	//Set the Parameters
 	p_deltaTime = _p_dt;
 	p_d3dDevice = _p_d3ddevice;
 	p_d3dDeviceContext = _p_d3ddevicecontext;
@@ -11,6 +12,7 @@ Scene::Scene(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontex
 
 void Scene::Awake()
 {
+	//Awake the GameObjects
 	for (GameObject* obj : sceneGameObjects)
 	{
 		obj->Awake(p_d3dDevice, p_d3dDeviceContext, p_deltaTime);
@@ -19,6 +21,7 @@ void Scene::Awake()
 
 void Scene::Start()
 {
+	//Start the GameObjects
 	for (GameObject* obj : sceneGameObjects)
 	{
 		obj->Start();
@@ -27,14 +30,16 @@ void Scene::Start()
 
 void Scene::Update()
 {
+	//Update the Scene UI
 	ImGui::Begin("GameObjects");
 	for (size_t i = 0; i < sceneGameObjects.size(); i++)
 	{
+		//Set the Name with a number in the List
 		name = std::to_string(i).c_str();
 		name += " ";
 		name += sceneGameObjects[i]->Name;
 
-
+		//Update UI -> Interactable
 		if (ImGui::TreeNode(name.c_str()))
 		{
 			if (ImGui::TreeNode("Position"))
@@ -60,6 +65,7 @@ void Scene::Update()
 			}
 			if (ImGui::TreeNode("Advanced"))
 			{
+				//Deactivate or Destroy GameObject
 				ImGui::Checkbox("Active", &sceneGameObjects[i]->IsActive);
 				if (ImGui::Button("Destroy"))
 				{
@@ -72,6 +78,7 @@ void Scene::Update()
 			ImGui::TreePop();
 		}
 		
+		//Update GameObejects
 		sceneGameObjects[i]->Update();
 	}
 	ImGui::End();
@@ -79,6 +86,7 @@ void Scene::Update()
 
 void Scene::DeInit()
 {
+	//Deinit the GameObjects
 	for (GameObject* obj : sceneGameObjects)
 	{
 		obj->DeInit();
@@ -87,7 +95,9 @@ void Scene::DeInit()
 
 GameObject* Scene::Instantiate(const char* _name)
 {
+	//Create new GameObject
 	GameObject* obj = new GameObject(_name);
+	//Add to Scene GameObjects
 	sceneGameObjects.push_back(obj);
 
 	return obj;
@@ -95,6 +105,7 @@ GameObject* Scene::Instantiate(const char* _name)
 
 void Scene::InitialzeGameObject(GameObject* _toinit)
 {
+	//Awake and Start the given GameObjects
 	_toinit->Awake(p_d3dDevice, p_d3dDeviceContext, p_deltaTime);
 	_toinit->Start();
 }
@@ -102,6 +113,7 @@ void Scene::InitialzeGameObject(GameObject* _toinit)
 
 void Scene::Destroy(GameObject* _obj)
 {
+	//Remove the GameObject from the List
 	sceneGameObjects.erase(std::remove(sceneGameObjects.begin(), sceneGameObjects.end(), _obj), sceneGameObjects.end());
 	_obj = nullptr;
 }

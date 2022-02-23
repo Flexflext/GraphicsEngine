@@ -183,6 +183,7 @@
     <ClInclude Include="MyTexture.h" />
     <ClInclude Include="NormalShaderProperties.h" />
     <ClInclude Include="ObjectImporter.h" />
+    <ClInclude Include="ReflectionProbeManager.h" />
     <ClInclude Include="ReflectionShaderProperties.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SpecularLightingProperties.h" />
@@ -220,6 +221,7 @@
     <ClCompile Include="MyTexture.cpp" />
     <ClCompile Include="NormalShaderProperties.cpp" />
     <ClCompile Include="ObjectImporter.cpp" />
+    <ClCompile Include="ReflectionProbeManager.cpp" />
     <ClCompile Include="ReflectionShaderProperties.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SpecularLightingProperties.cpp" />
