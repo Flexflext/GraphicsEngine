@@ -1,3 +1,4 @@
+//Vertex Data Struct
 #pragma once
 #include <d3d11.h>
 #include <DirectXMath.h>
@@ -13,9 +14,9 @@ public:
 	XMFLOAT3 normal;
 	//UV
 	XMFLOAT2 uv;
-
+	//Tangent
 	XMFLOAT3 tangent;
-
+	//Bitangent
 	XMFLOAT3 bitangent;
 	
 	Vertex()

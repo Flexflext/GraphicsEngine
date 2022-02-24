@@ -8,6 +8,7 @@
 
 INT Material::Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevicecontext, XMFLOAT4X4* _p_worldmatrix)
 {
+	//Set Context
 	p_d3dDeviceContext = _p_d3ddevicecontext;
 
 	INT error = CreateVertexShader(_p_d3ddevice);
@@ -16,6 +17,7 @@ INT Material::Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevice
 	error = CreatePixelShader(_p_d3ddevice);
 	CheckIntError(error);
 
+	//Intitialize the Material Properties
 	error = p_properties->InitProperties(_p_d3ddevicecontext, _p_d3ddevice, _p_worldmatrix);
 	CheckIntError(error);
 
@@ -24,6 +26,7 @@ INT Material::Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevice
 
 void Material::Render()
 {
+	//Update Properties
 	p_properties->Update();
 
 	//Set Shader Pipeline
@@ -34,11 +37,13 @@ void Material::Render()
 
 void Material::DeInit()
 {
+	// DeInitialize the Com Objects
 	SafeRelease<ID3D11InputLayout>(p_inputLayout);
 	SafeRelease<ID3D11PixelShader>(p_pixelShader);
 	SafeRelease<ID3D11VertexShader>(p_vertexShader);
 	SafeRelease<ID3D11DeviceContext>(p_d3dDeviceContext);
 
+	//DeIntitialize Properties
 	p_properties->DeinitProperties();
 }
 
@@ -46,6 +51,7 @@ void Material::SetMaterial(MaterialProperties* _props)
 {
 	p_properties = _props;
 
+	//Check What SHader to Set
 	switch (p_properties->materialType)
 	{
 	case EMaterials::TextureLighting:
@@ -122,6 +128,7 @@ INT Material::CreatePixelShader(ID3D11Device* _p_d3ddevice)
 	HRESULT hr = D3DReadFileToBlob(pixelShaderName, &p_CompiledShaderCode);
 	CheckFailed(hr, 64);
 
+	//Create Pixel Shader
 	hr = _p_d3ddevice->CreatePixelShader(p_CompiledShaderCode->GetBufferPointer(), p_CompiledShaderCode->GetBufferSize(), nullptr, &p_pixelShader);
 	CheckFailed(hr, 66);
 
@@ -139,17 +146,17 @@ INT Material::CreateInputLayout(ID3D11Device* _p_d3ddevice, ID3DBlob* _p_vertexs
 	elements[0].SemanticName = "POSITION";
 	elements[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
 
-	//Position
+	//Normal
 	elements[1].SemanticName = "NORMAL";
 	elements[1].Format = DXGI_FORMAT_R32G32B32_FLOAT;
 	elements[1].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
 
-	//Position
+	//UVs
 	elements[2].SemanticName = "TEXCOORD";
 	elements[2].Format = DXGI_FORMAT_R32G32_FLOAT;
 	elements[3].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
 
-	//Position
+	//Color
 	elements[3].SemanticName = "COLOR";
 	elements[3].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	elements[3].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;

@@ -78,24 +78,10 @@ void FreeLookCam::UpdateComponent()
 		//Reset Input
 		input = { 0,0,0 };
 
-		//Add Up Rotation Input
-		if (vec.y < 0)
-		{
-			input.x -= this->gameObject->transform.LocalRight.x;
-			input.y -= this->gameObject->transform.LocalRight.y;
-			input.z -= this->gameObject->transform.LocalRight.z;
-		}
-
-		//Add Down Rotation Input
-		if (vec.y > 0)
-		{
-			input.x += this->gameObject->transform.LocalRight.x;
-			input.y += this->gameObject->transform.LocalRight.y;
-			input.z += this->gameObject->transform.LocalRight.z;
-		}
+		
 
 		//Add Right Rotation Input
-		if (vec.x > 0)
+		if (vec.x > 10.0f)
 		{
 			input.x += this->gameObject->transform.LocalUp.x;
 			input.y += this->gameObject->transform.LocalUp.y;
@@ -103,7 +89,7 @@ void FreeLookCam::UpdateComponent()
 		}
 
 		//Add Left Rotation Input
-		if (vec.x < 0)
+		if (vec.x < -10.0f)
 		{
 			input.x -= this->gameObject->transform.LocalUp.x;
 			input.y -= this->gameObject->transform.LocalUp.y;
@@ -112,7 +98,7 @@ void FreeLookCam::UpdateComponent()
 
 
 		//Set the Rotation of the GameObject
-		this->gameObject->transform.AddRotation(input.x * camRotationSpeed * *p_deltaTime, input.y * camRotationSpeed * *p_deltaTime, input.z * camRotationSpeed * *p_deltaTime);
+		this->gameObject->transform.AddRotation(0, input.y * camRotationSpeed * *p_deltaTime, 0/*input.z * camRotationSpeed * *p_deltaTime*/);
 	}
 }
 

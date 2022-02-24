@@ -41,7 +41,7 @@ float4 main(PixelInput INPUT) : SV_Target
     diffuseColor = lightDiffuseColor * diffuse * lightIntensity;
     
     
-    float3 reflectVector = 2 * diffuse * INPUT.normal - light;
+    float3 reflectVector = reflect(-light, INPUT.normal); //2 * diffuse * INPUT.normal - light;
     float specular = pow(max(dot(reflectVector, viewDir), 0), specularPower) * glossy;
     float4 specColor = specularColor * specular;
 	

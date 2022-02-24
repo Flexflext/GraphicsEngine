@@ -122,7 +122,7 @@ void DynamicCubemap::BuildCubeMapCameras(int _i)
 
 void DynamicCubemap::Update()
 {
-	D3D11_VIEWPORT viewPort = {};
+	/*D3D11_VIEWPORT viewPort = {};
 	viewPort.TopLeftX = 0.0f;
 	viewPort.TopLeftY = 0.0f;
 	viewPort.Width = size;
@@ -151,7 +151,7 @@ void DynamicCubemap::Update()
 		p_d3dDeviceContext->ClearRenderTargetView(pp_renderTargetView[i], backgroundColor);
 		p_d3dDeviceContext->ClearDepthStencilView(p_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 		p_d3dDeviceContext->OMSetRenderTargets(1, &pp_renderTargetView[i], p_depthStencilView);
-	}
+	}*/
 }
 
 void DynamicCubemap::DeInit()

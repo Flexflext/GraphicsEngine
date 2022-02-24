@@ -1,3 +1,4 @@
+//Header to Hold the Different Kinds of Constant Buffer structs
 #pragma once
 #include <DirectXMath.h>
 #include <d3d11.h>
@@ -35,4 +36,12 @@ struct MatrixBuffer
 	XMFLOAT4X4 worldviewProjectionMatrix;
 	XMFLOAT4X4 worldMatrix;
 	XMFLOAT3 camWorldPos;
+};
+
+struct LightData
+{
+	XMFLOAT3 LightDirection;
+	FLOAT LightIntensity;
+	XMFLOAT4 LightDiffuseColor;
+	XMFLOAT4 AmbientLight;
 };

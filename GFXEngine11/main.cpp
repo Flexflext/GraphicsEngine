@@ -20,6 +20,7 @@
 #include "DynamicCubemap.h"
 #include "ReflectionProbeManager.h"
 #include "FreeLookCam.h"
+#include "ConstantBufferTypes.h"
 
 
 
@@ -44,6 +45,16 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 
 	Scene scene = { d3d->GetDevice(), d3d->GetDeviceContext(), time.GetDeltaTime() };
 
+	GameObject* light = scene.Instantiate("Directional Light");
+	LightData lightData = {};
+	lightData.LightDirection = { -1.0f, -1.0f, 1.0f };
+	lightData.LightDiffuseColor = { 0.8f, 0.8f, 0.8f, 1.0f };
+	lightData.LightIntensity = 1.0f;
+	lightData.AmbientLight = { 0.05f, 0.05f, 0.05f, 0.05f };
+
+	Light* lamp = light->AddComponent<Light>();
+	lamp->SetLight(lightData);
+
 	GameObject* cameraObj = scene.Instantiate("Cam");
 	cameraObj->AddComponent<Camera>();
 	cameraObj->AddComponent<FreeLookCam>();
@@ -54,19 +65,9 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	Mesh* meh = gm->AddComponent<Mesh>();
 
 
-	meh->LoadMesh("Models\\BH-2 Free.fbx", 0, 0.1f);
-	NormalShaderProperties props = { TEXT("Textures\\BH-2_AlbedoTransparency.png"), TEXT("Textures\\BH-2_Normal.png"), {1}, {1,1,1,1}, {64} };
-	meh->MyMaterial->SetMaterial(&props);
-	
-
-	Light::LightData lightData = {};
-	lightData.LightDirection = { -1.0f, -1.0f, 1.0f };
-	lightData.LightDiffuseColor = { 0.8f, 0.8f, 0.8f, 1.0f };
-	lightData.LightIntensity = 1.0f;
-	lightData.AmbientLight = { 0.05f, 0.05f, 0.05f, 0.05f };
-
-	Light* lamp = gm->AddComponent<Light>();
-	lamp->SetLight(lightData);
+	meh->LoadMesh("Models\\FinalBaseMesh.obj", 0, 1);
+	TextureLightingProperties props = { TEXT("Textures\\Robot.png") };
+	meh->SetMaterial(&props);
 
 	gm->transform.SetPosition(0, 0, 5);
 	gm->transform.SetRotation(0, 0, 0);
@@ -76,10 +77,10 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 
 	mesh = obj->GetComponent<Mesh>();
 
-	mesh->LoadMesh("Models\\3d-model.fbx",0, 0.01f);
+	mesh->LoadMesh("Models\\FinalBaseMesh.obj",0, 0.1f);
 
 	ReflectionShaderProperties prop = { TEXT("Textures\\Robot.png"), TEXT("Textures\\HUHU.jpg"), TEXT("earthcubemap.dds"), {1}, {1,1,1,1}, {64} };
-	mesh->MyMaterial->SetMaterial(&prop);
+	mesh->SetMaterial(&prop);
 
 
 	GameObject* reflection = scene.Instantiate("ReflectionSphere");
@@ -98,23 +99,7 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 		imGui.Update();
 		time.Update();
 		d3d->BeginScene(1,1,1);
-
 		
-
-		if (GetAsyncKeyState('G') & 0x8000)
-		{
-			/*GameObject* gmt = scene.Instantiate("Robot1");
-			Mesh* mehh = (Mesh*)gmt->AddComponent(EComponentTypes::C_Mesh);
-			mehh->LoadMesh("Models\\Robot.fbx", 0, 0.4f);
-			NormalShaderProperties propd = { TEXT("Textures\\Robot.png"), TEXT("Textures\\HUHU.jpg"), {1}, {1,1,1,1}, {64} };
-			mehh->MyMaterial->SetMaterial(&propd);
-			scene.InitialzeGameObject(gmt);*/
-
-			p_cubemap->Update();
-		}
-		
-
-
 
 
 		scene.Update();

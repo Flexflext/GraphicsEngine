@@ -18,6 +18,6 @@ private:
 	//FreeLook Cam Parameters
 	FLOAT* p_deltaTime = nullptr;
 	FLOAT camMovementSpeed = 10;
-	FLOAT camRotationSpeed = 25;
+	FLOAT camRotationSpeed = 50;
 };
 

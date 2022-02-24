@@ -12,8 +12,11 @@ INT SpecularLightingProperties::InitProperties(ID3D11DeviceContext* _p_d3ddevice
 	p_d3dDeviceContext = _p_d3ddevicecontext;
 	p_d3dDevice = _p_d3ddevice;
 
+	//Set Buffers
 	p_propertyBuffer = new ConstantBuffer<PropertyData>(_p_d3ddevice, _p_d3ddevicecontext, 1, true, new PropertyData(specularColor, glossy, specularPower));
 	p_matrixBuffer = new ConstantBuffer<MatrixBuffer>(_p_d3ddevice, _p_d3ddevicecontext, 0, false);
+
+	//Initialize the Texture
 	INT error = p_albedo->Init(_p_d3ddevice, _p_d3ddevicecontext);
 	CheckIntError(error);
 
@@ -24,6 +27,7 @@ INT SpecularLightingProperties::InitProperties(ID3D11DeviceContext* _p_d3ddevice
 
 void SpecularLightingProperties::DeinitProperties()
 {
+	//Deinit Properties
 	p_albedo->DeInit();
 	p_propertyBuffer->DeInit();
 	p_matrixBuffer->DeInit();
@@ -31,13 +35,16 @@ void SpecularLightingProperties::DeinitProperties()
 
 void SpecularLightingProperties::Update()
 {	
+	//Update Matrices
 	UpdateMatricesBuffer();
 
+	//Update Texture
 	p_albedo->Update();
 }
 
 void SpecularLightingProperties::SetMatrices(XMFLOAT4X4* _worldmatrix)
 {
+	//Set the Matrices
 	Camera* cam = AllCameras::GetMainCamera();
 	p_worldMatrix = _worldmatrix;
 	p_viewMatrix = cam->GetViewMatrix();
@@ -46,17 +53,21 @@ void SpecularLightingProperties::SetMatrices(XMFLOAT4X4* _worldmatrix)
 
 void SpecularLightingProperties::UpdateMatricesBuffer()
 {
+	//Set Matrices
 	XMMATRIX worldMatrix = XMLoadFloat4x4(p_worldMatrix);
 	XMMATRIX viewMatrix = XMLoadFloat4x4(p_viewMatrix);
 	XMMATRIX projectionMatrix = XMLoadFloat4x4(p_projectionMatrix);
 
+	//Transpose Matrices
 	XMMATRIX wvpMatrix = XMMatrixTranspose(worldMatrix * viewMatrix * projectionMatrix); //transpose for column mayor - row mayor problem
 
 	MatrixBuffer temp;
 
+	//Store XMMatrix in XMFLOAt4x4
 	XMStoreFloat4x4(&(temp.worldviewProjectionMatrix), wvpMatrix);
 	XMStoreFloat4x4(&(temp.worldMatrix), XMMatrixTranspose(worldMatrix));
 	temp.camWorldPos = AllCameras::GetMainCamera()->gameObject->transform.Position;
 
-	p_matrixBuffer->Update(new MatrixBuffer(temp.worldviewProjectionMatrix, temp.worldMatrix, temp.camWorldPos));
+	//Update Buffer
+	p_matrixBuffer->Update(&temp);
 }

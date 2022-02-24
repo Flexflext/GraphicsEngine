@@ -1,6 +1,9 @@
-﻿  FreeLookCam.cpp
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(18,2): warning C4091: 'static ': ignored on left of 'AllCameras' when no variable is declared
+﻿  main.cpp
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\Mesh.h(128,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\AllCameras.h(34,2): warning C4091: 'static ': ignored on left of 'AllCameras' when no variable is declared
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\ReflectionProbeManager.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\Felix Hereth\Documents\GitHub\GraphicsEngine\GFXEngine11\ReflectionProbeManager.h(9,2): warning C4091: 'static ': ignored on left of 'ReflectionProbeManager' when no variable is declared
 LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/FORCE' specification
 Component.obj : warning LNK4006: "unsigned int WindowWidth" (?WindowWidth@@3IA) already defined in Camera.obj; second definition ignored
 Component.obj : warning LNK4006: "unsigned int WindowHeight" (?WindowHeight@@3IA) already defined in Camera.obj; second definition ignored

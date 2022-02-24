@@ -96,7 +96,7 @@ T* GameObject::AddComponent()
 	//Return the Component as the Given type
 	return (T*)component;
 
-	return NULL;
+	return nullptr;
 }
 
 

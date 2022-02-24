@@ -26,7 +26,7 @@ void GameObject::Start()
 
 void GameObject::Update()
 {
-	//Check if GameObject is Active to Update te GameObejct
+	//Check if GameObject is Active to Update te GameObject
 	if (IsActive)
 	{
 		//Update the Transform
