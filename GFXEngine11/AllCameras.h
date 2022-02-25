@@ -1,6 +1,6 @@
 //Manager Class to Store all Cameras
 #pragma once
-#include <vector>;
+#include <vector>
 
 class Camera;
 static class AllCameras

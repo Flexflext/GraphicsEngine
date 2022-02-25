@@ -65,6 +65,7 @@ private:
 	ID3D11RenderTargetView* p_RenderTargetView = nullptr; // Decribe the Target the render pipeline will render in, e.g. back buffer
 	ID3D11DepthStencilView* p_depthStencilView = nullptr; // hold ref to depth and stencil buffer texture
 	ID3D11RasterizerState* p_rasterizerState = nullptr; // set up rasterizer stage
+	ID3D11DepthStencilState* p_depthStencilState = nullptr;
 
 	//Singelton Instance
 	static D3D* Instance;

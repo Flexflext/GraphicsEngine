@@ -68,7 +68,8 @@ float4 main(PixelInput INPUT) : SV_Target
 	//texture * (ambient + diffuse) + specular + emission
     //textureColor = textureColor * saturate(saturate(diffuseColor + ambientColor) + specColor);
     //return float4(normalMapNormal, 1);
-    float3 reflectedVec = reflect(INPUT.viewDirection, normalMapNormal);
+    float3 reflectedVec = reflect(INPUT.viewDirection, INPUT.normal);
+    reflectedVec.y = -reflectedVec.y;
     
     float4 reflectedColour = ReflectionTexture.Sample(ReflectionTextureSampler, reflectedVec);
     

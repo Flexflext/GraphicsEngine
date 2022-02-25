@@ -21,6 +21,7 @@
 #include "ReflectionProbeManager.h"
 #include "FreeLookCam.h"
 #include "ConstantBufferTypes.h"
+#include "SkyBoxShaderProperties.h"
 
 
 
@@ -43,7 +44,7 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	error = time.Init();
 	CheckIntError(error);
 
-	Scene scene = { d3d->GetDevice(), d3d->GetDeviceContext(), time.GetDeltaTime() };
+	Scene scene = { d3d->GetDevice(), d3d->GetDeviceContext(), time.GetDeltaTime()};
 
 	GameObject* light = scene.Instantiate("Directional Light");
 	LightData lightData = {};
@@ -54,6 +55,12 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 
 	Light* lamp = light->AddComponent<Light>();
 	lamp->SetLight(lightData);
+
+	GameObject* p_skyBox = scene.Instantiate("SkyBox");
+	Mesh* sky = p_skyBox->AddComponent<Mesh>();
+	sky->LoadMesh("Models\\3d-model.fbx", 0, 0.01f);
+	SkyBoxShaderProperties properties = { L"Textures\\misty_pines_Skybox.dds" };
+	sky->SetMaterial(&properties);
 
 	GameObject* cameraObj = scene.Instantiate("Cam");
 	cameraObj->AddComponent<Camera>();
@@ -79,7 +86,7 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 
 	mesh->LoadMesh("Models\\FinalBaseMesh.obj",0, 0.1f);
 
-	ReflectionShaderProperties prop = { TEXT("Textures\\Robot.png"), TEXT("Textures\\HUHU.jpg"), TEXT("earthcubemap.dds"), {1}, {1,1,1,1}, {64} };
+	ReflectionShaderProperties prop = { TEXT("Textures\\Robot.png"), TEXT("Textures\\HUHU.jpg"), TEXT("Textures\\misty_pines_Skybox.dds"), {1}, {1,1,1,1}, {64} };
 	mesh->SetMaterial(&prop);
 
 

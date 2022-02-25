@@ -78,6 +78,12 @@ void Material::SetMaterial(MaterialProperties* _props)
 		pixelShaderName = TEXT("ReflectionPixelShader.cso");
 		break;
 	}
+	case EMaterials::SkyBox:
+	{
+		vertexShaderName = TEXT("SkyBoxVertexShader.cso");
+		pixelShaderName = TEXT("SkyBoxPixelShader.cso");
+		break;
+	}
 	}
 }
 

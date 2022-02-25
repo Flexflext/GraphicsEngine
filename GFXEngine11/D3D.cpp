@@ -94,11 +94,18 @@ INT D3D::Init(HWND _hwnd, UINT _width, UINT _height, BOOL _fullscreen)
 	//Rasterizer State
 	D3D11_RASTERIZER_DESC rasterizerDesc = {};
 	rasterizerDesc.FillMode = D3D11_FILL_SOLID;
-	rasterizerDesc.CullMode = D3D11_CULL_BACK;
+	rasterizerDesc.CullMode = D3D11_CULL_NONE;
 
 	//Create the Rasterizer State
 	hr = p_D3DDevice->CreateRasterizerState(&rasterizerDesc, &p_rasterizerState);
 	CheckFailed(hr, 29);
+
+	D3D11_DEPTH_STENCIL_DESC depthDesc = {};
+	depthDesc.DepthEnable = true;
+	depthDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	depthDesc.DepthFunc = D3D11_COMPARISON_LESS;
+	hr = p_D3DDevice->CreateDepthStencilState(&depthDesc, &p_depthStencilState);
+	CheckFailed(hr, 101);
 
 	//Set Viewport
 	D3D11_VIEWPORT viewPort = {}; // Describe area projectes onto screen/Window
@@ -113,6 +120,7 @@ INT D3D::Init(HWND _hwnd, UINT _width, UINT _height, BOOL _fullscreen)
 	p_D3DDeviceContext->OMSetRenderTargets(1, &p_RenderTargetView, p_depthStencilView);
 	p_D3DDeviceContext->RSSetViewports(1, &viewPort);
 	p_D3DDeviceContext->RSSetState(p_rasterizerState);
+	
 
 	//Initialize the DirectX Implementation
 	ImGui_ImplDX11_Init(p_D3DDevice, p_D3DDeviceContext);
@@ -121,6 +129,8 @@ INT D3D::Init(HWND _hwnd, UINT _width, UINT _height, BOOL _fullscreen)
 
 void D3D::BeginScene(FLOAT _red, FLOAT _green, FLOAT _blue)
 {
+	p_D3DDeviceContext->OMSetDepthStencilState(p_depthStencilState, 0);
+
 	//Clear Back Buffer
 	FLOAT backgroundColor[] = { _red, _green, _blue, 1.0f };
 	p_D3DDeviceContext->ClearRenderTargetView(p_RenderTargetView, backgroundColor);
