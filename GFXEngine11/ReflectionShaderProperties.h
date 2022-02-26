@@ -1,3 +1,4 @@
+//Properties Script for the Properties of the ReflectionShader
 #pragma once
 #include "MaterialProperties.h"
 #include <DirectXMath.h>
@@ -11,7 +12,7 @@ using namespace DirectX;
 class ReflectionShaderProperties : public MaterialProperties
 {
 public:
-	ReflectionShaderProperties(LPCTSTR _texturename, LPCTSTR _normaltexturename, LPCTSTR _reflecttexturename, FLOAT _glossy, XMFLOAT4 _specularcolor, FLOAT _specularpower)
+	ReflectionShaderProperties(LPCTSTR _texturename, LPCTSTR _reflecttexturename, FLOAT _glossy, XMFLOAT4 _specularcolor, FLOAT _specularpower)
 	{
 		//Set Properties
 		glossy = _glossy;
@@ -21,8 +22,7 @@ public:
 
 		//Set Textures
 		p_albedo = new MyTexture(_texturename, 0, true);
-		p_normal = new MyTexture(_normaltexturename, 1, true);
-		p_reflect = new MyCubemap(_reflecttexturename, 2, true);
+		p_reflect = new MyCubemap(_reflecttexturename, 1, true);
 	}
 
 
@@ -44,7 +44,6 @@ private:
 
 	//Properties
 	MyTexture* p_albedo = nullptr;
-	MyTexture* p_normal = nullptr;
 	MyCubemap* p_reflect = nullptr;
 	XMFLOAT4 specularColor;
 	FLOAT glossy;

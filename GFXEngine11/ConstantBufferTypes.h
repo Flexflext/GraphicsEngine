@@ -5,6 +5,7 @@
 
 using namespace DirectX;
 
+//Specular Shader Property Data
 struct PropertyData
 {
 	PropertyData(XMFLOAT4 _specularcolor, FLOAT _glossy, FLOAT _specularpower)
@@ -19,6 +20,7 @@ struct PropertyData
 	FLOAT specularPower;
 };
 
+//Matrix Buffer
 struct MatrixBuffer
 {
 	MatrixBuffer()
@@ -38,6 +40,7 @@ struct MatrixBuffer
 	XMFLOAT3 camWorldPos;
 };
 
+//Light Data Buffer
 struct LightData
 {
 	XMFLOAT3 LightDirection;

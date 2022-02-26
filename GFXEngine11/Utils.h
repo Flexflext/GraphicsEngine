@@ -27,6 +27,7 @@ enum class EMaterials
 	SpecularLight,
 	NormalShader,
 	ReflectionShader,
+	ReflectionNormalShader,
 	SkyBox
 };
 

@@ -1,3 +1,4 @@
+//Get the Buffer Matrix Data
 cbuffer MatrixBuffer : register(b0)
 {
     float4x4 worldViewProjectionMatrix;
@@ -6,7 +7,7 @@ cbuffer MatrixBuffer : register(b0)
 };
 
 
-
+//Get Input from CPU
 struct VertexInput
 {
     float3 position : POSITION;
@@ -16,6 +17,7 @@ struct VertexInput
     float3 bitangent : BITANGENT;
 };
 
+//Output to Pixel Shader
 struct VertexOutput
 {
     float4 position : SV_POSITION;
@@ -30,12 +32,18 @@ VertexOutput main(VertexInput INPUT)
 {
     VertexOutput OUTPUT;
 	
+    //Set Output
+    //World Position
     OUTPUT.position = mul(float4(INPUT.position, 1.0f), worldViewProjectionMatrix);
+    //World Normal
     OUTPUT.normal = normalize(mul(INPUT.normal, (float3x3) worldMatrix));
+    //World Tangent
     OUTPUT.tangent = normalize(mul(INPUT.tangent, (float3x3) worldMatrix));
+    //World Bitangent
     OUTPUT.bitangent = normalize(mul(INPUT.bitangent, (float3x3) worldMatrix));
     OUTPUT.uv = INPUT.uv;
-    OUTPUT.viewDirection = worldCamPosition - mul(worldMatrix, float4(INPUT.position, 1.0)).xyz;
+    //View Direction from Camera to Pos
+    OUTPUT.viewDirection = worldCamPosition - OUTPUT.position.xyz;
 	
     return OUTPUT;
 }

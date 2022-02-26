@@ -17,7 +17,7 @@ INT MyCubemap::Init(ID3D11Device* _p_d3ddevice, ID3D11DeviceContext* _p_d3ddevic
 	loadInfo.MiscFlags = D3D11_RESOURCE_MISC_TEXTURECUBE;
 
 	//Load a Cubemap from a File
-	hr = D3DX11CreateTextureFromFileW(_p_d3ddevice, cubeMaptextures, &loadInfo, nullptr, (ID3D11Resource**)&p_cubemap, &hr);
+	hr = D3DX11CreateTextureFromFile(_p_d3ddevice, cubeMaptextures, &loadInfo, nullptr, (ID3D11Resource**)&p_cubemap, &hr);
 	CheckFailed(hr, 63);
 
 

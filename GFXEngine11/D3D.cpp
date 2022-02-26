@@ -100,6 +100,7 @@ INT D3D::Init(HWND _hwnd, UINT _width, UINT _height, BOOL _fullscreen)
 	hr = p_D3DDevice->CreateRasterizerState(&rasterizerDesc, &p_rasterizerState);
 	CheckFailed(hr, 29);
 
+	//Create Depth Stencil State
 	D3D11_DEPTH_STENCIL_DESC depthDesc = {};
 	depthDesc.DepthEnable = true;
 	depthDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
@@ -129,6 +130,7 @@ INT D3D::Init(HWND _hwnd, UINT _width, UINT _height, BOOL _fullscreen)
 
 void D3D::BeginScene(FLOAT _red, FLOAT _green, FLOAT _blue)
 {
+	// Set the Depth Stencil State
 	p_D3DDeviceContext->OMSetDepthStencilState(p_depthStencilState, 0);
 
 	//Clear Back Buffer

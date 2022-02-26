@@ -27,6 +27,7 @@ INT DynamicCubemap::BuildDynamicCubeMap()
 	p_d3dDevice = D3D::GetInstance()->GetDevice();
 	p_d3dDeviceContext = D3D::GetInstance()->GetDeviceContext();
 
+	//Create Texture Description for CubeMap Texture
 	D3D11_TEXTURE2D_DESC texDesc = {};
 	texDesc.Width = size;
 	texDesc.Height = size;
@@ -40,34 +41,42 @@ INT DynamicCubemap::BuildDynamicCubeMap()
 	texDesc.MiscFlags = D3D11_RESOURCE_MISC_TEXTURECUBE | D3D11_RESOURCE_MISC_GENERATE_MIPS;
 
 	ID3D11Texture2D* p_cubeTexture = nullptr;
+	// Create Cube Map Texture
 	HRESULT hr = p_d3dDevice->CreateTexture2D(&texDesc, nullptr, &p_cubeTexture);
 	CheckFailed(hr, 1);
 
+	//Create RTV Description
 	D3D11_RENDER_TARGET_VIEW_DESC rtvDesc;
 	rtvDesc.Format = texDesc.Format;
 	rtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DARRAY;
 	rtvDesc.Texture2DArray.ArraySize = 1;
 	rtvDesc.Texture2DArray.MipSlice = 0;
 
+	//Create Render Target PP
 	pp_renderTargetView = new ID3D11RenderTargetView * [6];
 
 	for (size_t i = 0; i < 6; i++)
 	{
+		//-> Set Array Slice
 		rtvDesc.Texture2DArray.FirstArraySlice = i;
+		//-> Set the Render Target View
 		HRESULT hr = p_d3dDevice->CreateRenderTargetView(p_cubeTexture, &rtvDesc, &pp_renderTargetView[i]);
 		CheckFailed(hr, 1);
 	}
 
+	//Setup for Shader Resource View
 	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
 	srvDesc.Format = texDesc.Format;
 	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
 	srvDesc.TextureCube.MostDetailedMip = 0;
 	srvDesc.TextureCube.MipLevels = -1;
 
+	//Create the Resource View
 	hr = p_d3dDevice->CreateShaderResourceView(p_cubeTexture, &srvDesc, &p_shaderResourceView);
 	CheckFailed(hr, 1);
 	SafeRelease<ID3D11Texture2D>(p_cubeTexture);
 
+	//Setup Depth Texture
 	D3D11_TEXTURE2D_DESC depthTexDesc = {};
 	depthTexDesc.Width = size;
 	depthTexDesc.Height = size;
@@ -78,14 +87,17 @@ INT DynamicCubemap::BuildDynamicCubeMap()
 	depthTexDesc.Usage = D3D11_USAGE_DEFAULT;
 
 	ID3D11Texture2D* p_depthTex = nullptr;
+	//Create the Texture
 	hr = p_d3dDevice->CreateTexture2D(&depthTexDesc, nullptr, &p_depthTex);
 	CheckFailed(hr, 1);
 
+	//Setup DSV Description
 	D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
 	dsvDesc.Format = depthTexDesc.Format;
 	dsvDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 	dsvDesc.Texture2D.MipSlice = 0;
 
+	//Create Depth Stencil View
 	hr = p_d3dDevice->CreateDepthStencilView(p_depthTex, &dsvDesc, &p_depthStencilView);
 	CheckFailed(hr, 1);
 	SafeRelease<ID3D11Texture2D>(p_depthTex);
@@ -94,8 +106,10 @@ INT DynamicCubemap::BuildDynamicCubeMap()
 
 void DynamicCubemap::BuildCubeMapCameras(int _i)
 {
+	//Set Position
 	XMFLOAT3 center = { this->gameObject->transform.Position.x, this->gameObject->transform.Position.y, this->gameObject->transform.Position.z };
 
+	//Forward Directions
 	XMFLOAT3 forwards[]
 	{
 		{center.x + 1, center.y, center.z},
@@ -106,6 +120,7 @@ void DynamicCubemap::BuildCubeMapCameras(int _i)
 		{center.x, center.y, center.z - 1},
 	};
 
+	//Up Directions
 	XMFLOAT3 ups[]
 	{
 		{0,1,0},
@@ -116,12 +131,16 @@ void DynamicCubemap::BuildCubeMapCameras(int _i)
 		{0,1,0},
 	};
 
+	//Set Camera
 	cubeMapCameras[_i] = new Camera(gameObject);
+	//Set Matrices of Camera
 	cubeMapCameras[_i]->SetMatrices(forwards[_i], ups[_i], center);
 }
 
 void DynamicCubemap::Update()
 {
+	//-> Not Working
+
 	/*D3D11_VIEWPORT viewPort = {};
 	viewPort.TopLeftX = 0.0f;
 	viewPort.TopLeftY = 0.0f;
@@ -152,9 +171,4 @@ void DynamicCubemap::Update()
 		p_d3dDeviceContext->ClearDepthStencilView(p_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 		p_d3dDeviceContext->OMSetRenderTargets(1, &pp_renderTargetView[i], p_depthStencilView);
 	}*/
-}
-
-void DynamicCubemap::DeInit()
-{
-
 }

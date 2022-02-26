@@ -18,9 +18,6 @@ INT ReflectionShaderProperties::InitProperties(ID3D11DeviceContext* _p_d3ddevice
 	INT error = p_albedo->Init(_p_d3ddevice, _p_d3ddevicecontext);
 	CheckIntError(error);
 
-	error = p_normal->Init(_p_d3ddevice, _p_d3ddevicecontext);
-	CheckIntError(error);
-
 	error = p_reflect->Init(_p_d3ddevice, _p_d3ddevicecontext);
 	CheckIntError(error);
 
@@ -34,7 +31,6 @@ void ReflectionShaderProperties::DeinitProperties()
 {
 	//DeInitialize Properties
 	p_albedo->DeInit();
-	p_normal->DeInit();
 	p_reflect->DeInit();
 	p_propertyBuffer->DeInit();
 	p_matrixBuffer->DeInit();
@@ -47,7 +43,6 @@ void ReflectionShaderProperties::Update()
 
 	// Update Textures
 	p_albedo->Update();
-	p_normal->Update();
 	p_reflect->Update();
 }
 

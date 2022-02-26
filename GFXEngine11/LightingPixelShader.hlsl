@@ -1,13 +1,16 @@
 Texture2D MainTexture : register(t0);
 sampler MainSampler;
 
-cbuffer LightData // has to be aligned in 16 byte blocks
+//Light Data
+cbuffer LightData
 {
 	float3 lightDirection;
 	float lightIntensity;
 	float4 lightDiffuseColor;
+	float4 ambientColor;
 };
 
+//Input Data from Vertex Shader
 struct PixelInput
 {
 	float4 position : SV_POSITION;
@@ -18,6 +21,7 @@ struct PixelInput
 
 float4 main(PixelInput INPUT) : SV_TARGET
 {
+    //Sample TextureColor
 	float4 textureColor = MainTexture.Sample(MainSampler, INPUT.uv);
 	float4 diffuseColor = 0;
 	
@@ -30,5 +34,5 @@ float4 main(PixelInput INPUT) : SV_TARGET
 	diffuseColor = lightDiffuseColor * diffuse * lightIntensity;
 	
 	//texture * (ambient + diffuse) + specular + emission
-    return textureColor * diffuseColor + textureColor * 0.1f;
+    return textureColor * diffuseColor + textureColor * ambientColor;
 }
