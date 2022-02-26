@@ -49,6 +49,7 @@ void ReflectionNormalShaderProperties::Update()
 	p_albedo->Update();
 	p_normal->Update();
 	p_reflect->Update();
+	p_propertyBuffer->Update();
 }
 
 void ReflectionNormalShaderProperties::SetMatrices(XMFLOAT4X4* _worldmatrix)

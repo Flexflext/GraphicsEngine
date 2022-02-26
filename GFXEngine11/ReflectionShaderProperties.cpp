@@ -44,6 +44,7 @@ void ReflectionShaderProperties::Update()
 	// Update Textures
 	p_albedo->Update();
 	p_reflect->Update();
+	p_propertyBuffer->Update();
 }
 
 void ReflectionShaderProperties::SetMatrices(XMFLOAT4X4* _worldmatrix)

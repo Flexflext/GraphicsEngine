@@ -42,6 +42,7 @@ void NormalShaderProperties::Update()
 
 	p_albedo->Update();
 	p_normal->Update();
+	p_propertyBuffer->Update();
 }
 
 void NormalShaderProperties::SetMatrices(XMFLOAT4X4* _worldmatrix)

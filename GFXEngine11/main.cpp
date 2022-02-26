@@ -109,7 +109,7 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	//-> Load Mesh Mesh
 	mesh->LoadMesh("Models\\FinalBaseMesh.obj",0, 0.1f);
 	//-> Set Different Shader
-	ReflectionNormalShaderProperties prop = { TEXT("Textures\\Robot.png"), TEXT("Textures\\HUHU.jpg"),  TEXT("Textures\\misty_pines_Skybox.dds"), {0.1f}, {1,1,1,1}, {64} };
+	ReflectionShaderProperties prop = { TEXT("Textures\\Robot.png"),  TEXT("Textures\\misty_pines_Skybox.dds"), {0.1f}, {1,1,1,1}, {64} };
 	mesh->SetMaterial(&prop);
 
 	GameObject* obj2 = scene.Instantiate("Cow");
@@ -118,17 +118,12 @@ int WINAPI WinMain(HINSTANCE _hinstance, HINSTANCE _hprevinstance, LPSTR _lpcmdl
 	//-> Load Mesh Mesh
 	mesh2->LoadMesh("Models\\spot_triangulated.obj", 0, 1.0f);
 	//-> Set Different Shader
-	NormalShaderProperties prop2 = { TEXT("Textures\\HUHU.jpg"), TEXT("Textures\\HUHU.jpg"), {0.1f}, {1,1,1,1}, {64} };
+	NormalShaderProperties prop2 = { TEXT("Textures\\HUHU.jpg"), TEXT("Textures\\HUHU.jpg"), {1.0f}, {1,1,1,1}, {64} };
 	mesh2->SetMaterial(&prop2);
 
 	obj2->transform.SetPosition(5, 0, 5);
 	obj2->transform.SetRotation(5, 90, 5);
 
-
-	/*GameObject* reflection = scene.Instantiate("ReflectionSphere");
-	DynamicCubemap* p_cubemap = reflection->AddComponent<DynamicCubemap>();
-
-	ReflectionProbeManager::dynmaicCubeMap = p_cubemap;*/
 
 #pragma endregion
 

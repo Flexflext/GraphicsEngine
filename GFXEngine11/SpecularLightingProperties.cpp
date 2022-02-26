@@ -40,6 +40,7 @@ void SpecularLightingProperties::Update()
 
 	//Update Texture
 	p_albedo->Update();
+	p_propertyBuffer->Update();
 }
 
 void SpecularLightingProperties::SetMatrices(XMFLOAT4X4* _worldmatrix)
